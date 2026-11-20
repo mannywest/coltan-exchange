@@ -858,3 +858,187 @@ ol {
     transition: none;
   }
 }
+
+/* ---------- Certificate sheet (paper on the dark desk) ---------- */
+/* Inside the sheet, the colour tokens swap: paper becomes the ground, ink becomes the text.
+   Every component below reuses the same variables, so it re-colours itself. */
+
+.sheet {
+  --ink: #e6e9e4;
+  --paper: #101417;
+  --muted: #475149;
+  --faint: #566159;
+  --line: #b4bcb5;
+  --verified: #006b5a;
+  --amber: #7a5a0a;
+  --copper: #b04a1e;
+  --blocked: #b3262b;
+  position: relative;
+  margin-top: 8px;
+  padding: clamp(24px, 4vw, 48px);
+  background: var(--ink);
+  color: var(--paper);
+  border-radius: var(--r);
+  /* Certificate border: a hard double rule, no blur */
+  box-shadow:
+    inset 0 0 0 7px var(--ink),
+    inset 0 0 0 8px var(--paper);
+}
+
+.sheet-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px 24px;
+  padding-bottom: 8px;
+}
+
+.sheet-title {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.25rem, 6vw, 3.25rem);
+  line-height: 0.95;
+}
+
+.sheet-head p {
+  margin-top: 8px;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.stamp {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 10px 18px;
+  border: 3px double var(--grade-ink);
+  border-radius: 6px;
+  color: var(--grade-ink);
+  font-weight: 700;
+  font-size: 0.8125rem;
+  transform: rotate(-5deg);
+  mix-blend-mode: multiply;
+  animation: stamp-in 380ms 700ms cubic-bezier(0.2, 0.9, 0.25, 1) both;
+}
+
+.stamp-main {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.75rem;
+  line-height: 1;
+}
+
+@keyframes stamp-in {
+  from {
+    opacity: 0;
+    transform: rotate(-5deg) scale(1.25);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-5deg) scale(1);
+  }
+}
+
+.sheet .block {
+  padding-block: 32px 8px;
+}
+
+.sheet .block-head h2 {
+  font-size: 1.875rem;
+}
+
+.sheet .tier.is-current {
+  color: #f2f2ee;
+}
+
+.sheet .limits {
+  margin-top: 40px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stamp {
+    animation: none;
+  }
+}
+
+/* ---------- Lot list (simple picker until the listing page is designed) ---------- */
+
+.pick {
+  padding-top: 24px;
+  max-width: 760px;
+}
+
+.pick h1 {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2.5rem, 7vw, 4rem);
+  line-height: 0.95;
+}
+
+.pick > p {
+  margin-top: 12px;
+  color: var(--muted);
+}
+
+.pick ul {
+  margin-top: 32px;
+  border-top: 1px solid var(--paper);
+}
+
+.pick a {
+  display: grid;
+  grid-template-columns: 72px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px 20px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line);
+  text-decoration: none;
+}
+
+.pick a:hover .pick-main strong {
+  text-decoration: underline;
+  text-underline-offset: 4px;
+}
+
+.pick-grade {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 4rem;
+  line-height: 0.8;
+  color: var(--grade);
+}
+
+.pick-grade.is-word {
+  font-size: 1.25rem;
+  line-height: 1;
+}
+
+.pick-main {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  color: var(--muted);
+  font-size: 0.9375rem;
+}
+
+.pick-main strong {
+  color: var(--paper);
+  font-size: 1.125rem;
+}
+
+.pick-price {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
+@media (max-width: 639px) {
+  .pick a {
+    grid-template-columns: 56px minmax(0, 1fr);
+  }
+  .pick-price {
+    grid-column: 2;
+  }
+}

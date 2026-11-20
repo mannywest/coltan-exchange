@@ -51,3 +51,11 @@ Colour is never the only signal: every status also has a word and a shape.
 - Plain verbs, sentence case. Same action keeps the same name ("Reserve this lot" then "Reserved").
 - Never "guaranteed clean". Say "harder to fake, suspicious lots flagged".
 - Every screen shows "Demo data". Footer: "Prepared by Plerosis with AI assistance".
+
+## Update 20 Nov 2026: paper certificate
+- The evidence area is now a paper sheet on the dark desk, so the page feels like a lab certificate, not a dark app.
+- Inside `.sheet` the colour tokens swap (paper becomes ground, ink becomes text) and the status colours darken to pass contrast on paper: #006b5a verified, #7a5a0a partial, #b04a1e thin, #b3262b failed.
+- Paper ground #e6e9e4 (cool mineral grey, not cream). Double hard rule border, no blur.
+- A rotated stamp carries the grade and review date. It lands once on load (off under reduced motion).
+- The hero grade letter, locked terms and reserve panel stay on the dark desk.
+- Hosted preview: `node preview/build.mjs` after `npm run build` makes one self-contained `preview/dist/index.html` (hash routes: #all-lots, #lot-0417).
