@@ -1843,5 +1843,589 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
  "{amount} goes into escrow after you sign terms. Estimate until the lab confirms the grade.": {
   "fr": "{amount} sont placés en séquestre après la signature des conditions. Estimation jusqu'à la confirmation de la teneur par le laboratoire.",
   "zh": "签署条款后，{amount} 存入托管账户。在实验室确认品位之前均为估算。"
+ },
+ "Both labs agree: {g} points apart, limit {l}.": {
+  "fr": "Les deux laboratoires concordent : écart de {g} point, limite {l}.",
+  "zh": "两家实验室结果一致：相差 {g} 个百分点，上限 {l}。"
+ },
+ "Labs are {g} points apart, limit {l}. The umpire lab decides.": {
+  "fr": "Les laboratoires sont à {g} points d'écart, limite {l}. Le laboratoire arbitre tranche.",
+  "zh": "两家实验室相差 {g} 个百分点，上限 {l}。由仲裁实验室裁定。"
+ },
+ "Waiting for the second lab result.": {
+  "fr": "En attente du résultat du second laboratoire.",
+  "zh": "等待第二家实验室的结果。"
+ },
+ "No lab result on file yet.": {
+  "fr": "Aucun résultat de laboratoire pour l'instant.",
+  "zh": "暂无实验室结果。"
+ },
+ "Selling grade {n}": {
+  "fr": "Teneur de vente {n}",
+  "zh": "销售品位 {n}"
+ },
+ "estimate": {
+  "fr": "estimation",
+  "zh": "估算"
+ },
+ "Allowed range around the independent lab": {
+  "fr": "Plage admise autour du laboratoire indépendant",
+  "zh": "独立实验室结果周围的允许范围"
+ },
+ "Three readings of the same lot. Higher means more valuable metal in the ore. The price is set at the selling grade.": {
+  "fr": "Trois mesures du même lot. Plus c'est élevé, plus le minerai contient de métal de valeur. Le prix est fixé à la teneur de vente.",
+  "zh": "同一批货的三次读数。数值越高，矿石中的有价金属越多。价格按销售品位确定。"
+ },
+ "Quantity available": {
+  "fr": "Quantité disponible",
+  "zh": "可购数量"
+ },
+ "Quantity you want (tonnes)": {
+  "fr": "Quantité souhaitée (tonnes)",
+  "zh": "需求数量（吨）"
+ },
+ "Whole lot": {
+  "fr": "Tout le lot",
+  "zh": "整批"
+ },
+ "Between {min} and {max} tonnes. Less than the whole lot needs the seller's agreement.": {
+  "fr": "Entre {min} et {max} tonnes. Moins que le lot entier nécessite l'accord du vendeur.",
+  "zh": "介于 {min} 至 {max} 吨之间。少于整批需要卖方同意。"
+ },
+ "Platform fee (demo): {amount}, charged only when payment is released.": {
+  "fr": "Frais de plateforme (démo) : {amount}, facturés uniquement à la libération du paiement.",
+  "zh": "平台费用（演示）：{amount}，仅在付款放行时收取。"
+ },
+ "You asked for {n} tonnes. The seller must agree to a part-lot sale.": {
+  "fr": "Vous avez demandé {n} tonnes. Le vendeur doit accepter une vente partielle.",
+  "zh": "您申请 {n} 吨。卖方必须同意分批销售。"
+ },
+ "How the price works": {
+  "fr": "Comment le prix est calculé",
+  "zh": "价格如何计算"
+ },
+ "Demo figures": {
+  "fr": "Chiffres de démonstration",
+  "zh": "演示数据"
+ },
+ "You pay for the tantalum metal in the ore, not the weight of the rock. The price is per pound of Ta2O5.": {
+  "fr": "Vous payez le métal de tantale contenu dans le minerai, pas le poids de la roche. Le prix est par livre de Ta2O5.",
+  "zh": "您支付的是矿石中的钽金属，而不是岩石的重量。价格按每磅 Ta2O5 计算。"
+ },
+ "Ore weight": {
+  "fr": "Poids du minerai",
+  "zh": "矿石重量"
+ },
+ "Metal in the ore": {
+  "fr": "Métal dans le minerai",
+  "zh": "矿石中的金属"
+ },
+ "{n} tonnes x 2,204.62 lb": {
+  "fr": "{n} tonnes x 2 204,62 lb",
+  "zh": "{n} 吨 x 2,204.62 磅"
+ },
+ "Ore weight x {b}% grade basis": {
+  "fr": "Poids du minerai x teneur de base {b} %",
+  "zh": "矿石重量 x {b}% 基准品位"
+ },
+ "{p}% goes into escrow first": {
+  "fr": "{p} % est placé d'abord en séquestre",
+  "zh": "先将 {p}% 存入托管"
+ },
+ "When the labs report, the final grade replaces the basis. Both labs agree here, so the average ({a}%) would make the total {x}.": {
+  "fr": "Quand les laboratoires rendent leurs résultats, la teneur finale remplace la base. Les deux laboratoires concordent ici ; la moyenne ({a} %) donnerait un total de {x}.",
+  "zh": "实验室出结果后，最终品位将取代基准品位。此处两家实验室一致，平均值（{a}%）将使总额为 {x}。"
+ },
+ "When the labs report, the confirmed grade replaces the basis, so the final total can move up or down.": {
+  "fr": "Quand les laboratoires rendent leurs résultats, la teneur confirmée remplace la base ; le total final peut donc monter ou baisser.",
+  "zh": "实验室出结果后，确认的品位将取代基准品位，因此最终总额可能上升或下降。"
+ },
+ "Demo rule: the platform fee is {f}% of the final total from each side, charged only when payment is released. The platform never holds your money and never trades for itself.": {
+  "fr": "Règle de démo : les frais de plateforme sont de {f} % du total final pour chaque partie, facturés uniquement à la libération du paiement. La plateforme ne détient jamais votre argent et ne négocie jamais pour son propre compte.",
+  "zh": "演示规则：平台费用为最终总额的 {f}%，双方各付，仅在付款放行时收取。平台从不持有您的资金，也从不为自己交易。"
+ },
+ "How long a deal takes": {
+  "fr": "Durée d'une transaction",
+  "zh": "一笔交易需要多久"
+ },
+ "About 3 to 4 weeks (demo)": {
+  "fr": "Environ 3 à 4 semaines (démo)",
+  "zh": "约 3 至 4 周（演示）"
+ },
+ "Lot held for you": {
+  "fr": "Lot réservé pour vous",
+  "zh": "为您保留批次"
+ },
+ "Terms signed": {
+  "fr": "Conditions signées",
+  "zh": "签署条款"
+ },
+ "Funds into escrow": {
+  "fr": "Fonds placés en séquestre",
+  "zh": "资金进入托管"
+ },
+ "Shipment and custody log": {
+  "fr": "Expédition et journal de garde",
+  "zh": "运输与保管记录"
+ },
+ "Final assay": {
+  "fr": "Analyse finale",
+  "zh": "最终化验"
+ },
+ "Named approver releases payment": {
+  "fr": "Un approbateur nommé libère le paiement",
+  "zh": "指定审批人放行付款"
+ },
+ "hours": {
+  "fr": "heures",
+  "zh": "小时"
+ },
+ "1 to 2 days": {
+  "fr": "1 à 2 jours",
+  "zh": "1 至 2 天"
+ },
+ "about 2 days": {
+  "fr": "environ 2 jours",
+  "zh": "约 2 天"
+ },
+ "7 to 14 days": {
+  "fr": "7 à 14 jours",
+  "zh": "7 至 14 天"
+ },
+ "5 to 7 days": {
+  "fr": "5 à 7 jours",
+  "zh": "5 至 7 天"
+ },
+ "1 day": {
+  "fr": "1 jour",
+  "zh": "1 天"
+ },
+ "If something goes wrong": {
+  "fr": "Si quelque chose tourne mal",
+  "zh": "如果出现问题"
+ },
+ "A named person decides, never AI": {
+  "fr": "Une personne nommée décide, jamais l'IA",
+  "zh": "由指定人员决定，绝不由 AI"
+ },
+ "The labs disagree by more than 0.5 points": {
+  "fr": "Les laboratoires divergent de plus de 0,5 point",
+  "zh": "实验室结果相差超过 0.5 个百分点"
+ },
+ "The sealed umpire sample is opened. Its result sets the final grade and price.": {
+  "fr": "L'échantillon scellé du laboratoire arbitre est ouvert. Son résultat fixe la teneur finale et le prix.",
+  "zh": "开启密封的仲裁样品。其结果决定最终品位和价格。"
+ },
+ "Weight, seal or custody does not match on arrival": {
+  "fr": "Le poids, le scellé ou la garde ne correspondent pas à l'arrivée",
+  "zh": "到货时重量、封条或保管记录不符"
+ },
+ "Payment stays in escrow. A named Reviewer looks at the custody log and decides.": {
+  "fr": "Le paiement reste en séquestre. Un Examinateur nommé étudie le journal de garde et décide.",
+  "zh": "款项留在托管中。由指定的审核员查看保管记录并作出决定。"
+ },
+ "Evidence turns out to be false or the goods are not the lot": {
+  "fr": "Les preuves s'avèrent fausses ou la marchandise n'est pas celle du lot",
+  "zh": "证据被发现为虚假，或货物与批次不符"
+ },
+ "The deal is paused, the lot is blocked and a named Compliance officer decides what happens next.": {
+  "fr": "La transaction est suspendue, le lot est bloqué et un Responsable conformité nommé décide de la suite.",
+  "zh": "交易暂停，批次被封锁，由指定的合规官决定下一步。"
+ },
+ "Smart contract escrow (simulated)": {
+  "fr": "Séquestre par contrat intelligent (simulé)",
+  "zh": "智能合约托管（模拟）"
+ },
+ "Simulation only. No real blockchain, wallet or money. It shows how a contract would behave.": {
+  "fr": "Simulation uniquement. Aucune vraie blockchain, aucun portefeuille ni argent réel. Elle montre comment un contrat se comporterait.",
+  "zh": "仅为模拟。没有真实区块链、钱包或资金。仅展示合约的运作方式。"
+ },
+ "Contract address": {
+  "fr": "Adresse du contrat",
+  "zh": "合约地址"
+ },
+ "Network": {
+  "fr": "Réseau",
+  "zh": "网络"
+ },
+ "Demo network (not real)": {
+  "fr": "Réseau de démonstration (fictif)",
+  "zh": "演示网络（非真实）"
+ },
+ "Token": {
+  "fr": "Jeton",
+  "zh": "代币"
+ },
+ "USDT (1 USDT = 1 USD, demo)": {
+  "fr": "USDT (1 USDT = 1 USD, démo)",
+  "zh": "USDT（1 USDT = 1 美元，演示）"
+ },
+ "Who can release money": {
+  "fr": "Qui peut libérer l'argent",
+  "zh": "谁可以放行资金"
+ },
+ "Needs 2 of 3 named people: Approver, Reviewer, Compliance officer. No AI key.": {
+  "fr": "Nécessite 2 personnes nommées sur 3 : Approbateur, Examinateur, Responsable conformité. Aucune clé pour l'IA.",
+  "zh": "需要 3 位指定人员中的 2 位：审批人、审核员、合规官。AI 没有密钥。"
+ },
+ "Contract log": {
+  "fr": "Journal du contrat",
+  "zh": "合约日志"
+ },
+ "Contract created with the locked terms": {
+  "fr": "Contrat créé avec les conditions verrouillées",
+  "zh": "按锁定条款创建合约"
+ },
+ "Both sides signed": {
+  "fr": "Les deux parties ont signé",
+  "zh": "双方已签署"
+ },
+ "Buyer funded the contract": {
+  "fr": "L'acheteur a approvisionné le contrat",
+  "zh": "买方已为合约注资"
+ },
+ "Provisional payment released to the seller": {
+  "fr": "Paiement provisoire libéré au vendeur",
+  "zh": "预付款已放行给卖方"
+ },
+ "Named approver signed": {
+  "fr": "L'approbateur nommé a signé",
+  "zh": "指定审批人已签署"
+ },
+ "Assay result recorded": {
+  "fr": "Résultat d'analyse enregistré",
+  "zh": "化验结果已记录"
+ },
+ "Named Reviewer entered it": {
+  "fr": "Saisi par l'Examinateur nommé",
+  "zh": "由指定审核员录入"
+ },
+ "Balance settled": {
+  "fr": "Solde réglé",
+  "zh": "余款已结算"
+ },
+ "The contract only carries out what named people approve. It cannot judge an assay result or decide a dispute.": {
+  "fr": "Le contrat n'exécute que ce que des personnes nommées approuvent. Il ne peut ni juger un résultat d'analyse ni trancher un litige.",
+  "zh": "合约只执行指定人员批准的事项，不能判断化验结果或裁决争议。"
+ },
+ "Planned later: wallet screening, a licensed payment partner, and a plan for frozen funds.": {
+  "fr": "Prévu plus tard : filtrage des portefeuilles, un partenaire de paiement agréé et un plan pour les fonds gelés.",
+  "zh": "后续计划：钱包筛查、持牌支付合作方，以及资金被冻结时的预案。"
+ },
+ "How will you pay?": {
+  "fr": "Comment allez-vous payer ?",
+  "zh": "您如何付款？"
+ },
+ "Bank escrow with a regulated partner": {
+  "fr": "Séquestre bancaire auprès d'un partenaire réglementé",
+  "zh": "通过受监管合作方的银行托管"
+ },
+ "USDT through a smart contract (simulated)": {
+  "fr": "USDT via un contrat intelligent (simulé)",
+  "zh": "通过智能合约支付 USDT（模拟）"
+ },
+ "Fund the contract with {amount} (demo)": {
+  "fr": "Approvisionner le contrat de {amount} (démo)",
+  "zh": "为合约注资 {amount}（演示）"
+ },
+ "The contract holds the funds and pays out only after a named approver signs. AI cannot release money.": {
+  "fr": "Le contrat détient les fonds et ne paie qu'après la signature d'un approbateur nommé. L'IA ne peut pas libérer d'argent.",
+  "zh": "合约持有资金，仅在指定审批人签署后付款。AI 无法放行资金。"
+ },
+ "Certificate fingerprint (demo):": {
+  "fr": "Empreinte du certificat (démo) :",
+  "zh": "证书指纹（演示）："
+ },
+ "In a live version this fingerprint would be recorded on a public ledger, so anyone can check the certificate has not been changed. It records no money and no names.": {
+  "fr": "Dans une version réelle, cette empreinte serait inscrite sur un registre public, afin que chacun puisse vérifier que le certificat n'a pas été modifié. Elle n'enregistre ni argent ni noms.",
+  "zh": "正式版本中，该指纹将记录在公共账本上，任何人都可核实证书未被篡改。它不记录资金或姓名。"
+ },
+ "At the deal step you can also try paying in USDT through a simulated smart contract.": {
+  "fr": "À l'étape de la transaction, vous pouvez aussi essayer de payer en USDT via un contrat intelligent simulé.",
+  "zh": "在交易步骤中，您也可以尝试通过模拟的智能合约用 USDT 付款。"
+ },
+ "Needs 2 named people from: Approver, Reviewer, Compliance officer. No AI key.": {
+  "fr": "Nécessite 2 personnes nommées parmi : Approbateur, Examinateur, Responsable conformité. Aucune clé pour l'IA.",
+  "zh": "需要以下人员中的 2 位：审批人、审核员、合规官。AI 没有密钥。"
+ },
+ "Approval request: needs 2 of 2 named people. {n} of 2 signed.": {
+  "fr": "Demande d'approbation : 2 personnes nommées sur 2 requises. {n} sur 2 ont signé.",
+  "zh": "审批请求：需要 2 位指定人员。已签署 {n}/2。"
+ },
+ "Named approver": {
+  "fr": "Approbateur nommé",
+  "zh": "指定审批人"
+ },
+ "Named reviewer": {
+  "fr": "Examinateur nommé",
+  "zh": "指定审核员"
+ },
+ "Signed": {
+  "fr": "Signé",
+  "zh": "已签署"
+ },
+ "Sign as approver (demo)": {
+  "fr": "Signer comme approbateur (démo)",
+  "zh": "以审批人身份签署（演示）"
+ },
+ "Sign as reviewer (demo)": {
+  "fr": "Signer comme examinateur (démo)",
+  "zh": "以审核员身份签署（演示）"
+ },
+ "Release the provisional payment": {
+  "fr": "Libérer le paiement provisoire",
+  "zh": "放行预付款"
+ },
+ "Release the final payment": {
+  "fr": "Libérer le paiement final",
+  "zh": "放行尾款"
+ },
+ "Demo QR code. Not scannable.": {
+  "fr": "Code QR de démonstration. Non scannable.",
+  "zh": "演示二维码，无法扫描。"
+ },
+ "Provisional payment released from the contract to the seller.": {
+  "fr": "Paiement provisoire libéré du contrat vers le vendeur.",
+  "zh": "预付款已从合约放行给卖方。"
+ },
+ "Demo Wallet": {
+  "fr": "Portefeuille de démo",
+  "zh": "演示钱包"
+ },
+ "Coltan Exchange (demo) wants to connect to your wallet.": {
+  "fr": "Coltan Exchange (démo) souhaite se connecter à votre portefeuille.",
+  "zh": "Coltan Exchange（演示）请求连接您的钱包。"
+ },
+ "Wallet": {
+  "fr": "Portefeuille",
+  "zh": "钱包"
+ },
+ "Balance": {
+  "fr": "Solde",
+  "zh": "余额"
+ },
+ "{n} USDT (demo)": {
+  "fr": "{n} USDT (démo)",
+  "zh": "{n} USDT（演示）"
+ },
+ "Connect wallet": {
+  "fr": "Connecter le portefeuille",
+  "zh": "连接钱包"
+ },
+ "Try a flagged demo wallet": {
+  "fr": "Essayer un portefeuille de démo signalé",
+  "zh": "试用被标记的演示钱包"
+ },
+ "Checking wallet {w} against screening lists (demo)…": {
+  "fr": "Vérification du portefeuille {w} sur les listes de filtrage (démo)…",
+  "zh": "正在对照筛查名单检查钱包 {w}（演示）…"
+ },
+ "Wallet {w} was flagged. Funds are paused and cannot be sent. A named Compliance officer reviews this.": {
+  "fr": "Le portefeuille {w} a été signalé. Les fonds sont suspendus et ne peuvent pas être envoyés. Un Responsable conformité nommé l'examine.",
+  "zh": "钱包 {w} 被标记。资金已暂停，无法发送。由指定的合规官审查。"
+ },
+ "Use a different wallet": {
+  "fr": "Utiliser un autre portefeuille",
+  "zh": "更换钱包"
+ },
+ "Wallet {w} passed screening (demo). Real screening is planned for a later phase.": {
+  "fr": "Le portefeuille {w} a passé le filtrage (démo). Le vrai filtrage est prévu à une phase ultérieure.",
+  "zh": "钱包 {w} 通过筛查（演示）。真实筛查计划在后续阶段实现。"
+ },
+ "Send exactly": {
+  "fr": "Envoyez exactement",
+  "zh": "请准确发送"
+ },
+ "To contract": {
+  "fr": "Vers le contrat",
+  "zh": "发送至合约"
+ },
+ "Payment window": {
+  "fr": "Délai de paiement",
+  "zh": "付款时限"
+ },
+ "30 minutes (demo)": {
+  "fr": "30 minutes (démo)",
+  "zh": "30 分钟（演示）"
+ },
+ "Status": {
+  "fr": "Statut",
+  "zh": "状态"
+ },
+ "Waiting for payment": {
+  "fr": "En attente du paiement",
+  "zh": "等待付款"
+ },
+ "Send {amount} from my wallet (demo)": {
+  "fr": "Envoyer {amount} depuis mon portefeuille (démo)",
+  "zh": "从我的钱包发送 {amount}（演示）"
+ },
+ "Payment seen. Confirming on the network: {n} of {m} confirmations.": {
+  "fr": "Paiement détecté. Confirmation sur le réseau : {n} sur {m} confirmations.",
+  "zh": "已检测到付款。网络确认中：{n}/{m} 次确认。"
+ },
+ "Payment confirmed in block {b}. Network fee {f} USDT (demo). The contract now holds {amount}.": {
+  "fr": "Paiement confirmé dans le bloc {b}. Frais de réseau {f} USDT (démo). Le contrat détient maintenant {amount}.",
+  "zh": "付款已在区块 {b} 确认。网络费用 {f} USDT（演示）。合约现持有 {amount}。"
+ },
+ "Escrow statement": {
+  "fr": "Relevé de séquestre",
+  "zh": "托管对账单"
+ },
+ "Paid into the contract": {
+  "fr": "Versé dans le contrat",
+  "zh": "已存入合约"
+ },
+ "Released to the seller": {
+  "fr": "Libéré au vendeur",
+  "zh": "已放行给卖方"
+ },
+ "Refunded to the buyer": {
+  "fr": "Remboursé à l'acheteur",
+  "zh": "已退还买方"
+ },
+ "Still held by the contract": {
+  "fr": "Encore détenu par le contrat",
+  "zh": "合约仍持有"
+ },
+ "Platform fee (demo, charged at release)": {
+  "fr": "Frais de plateforme (démo, facturés à la libération)",
+  "zh": "平台费用（演示，放行时收取）"
+ },
+ "Notifications (demo)": {
+  "fr": "Notifications (démo)",
+  "zh": "通知（演示）"
+ },
+ "Funds received in escrow": {
+  "fr": "Fonds reçus en séquestre",
+  "zh": "托管已收到资金"
+ },
+ "Approval needed: provisional release": {
+  "fr": "Approbation requise : libération provisoire",
+  "zh": "需要审批：预付款放行"
+ },
+ "Two named people must sign.": {
+  "fr": "Deux personnes nommées doivent signer.",
+  "zh": "需要两位指定人员签署。"
+ },
+ "Provisional payment released": {
+  "fr": "Paiement provisoire libéré",
+  "zh": "预付款已放行"
+ },
+ "Approval needed: final release": {
+  "fr": "Approbation requise : libération finale",
+  "zh": "需要审批：尾款放行"
+ },
+ "Deal complete": {
+  "fr": "Transaction terminée",
+  "zh": "交易完成"
+ },
+ "Evidence pack and receipt are ready.": {
+  "fr": "Le dossier de preuves et le reçu sont prêts.",
+  "zh": "证据包和收据已准备好。"
+ },
+ "Approval needed. Two named people must sign.": {
+  "fr": "Approbation requise.",
+  "zh": "需要审批。"
+ },
+ "Buyer wallet connected": {
+  "fr": "Portefeuille de l'acheteur connecté",
+  "zh": "买方钱包已连接"
+ },
+ "Wallet connected": {
+  "fr": "Portefeuille connecté",
+  "zh": "钱包已连接"
+ },
+ "Wallet screening passed (demo)": {
+  "fr": "Filtrage du portefeuille réussi (démo)",
+  "zh": "钱包筛查通过（演示）"
+ },
+ "Automatic check, result logged": {
+  "fr": "Contrôle automatique, résultat consigné",
+  "zh": "自动检查，结果已记录"
+ },
+ "Wallet flagged, funds paused": {
+  "fr": "Portefeuille signalé, fonds suspendus",
+  "zh": "钱包被标记，资金暂停"
+ },
+ "Sent to a named Compliance officer": {
+  "fr": "Transmis à un Responsable conformité nommé",
+  "zh": "已转交指定合规官"
+ },
+ "2 of 2 named people signed": {
+  "fr": "2 personnes nommées sur 2 ont signé",
+  "zh": "2 位指定人员均已签署"
+ },
+ "Seller's view (simulated)": {
+  "fr": "Vue du vendeur (simulée)",
+  "zh": "卖方视图（模拟）"
+ },
+ "Total received: {n} USDT. The deal is complete.": {
+  "fr": "Total reçu : {n} USDT. La transaction est terminée.",
+  "zh": "共收到 {n} USDT。交易完成。"
+ },
+ "Incoming payment: {n} USDT received from the contract.": {
+  "fr": "Paiement entrant : {n} USDT reçus du contrat.",
+  "zh": "收到付款：合约转入 {n} USDT。"
+ },
+ "What do you want to do with it?": {
+  "fr": "Que voulez-vous en faire ?",
+  "zh": "您想如何处理？"
+ },
+ "Keep it as USDT": {
+  "fr": "Le garder en USDT",
+  "zh": "保留为 USDT"
+ },
+ "Convert to USD and pay to a bank or mobile money account": {
+  "fr": "Convertir en USD et verser sur un compte bancaire ou mobile money",
+  "zh": "兑换为美元并转入银行或移动支付账户"
+ },
+ "Demo rate": {
+  "fr": "Taux de démo",
+  "zh": "演示汇率"
+ },
+ "Conversion fee (demo)": {
+  "fr": "Frais de conversion (démo)",
+  "zh": "兑换费用（演示）"
+ },
+ "You receive": {
+  "fr": "Vous recevez",
+  "zh": "您将收到"
+ },
+ "Conversion would run through a licensed partner, with its own identity checks. Not connected in this demo.": {
+  "fr": "La conversion passerait par un partenaire agréé, avec ses propres contrôles d'identité. Non connecté dans cette démo.",
+  "zh": "兑换将通过持牌合作方进行，并有其自身的身份核查。本演示未接入。"
+ },
+ "Payment receipt (demo)": {
+  "fr": "Reçu de paiement (démo)",
+  "zh": "付款收据（演示）"
+ },
+ "Receipt no.": {
+  "fr": "N° de reçu",
+  "zh": "收据编号"
+ },
+ "Final grade": {
+  "fr": "Teneur finale",
+  "zh": "最终品位"
+ },
+ "Total paid": {
+  "fr": "Total payé",
+  "zh": "已付总额"
+ },
+ "Platform fee (demo)": {
+  "fr": "Frais de plateforme (démo)",
+  "zh": "平台费用（演示）"
+ },
+ "Final transaction": {
+  "fr": "Transaction finale",
+  "zh": "最终交易"
+ },
+ "Certificate fingerprint": {
+  "fr": "Empreinte du certificat",
+  "zh": "证书指纹"
+ },
+ "Download receipt (demo)": {
+  "fr": "Télécharger le reçu (démo)",
+  "zh": "下载收据（演示）"
  }
 };

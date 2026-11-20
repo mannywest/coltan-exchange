@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useT } from "./I18n";
+import { PLATFORM_FEE_PCT, PROVISIONAL_SHARE } from "@/lib/price";
 
 type Props = {
   lotNumber: string;
@@ -9,7 +10,7 @@ type Props = {
   blockedReason?: string;
   dealHref?: string;
   clearHref?: string;
-  estimate?: { total: number; provisional: number };
+  quantity?: { tonnes: number; min: number; perTonne: number };
 };
 
 // COMPLIANCE: reserving never releases money or clears a counterparty.
@@ -21,9 +22,13 @@ const NEXT_STEPS = [
   "A named approver releases payment after final assay",
 ];
 
-export default function ReservePanel({ lotNumber, holdHours, blockedReason, dealHref, estimate }: Props) {
+export default function ReservePanel({ lotNumber, holdHours, blockedReason, dealHref, quantity }: Props) {
   const t = useT();
   const [reserved, setReserved] = useState(false);
+  const [qty, setQty] = useState<number>(quantity?.tonnes ?? 0);
+  const estimate = quantity ? { total: qty * quantity.perTonne, provisional: qty * quantity.perTonne * PROVISIONAL_SHARE } : undefined;
+  const fee = estimate ? estimate.total * (PLATFORM_FEE_PCT / 100) : 0;
+  const partial = quantity ? qty < quantity.tonnes : false;
 
   if (blockedReason) {
     return (
@@ -43,6 +48,10 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
         <p className="reserve-note">
           {t("Lot {n} is held for you. Before any money moves:", { n: lotNumber })}
         </p>
+        {partial && (
+          // COMPLIANCE: a part-lot request is a human step. The seller must agree; nothing is automatic.
+          <p className="reserve-note">{t("You asked for {n} tonnes. The seller must agree to a part-lot sale.", { n: qty })}</p>
+        )}
         <ul className="steps">
           {NEXT_STEPS.map((s) => (
             <li key={s}>
@@ -66,6 +75,30 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
   const usd = (n: number) => `USD ${Math.round(n).toLocaleString("en-GB")}`;
   return (
     <div className="reserve">
+      {quantity && (
+        <div className="qty">
+          <label htmlFor="qty-input">{t("Quantity you want (tonnes)")}</label>
+          <div className="qty-row">
+            <input
+              id="qty-input"
+              type="number"
+              inputMode="decimal"
+              min={quantity.min}
+              max={quantity.tonnes}
+              step={0.5}
+              value={qty}
+              onChange={(e) => {
+                const v = parseFloat(e.target.value);
+                setQty(Number.isFinite(v) ? Math.min(quantity.tonnes, Math.max(quantity.min, v)) : quantity.tonnes);
+              }}
+            />
+            <button type="button" className="btn btn-quiet" onClick={() => setQty(quantity.tonnes)}>
+              {t("Whole lot")}
+            </button>
+          </div>
+          <small>{t("Between {min} and {max} tonnes. Less than the whole lot needs the seller's agreement.", { min: quantity.min, max: quantity.tonnes })}</small>
+        </div>
+      )}
       {estimate && (
         <p className="est-money">
           <span>{t("Estimated total")}</span>
@@ -75,13 +108,16 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
               amount: usd(estimate.provisional),
             })}
           </small>
+          {/* COMPLIANCE: fee and payment figures are demo only. Money moves through a regulated escrow partner, never the platform. */}
+          <small>{t("Platform fee (demo): {amount}, charged only when payment is released.", { amount: usd(fee) })}</small>
         </p>
       )}
       <button type="button" className="btn" onClick={() => setReserved(true)}>
         {t("Reserve this lot")}
       </button>
       <p className="reserve-note">
-        {t("Holds the lot for {n} hours. You pay nothing now. Payment goes through a regulated escrow partner, which this demo does not connect.", { n: holdHours })}
+        {t("Holds the lot for {n} hours. You pay nothing now. Payment goes through a regulated escrow partner, which this demo does not connect.", { n: holdHours })}{" "}
+        {t("At the deal step you can also try paying in USDT through a simulated smart contract.")}
       </p>
     </div>
   );

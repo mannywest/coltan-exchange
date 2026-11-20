@@ -102,3 +102,25 @@ Colour is never the only signal: every status also has a word and a shape.
 - Reserve no longer requires being cleared. Get cleared stays as an optional page. Sanctions and screening are planned for a later phase and are not promised on the home page.
 - Lot page and Reserve show an estimated total and the 80% provisional amount (tonnes x 2,204.62 lb x grade basis x price), marked as an estimate until the lab confirms.
 - Buyer menu: Lots first, Get cleared last. Role cards go straight to Lots or List a lot.
+
+## Round: assay chart made readable
+- Lot page: heading line, plain caption, larger scale with "Selling grade" marker, shaded allowed range (0.5 points) around the independent lab result, a key naming each dot with its figure, and a one-line verdict from a fixed rule (labs agree within 0.5 points, or the umpire lab decides).
+- Cards and home certificate: compact scale plus the same one-line verdict. Evidence-check segments now read "n of 6 checks verified".
+- Verdict wording is a rule check, never "clean" or "guaranteed". Lab names stay fake.
+
+## Round: first-time-reader gaps
+- Buyer can enter a quantity (2 tonnes up to the whole lot); total, escrow amount and demo platform fee update live. A part-lot request needs the seller's agreement (human step).
+- Lot page gains three plain blocks: How the price works (worked example from the lot's own numbers, lab grade replaces basis, demo fee 1% per side at release), How long a deal takes (about 3 to 4 weeks, demo), If something goes wrong (umpire lab, named Reviewer, named Compliance officer; AI never decides).
+- Figures live in lib/price.ts. COMPLIANCE comments added at the fee/escrow/dispute spots.
+
+## Round: simulated USDT and smart contract
+- Deal step 3 now asks "How will you pay?": bank escrow (default) or USDT through a smart contract (simulated). Choosing USDT adds a "Fund the contract" action and a contract panel: fake address, demo network, 1 USDT = 1 USD, release needs 2 of 3 named people (Approver, Reviewer, Compliance officer), no AI key, and a log of events with fake transaction IDs.
+- Lot page shows a demo certificate fingerprint with a plain note that a live version would record it on a public ledger (no money, no names).
+- Clearly labelled simulation; nothing real. COMPLIANCE: stablecoin use needs legal opinion, wallet screening, licensed partner and a frozen-funds plan; all shown as "planned later". Helpers in lib/chain.ts produce obviously fake "0xDEMO..." identifiers.
+- Preview fix: deep links to #deal- and #check- pages are now honoured on a first visit.
+
+## Round: realistic simulated USDT flow
+- Step 3 for USDT now runs: connect a demo wallet (or try a flagged one) -> screening result -> payment screen (fake QR, exact amount, contract address, payment window) -> confirming on the network (1 of 3, 2 of 3, 3 of 3) -> confirmed with block number and network fee -> two named people sign (approver and reviewer) -> released.
+- Final payment needs the same two signatures. Panel adds an escrow statement (paid in, released, refunded, held, demo fee), an email-style notifications list, a seller's view (incoming payment, keep USDT or convert at a demo rate and fee) and a downloadable demo receipt with the certificate fingerprint.
+- Flagged wallet: funds paused, sent to a named Compliance officer, buyer must use another wallet.
+- All simulated with timers and fake data; "0xDEMO" identifiers; Simulation banner kept. COMPLIANCE comments in UsdtFlow, SignPanel and ContractExtras.

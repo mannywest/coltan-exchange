@@ -31,7 +31,7 @@ export function Meter({ lot }: { lot: Lot }) {
       {items.map((s, i) => (
         <i key={i} className={`m-${s}`} />
       ))}
-      <b>{t("{n} of 6", { n })}</b>
+      <b>{t("{n} of 6 checks verified", { n })}</b>
     </span>
   );
 }

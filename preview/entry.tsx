@@ -29,7 +29,7 @@ function useHash() {
       seen = window.sessionStorage.getItem("cx-seen") === "1";
       window.sessionStorage.setItem("cx-seen", "1");
     } catch {}
-    if (h.startsWith("lot-") || (seen && h !== "")) return h;
+    if (h.startsWith("lot-") || h.startsWith("check-") || h.startsWith("deal-") || (seen && h !== "")) return h;
     if (h !== "" && h !== "home") window.location.hash = "home";
     return "home";
   });

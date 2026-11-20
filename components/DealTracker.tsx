@@ -1,10 +1,16 @@
 "use client";
 
-import { useState, type CSSProperties } from "react";
+import { useCallback, useState, type CSSProperties } from "react";
 import { computeGrade, evidencePack, type Lot, type Status } from "@/lib/grade";
 import { GRADE_COLOUR } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
 import Mark from "./Mark";
+import ContractPanel, { type ChainEvent, type Notice, type StatementRow } from "./ContractPanel";
+import { SellerView, Receipt } from "./ContractExtras";
+import UsdtFlow from "./UsdtFlow";
+import SignPanel from "./SignPanel";
+import { CX0, type Cx } from "@/lib/chainState";
+import { PLATFORM_FEE_PCT } from "@/lib/price";
 import { useT } from "./I18n";
 
 const LB_PER_TONNE = 2204.62;
@@ -25,6 +31,10 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
   const [umpire, setUmpire] = useState("");
   const [finalApproved, setFinalApproved] = useState(false);
   const [approver, setApprover] = useState(false);
+  const [method, setMethod] = useState<"bank" | "usdt">("bank");
+  const [funded, setFunded] = useState(false);
+  const [cx, setCxState] = useState<Cx>(CX0);
+  const setCx = useCallback((p: Partial<Cx>) => setCxState((c) => ({ ...c, ...p })), []);
 
   if (!eligible) {
     return (
@@ -92,7 +102,31 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
           <p className="calc">
             {lot.tonnes} t x {LB_PER_TONNE.toLocaleString("en-US")} lb x {independent.toFixed(1)}% x USD {lot.priceUsdPerLb} x {PROVISIONAL * 100}%
           </p>
-          {!provApproved && (
+          {!provApproved && cx.wallet === "none" && !funded && (
+            <fieldset className="method">
+              <legend>{t("How will you pay?")}</legend>
+              <label className="check-row">
+                <input type="radio" name="method" checked={method === "bank"} onChange={() => setMethod("bank")} />
+                <span>{t("Bank escrow with a regulated partner")}</span>
+              </label>
+              <label className="check-row">
+                <input type="radio" name="method" checked={method === "usdt"} onChange={() => setMethod("usdt")} />
+                <span>{t("USDT through a smart contract (simulated)")}</span>
+              </label>
+            </fieldset>
+          )}
+          {method === "usdt" && (
+            <UsdtFlow
+              lotNumber={lot.number}
+              amount={provisional}
+              cx={cx}
+              setCx={setCx}
+              provApproved={provApproved}
+              onFunded={() => setFunded(true)}
+              onReleased={() => { setProvApproved(true); setApprover(true); }}
+            />
+          )}
+          {!provApproved && method === "bank" && (
             <>
               <label className="check-row">
                 <input type="checkbox" checked={approver} onChange={(e) => setApprover(e.target.checked)} />
@@ -160,12 +194,24 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
                 ? t("Balance due to the seller: {amount}.", { amount: usd(balance) })
                 : t("Refund due to the buyer: {amount}.", { amount: usd(-balance) })}
             </p>
-            {!finalApproved && (
+            {!finalApproved && method === "usdt" && (
+              <SignPanel
+                title="Release the final payment"
+                a={cx.fSigA}
+                r={cx.fSigR}
+                onSign={(who) => {
+                  const next = { fSigA: who === "a" ? true : cx.fSigA, fSigR: who === "r" ? true : cx.fSigR };
+                  setCx(next);
+                  if (next.fSigA && next.fSigR) setFinalApproved(true);
+                }}
+              />
+            )}
+            {!finalApproved && method === "bank" && (
               <button type="button" className="btn btn-quiet" disabled={!approver} onClick={() => setFinalApproved(true)}>
                 {t("Release final payment (demo)")}
               </button>
             )}
-            {!approver && !finalApproved && (
+            {method === "bank" && !approver && !finalApproved && (
               <p className="reserve-note">{t("Tick the named approver box in the provisional payment step first.")}</p>
             )}
           </>
@@ -200,9 +246,43 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     },
   ];
 
+  const events: ChainEvent[] = [];
+  const notices: Notice[] = [];
+  let statement: StatementRow[] = [];
+  const fee = (n: number) => n * (PLATFORM_FEE_PCT / 100);
+  if (method === "usdt") {
+    if (signed) events.push({ label: "Contract created with the locked terms", who: "Both sides signed", seed: "create" });
+    if (cx.wallet !== "none") events.push({ label: cx.wallet === "ok" ? "Buyer wallet connected" : "Wallet connected", who: "Buyer", seed: "wallet" });
+    if (cx.screen === "passed") events.push({ label: "Wallet screening passed (demo)", who: "Automatic check, result logged", seed: "screen" });
+    if (cx.screen === "flagged") events.push({ label: "Wallet flagged, funds paused", who: "Sent to a named Compliance officer", seed: "flag" });
+    if (funded) events.push({ label: "Buyer funded the contract", who: "Buyer", seed: "fund" });
+    if (provApproved) events.push({ label: "Provisional payment released to the seller", who: "2 of 2 named people signed", seed: "prov" });
+    if (assayDone && provApproved) events.push({ label: "Assay result recorded", who: "Named Reviewer entered it", seed: "assay" });
+    if (finalApproved) events.push({ label: "Balance settled", who: "2 of 2 named people signed", seed: "final" });
+
+    if (funded) notices.push({ subject: "Funds received in escrow", body: `${Math.round(provisional).toLocaleString("en-GB")} USDT confirmed. Approval needed to release.` });
+    if (funded && !provApproved) notices.push({ subject: "Approval needed: provisional release", body: "Two named people must sign." });
+    if (provApproved) notices.push({ subject: "Provisional payment released", body: `${Math.round(provisional).toLocaleString("en-GB")} USDT sent to the seller.` });
+    if (assayDone && provApproved) notices.push({ subject: "Assay result recorded", body: `Final grade ${finalTa.toFixed(2)}% Ta2O5.` });
+    if (assayDone && provApproved && !finalApproved) notices.push({ subject: "Approval needed: final release", body: "Two named people must sign." });
+    if (finalApproved) notices.push({ subject: "Deal complete", body: "Evidence pack and receipt are ready." });
+
+    const topUp = finalApproved && balance > 0 ? balance : 0;
+    const refund = finalApproved && balance < 0 ? -balance : 0;
+    const paidIn = (funded ? provisional : 0) + topUp;
+    const released = (provApproved ? provisional : 0) + topUp;
+    statement = [
+      { label: "Paid into the contract", amount: paidIn },
+      { label: "Released to the seller", amount: released },
+      { label: "Refunded to the buyer", amount: refund },
+      { label: "Still held by the contract", amount: Math.max(0, paidIn - released) },
+      { label: "Platform fee (demo, charged at release)", amount: finalApproved ? fee(finalValue) : provApproved ? fee(provisional) : 0 },
+    ];
+  }
+
   function restart() {
     setSigned(false); setProvApproved(false); setFinalApproved(false); setApprover(false);
-    setBuyerLab(independent.toFixed(1)); setUmpire("");
+    setBuyerLab(independent.toFixed(1)); setUmpire(""); setMethod("bank"); setFunded(false); setCxState(CX0);
   }
 
   return (
@@ -231,6 +311,13 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
           </li>
         ))}
       </ol>
+      {method === "usdt" && signed && <ContractPanel lotNumber={lot.number} events={events} statement={statement} notices={notices} />}
+      {method === "usdt" && provApproved && (
+        <SellerView amount={finalApproved ? finalValue : provisional} final={finalApproved} />
+      )}
+      {method === "usdt" && finalApproved && (
+        <Receipt lotNumber={lot.number} paid={finalValue} ta={finalTa} fee={fee(finalValue)} />
+      )}
       <button type="button" className="btn btn-quiet" style={{ width: "auto", marginTop: 24 }} onClick={restart}>
         {t("Start the demo again")}
       </button>

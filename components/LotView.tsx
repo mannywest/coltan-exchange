@@ -1,5 +1,6 @@
 "use client";
 
+import { AssayStrip, AssayLegend, AssayVerdict } from "./HomeArt";
 import type { CSSProperties } from "react";
 import {
   CHECK_LABELS,
@@ -15,6 +16,9 @@ import {
 } from "@/lib/grade";
 import { fmtDate, fmtDateTime } from "@/lib/format";
 import ReservePanel from "./ReservePanel";
+import LotGuide from "./LotGuide";
+import { MIN_TONNES, lotValue } from "@/lib/price";
+import { demoHash, short } from "@/lib/chain";
 import Mark from "./Mark";
 import { useT } from "./I18n";
 import PhotoEvidence from "./PhotoEvidence";
@@ -32,8 +36,8 @@ export default function LotView({
   routes: Routes; }) {
   const t = useT();
   // Value = tonnes x lb per tonne x Ta2O5 share x price per lb. An estimate on the grade basis until the lab confirms.
-  const total = lot.tonnes * 2204.62 * (lot.basisTa2O5 / 100) * lot.priceUsdPerLb;
-  const money = { total, provisional: total * 0.8 };
+  const total = lotValue(lot.tonnes, lot.basisTa2O5, lot.priceUsdPerLb);
+  const perTonne = total / lot.tonnes;
   const g = computeGrade(lot);
   const colour = GRADE_COLOUR[g.grade];
   const blocked = g.grade === "Blocked";
@@ -106,7 +110,7 @@ export default function LotView({
           <h2>{t("Locked terms")}</h2>
           <dl className="terms">
             <div>
-              <dt>{t("Quantity")}</dt>
+              <dt>{t("Quantity available")}</dt>
               <dd>{t("{n} tonnes", { n: lot.tonnes })}</dd>
             </div>
             <div>
@@ -141,7 +145,7 @@ export default function LotView({
             holdHours={lot.holdHours}
             blockedReason={blockedReason}
             dealHref={href(routes.deal, lot.slug)}
-            estimate={money}
+            quantity={{ tonnes: lot.tonnes, min: Math.min(MIN_TONNES, lot.tonnes), perTonne }}
           />
           <div className="review">
             <p>
@@ -222,6 +226,12 @@ export default function LotView({
               <h2 id="h-assay"><Term k="Assay">{t("Assay")}</Term></h2>
               <p>{t("Ta2O5 content, percent")}</p>
             </div>
+            <p className="assay-intro">
+              {t("Three readings of the same lot. Higher means more valuable metal in the ore. The price is set at the selling grade.")}
+            </p>
+            <AssayStrip lot={lot} grade={g.grade} variant="full" />
+            <AssayLegend lot={lot} />
+            <p className="assay-verdict-line"><AssayVerdict lot={lot} /></p>
             <table className="assay">
               <caption className="sr-only">
                 Ta2O5 results by source for lot {lot.number}
@@ -277,6 +287,10 @@ export default function LotView({
                 ? `${t("Gap between the two lab results: {g} points.", { g: spread.toFixed(1) })} ${lot.assay.toleranceCheck}`
                 : lot.assay.toleranceCheck}{" "}
               {t("Demo rule: if results sit within 0.5 points, the average is used; if not, the umpire lab decides.")}
+            </p>
+            <p className="assay-note">
+              {t("Certificate fingerprint (demo):")} <code>{short(demoHash(`cert-${lot.number}-${lot.assay.sellerLab}-${lot.assay.independentLab}`, 3))}</code>{" "}
+              {t("In a live version this fingerprint would be recorded on a public ledger, so anyone can check the certificate has not been changed. It records no money and no names.")}
             </p>
           </section>
 
@@ -354,6 +368,8 @@ export default function LotView({
               </div>
             </div>
           </section>
+
+          <LotGuide lot={lot} total={total} />
 
           {/* Honest limits */}
           <section className="limits" aria-labelledby="h-limits">

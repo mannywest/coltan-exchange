@@ -104,6 +104,22 @@ export function assaySpread(lot: Lot): number | null {
   return Math.round(Math.abs(labs[0] - labs[1]) * 10) / 10;
 }
 
+export const ASSAY_TOLERANCE = 0.5;
+
+// Plain verdict on the two lab results. Fixed rule, no AI: inside 0.5 points the labs agree.
+export type AssayVerdict =
+  | { tone: "ok"; key: "agree"; gap: number }
+  | { tone: "warn"; key: "apart"; gap: number }
+  | { tone: "wait"; key: "waitIndep" | "noLab" };
+
+export function assayVerdict(lot: Lot): AssayVerdict {
+  const { sellerLab, independentLab } = lot.assay;
+  if (sellerLab === null && independentLab === null) return { tone: "wait", key: "noLab" };
+  if (sellerLab === null || independentLab === null) return { tone: "wait", key: "waitIndep" };
+  const gap = Math.round(Math.abs(sellerLab - independentLab) * 10) / 10;
+  return gap <= ASSAY_TOLERANCE + 1e-9 ? { tone: "ok", key: "agree", gap } : { tone: "warn", key: "apart", gap };
+}
+
 export type ReasonKey =
   | "The source mine is in the Blocked tier, so this lot cannot be traded."
   | "A party on this lot failed sanctions screening, so this lot cannot be traded."
