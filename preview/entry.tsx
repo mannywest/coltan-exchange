@@ -20,11 +20,16 @@ import { lots, getLot } from "@/data/lots";
 import { hashRoutes } from "@/lib/routes";
 
 function useHash() {
-  // Always open on the home page. A leftover address fragment from an earlier visit
-  // must not drop a new visitor into another screen. Lot links still work.
+  // A leftover address fragment from an earlier visit must not drop a new visitor into another screen.
+    // A refresh inside the same tab keeps your place. A brand-new visit opens on home.
   const [hash, setHash] = useState(() => {
     const h = window.location.hash.slice(1);
-    if (h.startsWith("lot-")) return h;
+    let seen = false;
+    try {
+      seen = window.sessionStorage.getItem("cx-seen") === "1";
+      window.sessionStorage.setItem("cx-seen", "1");
+    } catch {}
+    if (h.startsWith("lot-") || (seen && h !== "")) return h;
     if (h !== "" && h !== "home") window.location.hash = "home";
     return "home";
   });
@@ -53,7 +58,7 @@ function Screen({ hash }: { hash: string }) {
         <SellForm routes={hashRoutes} />
       </RoleGate>
     );
-  if (hash === "onboarding") return <Onboarding />;
+  if (hash === "onboarding") return <Onboarding routes={hashRoutes} />;
   if (hash === "registry")
     return (
       <RoleGate need="reviewer">

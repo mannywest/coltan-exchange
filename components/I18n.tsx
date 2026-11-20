@@ -9,8 +9,30 @@ const Ctx = createContext<{ lang: Lang; setLang: (l: Lang) => void }>({
   setLang: () => {},
 });
 
+// Demo state survives a page refresh within the same tab. Storage can be blocked, so it is optional.
+function stored(k: string): string | null {
+  try {
+    return window.sessionStorage.getItem(k);
+  } catch {
+    return null;
+  }
+}
+function store(k: string, v: string) {
+  try {
+    window.sessionStorage.setItem(k, v);
+  } catch {}
+}
+
 export function LangProvider({ children }: { children: ReactNode }) {
-  const [lang, setLang] = useState<Lang>("en");
+  const [lang, setLangState] = useState<Lang>("en");
+  const setLang = (l: Lang) => {
+    setLangState(l);
+    store("cx-lang", l);
+  };
+  useEffect(() => {
+    const l = stored("cx-lang");
+    if (l === "fr" || l === "zh") setLangState(l);
+  }, []);
   useEffect(() => {
     document.documentElement.lang = lang === "zh" ? "zh-Hans" : lang;
   }, [lang]);
@@ -38,13 +60,31 @@ export const ROLES: { id: Role; label: string }[] = [
   { id: "seller", label: "Seller" },
   { id: "reviewer", label: "Reviewer" },
 ];
-const RoleCtx = createContext<{ role: Role; setRole: (r: Role) => void }>({
+// COMPLIANCE: "cleared" stands in for passing counterparty screening. In the real product
+// it comes from a reviewer's decision, never from a button.
+const RoleCtx = createContext<{ role: Role; setRole: (r: Role) => void; cleared: boolean; setCleared: (c: boolean) => void }>({
   role: "visitor",
   setRole: () => {},
+  cleared: false,
+  setCleared: () => {},
 });
 export function RoleProvider({ children }: { children: ReactNode }) {
-  const [role, setRole] = useState<Role>("visitor");
-  return <RoleCtx.Provider value={{ role, setRole }}>{children}</RoleCtx.Provider>;
+  const [role, setRoleState] = useState<Role>("visitor");
+  const [cleared, setClearedState] = useState(false);
+  useEffect(() => {
+    const r = stored("cx-role");
+    if (r === "buyer" || r === "seller" || r === "reviewer") setRoleState(r);
+    if (stored("cx-cleared") === "1") setClearedState(true);
+  }, []);
+  const setRole = (r: Role) => {
+    setRoleState(r);
+    store("cx-role", r);
+  };
+  const setCleared = (c: boolean) => {
+    setClearedState(c);
+    store("cx-cleared", c ? "1" : "0");
+  };
+  return <RoleCtx.Provider value={{ role, setRole, cleared, setCleared }}>{children}</RoleCtx.Provider>;
 }
 export function useRole() {
   return useContext(RoleCtx);

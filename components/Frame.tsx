@@ -26,8 +26,8 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
         <span className="product">{t("Coltan Exchange")}</span>
         <LangSwitch />
         <label className="role">
-          <span>{t("Viewing as")}</span>
-          <select value={role} onChange={(e) => setRole(e.target.value as typeof role)}>
+          <span>{t("Demo view")}</span>
+          <select aria-label={t("Demo view: choose who you are")} value={role} onChange={(e) => setRole(e.target.value as typeof role)}>
             {ROLES.map((r) => (
               <option key={r.id} value={r.id}>
                 {t(r.label)}

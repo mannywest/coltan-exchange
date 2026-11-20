@@ -2546,3 +2546,65 @@ ol {
   color: var(--muted);
   font-size: 0.75rem;
 }
+
+/* ---------- UX fixes: compact header, 44px targets ---------- */
+
+.wordmark {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.lang button {
+  min-height: 44px;
+}
+
+.role select {
+  min-height: 44px;
+}
+
+.topnav a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding-block: 0;
+}
+
+.crumbs a,
+.home-more a,
+.more a {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+}
+
+.rules summary {
+  min-height: 44px;
+  display: flex;
+  align-items: center;
+}
+
+.top {
+  align-items: center;
+}
+
+@media (max-width: 820px) {
+  .top .wordmark { order: 1; }
+  .top .lang { order: 2; margin-left: auto; }
+  .top .role { order: 3; margin-left: 0; }
+  .top .topnav { order: 4; flex: 1 1 100%; margin-left: 0; gap: 0 20px; }
+}
+
+@media (max-width: 639px) {
+  .role > span {
+    display: none;
+  }
+  .role select {
+    max-width: 120px;
+  }
+}
+
+.topnav a {
+  min-width: 44px;
+  justify-content: center;
+}

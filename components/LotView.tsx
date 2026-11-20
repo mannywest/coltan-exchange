@@ -80,7 +80,7 @@ export default function LotView({
             <p className="reason">
               <strong>{blocked ? t("Blocked.") : t("Trust Grade {g}.", { g: g.grade })}</strong>{" "}
               <em className="grade-words">{t(GRADE_LABEL[g.grade])}.</em>{" "}
-              {g.reasons[0]}
+              {t(g.reasonKey, { n: g.verified, list: g.open.map((k) => t(CHECK_LABELS[k]).toLowerCase()).join(", ") })}
             </p>
             <details className="rules">
               <summary>{t("How the grade is decided")}</summary>
@@ -134,6 +134,7 @@ export default function LotView({
             holdHours={lot.holdHours}
             blockedReason={blockedReason}
             dealHref={href(routes.deal, lot.slug)}
+            clearHref={routes.onboarding}
           />
           <div className="review">
             <p>

@@ -104,10 +104,19 @@ export function assaySpread(lot: Lot): number | null {
   return Math.round(Math.abs(labs[0] - labs[1]) * 10) / 10;
 }
 
+export type ReasonKey =
+  | "The source mine is in the Blocked tier, so this lot cannot be traded."
+  | "A party on this lot failed sanctions screening, so this lot cannot be traded."
+  | "All six evidence checks are verified, including independent site evidence."
+  | "{n} of 6 evidence checks are verified. Still open: {list}."
+  | "Only {n} of 6 evidence checks are verified. Still open: {list}.";
+
 export function computeGrade(lot: Lot): {
   grade: Grade;
   reasons: string[];
   verified: number;
+  reasonKey: ReasonKey;
+  open: CheckId[];
 } {
   const entries = CHECK_ORDER.map((k) => [k, lot.evidence[k]] as const);
   const verified = entries.filter(([, e]) => e.status === "verified").length;
@@ -120,6 +129,8 @@ export function computeGrade(lot: Lot): {
     return {
       grade: "Blocked",
       verified,
+      reasonKey: "The source mine is in the Blocked tier, so this lot cannot be traded.",
+      open: [],
       reasons: [
         "The source mine is in the Blocked tier, so this lot cannot be traded.",
       ],
@@ -129,6 +140,8 @@ export function computeGrade(lot: Lot): {
     return {
       grade: "Blocked",
       verified,
+      reasonKey: "A party on this lot failed sanctions screening, so this lot cannot be traded.",
+      open: [],
       reasons: [
         "A party on this lot failed sanctions screening, so this lot cannot be traded.",
       ],
@@ -142,6 +155,8 @@ export function computeGrade(lot: Lot): {
     return {
       grade: "A",
       verified,
+      reasonKey: "All six evidence checks are verified, including independent site evidence.",
+      open: [],
       reasons: [
         "All six evidence checks are verified, including independent site evidence.",
       ],
@@ -151,6 +166,8 @@ export function computeGrade(lot: Lot): {
     return {
       grade: "B",
       verified,
+      reasonKey: "{n} of 6 evidence checks are verified. Still open: {list}.",
+      open: notVerified.map(([k]) => k),
       reasons: [
         `${verified} of 6 evidence checks are verified. Still open: ${list(notVerified)}.`,
       ],
@@ -159,6 +176,8 @@ export function computeGrade(lot: Lot): {
   return {
     grade: "C",
     verified,
+    reasonKey: "Only {n} of 6 evidence checks are verified. Still open: {list}.",
+    open: notVerified.map(([k]) => k),
     reasons: [
       `Only ${verified} of 6 evidence checks are verified. Still open: ${list(notVerified)}.`,
     ],

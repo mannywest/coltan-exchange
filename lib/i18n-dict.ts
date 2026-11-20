@@ -1791,5 +1791,49 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
  "Set by rules. Approved by a named reviewer.": {
   "fr": "Fixé par des règles. Approuvé par un examinateur nommé.",
   "zh": "由规则确定，经具名审核员批准。"
+ },
+ "Get cleared to reserve": {
+  "fr": "Se faire autoriser pour réserver",
+  "zh": "通过准入后才能预订"
+ },
+ "Every buyer is screened before they can reserve a lot.": {
+  "fr": "Chaque acheteur est filtré avant de pouvoir réserver un lot.",
+  "zh": "每位买家在预订批次之前都要经过筛查。"
+ },
+ "Demo: continue as a cleared buyer": {
+  "fr": "Démo : continuer en tant qu'acheteur autorisé",
+  "zh": "演示：以已通过准入的买家身份继续"
+ },
+ "Demo: continue as cleared and browse lots": {
+  "fr": "Démo : continuer comme autorisé et parcourir les lots",
+  "zh": "演示：以已通过准入身份浏览批次"
+ },
+ "Demo view": {
+  "fr": "Vue démo",
+  "zh": "演示视图"
+ },
+ "Demo view: choose who you are": {
+  "fr": "Vue démo : choisissez qui vous êtes",
+  "zh": "演示视图：选择您的身份"
+ },
+ "The source mine is in the Blocked tier, so this lot cannot be traded.": {
+  "fr": "La mine d'origine est au niveau Bloqué : ce lot ne peut pas être négocié.",
+  "zh": "来源矿山处于封锁等级，因此该批次无法交易。"
+ },
+ "A party on this lot failed sanctions screening, so this lot cannot be traded.": {
+  "fr": "Une partie de ce lot a échoué au filtrage des sanctions : ce lot ne peut pas être négocié.",
+  "zh": "此批次的某一方未通过制裁筛查，因此无法交易。"
+ },
+ "All six evidence checks are verified, including independent site evidence.": {
+  "fr": "Les six contrôles de preuves sont vérifiés, y compris les preuves indépendantes du site.",
+  "zh": "六项证据检查全部验证，包括独立现场证据。"
+ },
+ "{n} of 6 evidence checks are verified. Still open: {list}.": {
+  "fr": "{n} contrôles de preuves sur 6 sont vérifiés. Encore ouverts : {list}.",
+  "zh": "6 项证据检查中 {n} 项已验证。尚未完成：{list}。"
+ },
+ "Only {n} of 6 evidence checks are verified. Still open: {list}.": {
+  "fr": "Seulement {n} contrôles de preuves sur 6 sont vérifiés. Encore ouverts : {list}.",
+  "zh": "6 项证据检查中仅 {n} 项已验证。尚未完成：{list}。"
  }
 };

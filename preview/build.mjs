@@ -38,6 +38,8 @@ const html = `<!DOCTYPE html>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Coltan Exchange (demo) | Plerosis</title>
+<meta name="description" content="Demo of a neutral, invite-only exchange for tantalum ore. All data is invented.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%23090B0C'/%3E%3Cpath d='M8 22V10h9a4 4 0 0 1 0 8h-5' fill='none' stroke='%2300B89C' stroke-width='3'/%3E%3C/svg%3E">
 <style>${css}</style>
 </head>
 <body>

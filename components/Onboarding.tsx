@@ -1,9 +1,10 @@
 "use client";
 
+import type { Routes } from "@/lib/routes";
 import { useState } from "react";
 import type { Status } from "@/lib/grade";
 import Mark from "./Mark";
-import { useT } from "./I18n";
+import { useRole, useT } from "./I18n";
 
 // DEMO RULES ONLY. Real screening runs against live UK, US, EU and UN lists through a regulated provider.
 // COMPLIANCE: platform rule, no clients in sanctioned countries.
@@ -28,7 +29,7 @@ const DOCS = ["Company registration", "Directors' ID", "Proof of address", "Sour
 type Owner = { name: string; pct: string };
 type Check = { label: string; status: Status; note: string };
 
-export default function Onboarding() {
+export default function Onboarding({ routes }: { routes?: Routes }) {
   const t = useT();
   const [company, setCompany] = useState("");
   const [role, setRole] = useState("Buyer");
@@ -36,6 +37,7 @@ export default function Onboarding() {
   const [owners, setOwners] = useState<Owner[]>([{ name: "", pct: "" }]);
   const [docs, setDocs] = useState<boolean[]>([false, false, false, false]);
   const [sent, setSent] = useState(false);
+  const { setCleared } = useRole();
 
   const named = owners.filter((o) => o.name.trim());
   const total = owners.reduce((a, o) => a + (Number(o.pct) || 0), 0);
@@ -93,9 +95,16 @@ export default function Onboarding() {
           <p style={{ marginTop: 8 }}>
             {t("A named reviewer confirms every result before {company} can reserve or list a lot. Nothing is saved in this demo.", { company: company || "—" })}
           </p>
-          <button type="button" className="btn btn-quiet" style={{ width: "auto" }} onClick={() => setSent(false)}>
-            {t("Edit details")}
-          </button>
+          <div className="home-cta" style={{ marginTop: 16 }}>
+            {routes && (
+              <a className="btn" href={routes.lots} onClick={() => setCleared(true)}>
+                {t("Demo: continue as cleared and browse lots")}
+              </a>
+            )}
+            <button type="button" className="btn btn-quiet" onClick={() => setSent(false)}>
+              {t("Edit details")}
+            </button>
+          </div>
         </div>
       </section>
     );

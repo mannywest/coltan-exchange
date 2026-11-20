@@ -92,3 +92,8 @@ Colour is never the only signal: every status also has a word and a shape.
 - Home hero shows a compact paper certificate built from a real demo lot (grade, six checks, assay chart). Faint contour lines sit behind the hero.
 - Lot cards and list rows carry a small assay chart (field, seller lab, independent lab on a 22 to 28 percent Ta2O5 scale, basis marked) plus the check meter. Blocked lots are dimmed.
 - Lot-page photo evidence still uses drawn placeholders until real field photos exist.
+
+## Update: UX review fixes
+- Refresh keeps your place and language/role within a tab; a brand-new visit opens on home.
+- Reserve needs a cleared buyer (Get cleared, or a labelled demo shortcut).
+- Mobile header is two rows; tap targets are 44px; grade reason sentence translates; "Demo view" label; meta description and favicon added.
