@@ -13,6 +13,7 @@ import { GRADE_COLOUR } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
 import { fmtDate } from "@/lib/format";
 import Mark from "./Mark";
+import { useT } from "./I18n";
 
 type Choice = "approve" | "conditions" | "reject";
 const LABEL: Record<Choice, string> = {
@@ -23,6 +24,7 @@ const LABEL: Record<Choice, string> = {
 type Made = { choice: Choice; reason: string };
 
 export default function ReviewDesk({ lots, routes }: { lots: Lot[]; routes: Routes }) {
+  const t = useT();
   const waiting = lots.filter((l) => l.review.status === "pending");
   const earlier = lots.filter((l) => l.review.status !== "pending");
 
@@ -82,11 +84,11 @@ export default function ReviewDesk({ lots, routes }: { lots: Lot[]; routes: Rout
           onClick={() => pick(l.slug)}
           style={{ "--grade": GRADE_COLOUR[gr] } as CSSProperties}
         >
-          <span className={`q-grade${gr === "Blocked" ? " is-word" : ""}`}>{gr}</span>
+          <span className={`q-grade${gr === "Blocked" ? " is-word" : ""}`}>{gr === "Blocked" ? t("Blocked") : gr}</span>
           <span className="q-main">
-            <strong>Lot {l.number}</strong>
+            <strong>{t("Lot")} {l.number}</strong>
             <span>
-              {l.mine.name}, {l.mine.tier}
+              {l.mine.name}, {t(l.mine.tier)}
             </span>
             <em>{note}</em>
           </span>
@@ -97,27 +99,26 @@ export default function ReviewDesk({ lots, routes }: { lots: Lot[]; routes: Rout
 
   return (
     <section className="review-desk">
-      <h1>Reviewer desk</h1>
+      <h1>{t("Reviewer desk")}</h1>
       <p className="listing-intro">
-        Lots that the rules cannot clear alone wait here for a named person. You decide. The rules
-        set the limits, and AI only drafts a summary.
+        {t("Lots that the rules cannot clear alone wait here for a named person. You decide. The rules set the limits, and AI only drafts a summary.")}
       </p>
 
       <div className="desk">
         <nav className="queue" aria-label="Review queue">
-          <h2>Waiting for a decision ({queue.length})</h2>
+          <h2>{t("Waiting for a decision ({n})", { n: queue.length })}</h2>
           {queue.length === 0 ? (
             <div className="empty small">
-              <p>The queue is clear. Nothing is waiting for you.</p>
+              <p>{t("The queue is clear. Nothing is waiting for you.")}</p>
             </div>
           ) : (
-            <ul>{queue.map((l) => item(l, `Submitted ${fmtDate(l.review.at)}`))}</ul>
+            <ul>{queue.map((l) => item(l, t("Submitted {d}", { d: fmtDate(l.review.at) })))}</ul>
           )}
-          <h2>Decided</h2>
+          <h2>{t("Decided")}</h2>
           <ul>
-            {decidedNow.map((l) => item(l, `${LABEL[made[l.slug].choice]} (demo)`))}
+            {decidedNow.map((l) => item(l, `${t(LABEL[made[l.slug].choice])} (demo)`))}
             {earlier.map((l) =>
-              item(l, `${l.review.status === "approved" ? "Approved" : "Rejected"} ${fmtDate(l.review.at)}`)
+              item(l, `${l.review.status === "approved" ? t("Approved") : t("Rejected")} ${fmtDate(l.review.at)}`)
             )}
           </ul>
         </nav>
@@ -132,10 +133,10 @@ export default function ReviewDesk({ lots, routes }: { lots: Lot[]; routes: Rout
               <p className="lot-id">
                 {lot.sellerAlias}, {lot.tonnes} tonnes, USD {lot.priceUsdPerLb} per lb
               </p>
-              <h2>Lot {lot.number}</h2>
+              <h2>{t("Lot")} {lot.number}</h2>
               <p className="case-grade">
-                Rules propose <strong>{g.grade === "Blocked" ? "Blocked" : `Grade ${g.grade}`}</strong>.{" "}
-                {lot.mine.name} is in the {lot.mine.tier} tier.
+                {t("Rules propose")} <strong>{g.grade === "Blocked" ? t("Blocked") : `${t("Grade")} ${g.grade}`}</strong>.{" "}
+                {t("{mine} is in the {tier} tier.", { mine: lot.mine.name, tier: t(lot.mine.tier) })}
               </p>
             </div>
             <div className={`case-letter${g.grade === "Blocked" ? " is-word" : ""}`} aria-hidden="true">
@@ -145,65 +146,65 @@ export default function ReviewDesk({ lots, routes }: { lots: Lot[]; routes: Rout
 
           {lot.caseNote && (
             <div className="case-why">
-              <h3>Why a person must decide</h3>
+              <h3>{t("Why a person must decide")}</h3>
               <p>{lot.caseNote}</p>
             </div>
           )}
 
           {lot.aiSummary && (
             <div className="ai">
-              <h3>Draft summary</h3>
+              <h3>{t("Draft summary")}</h3>
               <p className="ai-label">
-                Written by AI. Check it against the evidence before you rely on it.
+                {t("Written by AI. Check it against the evidence before you rely on it.")}
               </p>
               <p>{lot.aiSummary}</p>
             </div>
           )}
 
-          <h3 className="case-sub">Evidence</h3>
+          <h3 className="case-sub">{t("Evidence")}</h3>
           <ul className="mini">
             {CHECK_ORDER.map((k) => (
               <li key={k}>
                 <Mark status={lot.evidence[k].status} />
-                <span>{CHECK_LABELS[k]}</span>
+                <span>{t(CHECK_LABELS[k])}</span>
                 <span className={`word word-${lot.evidence[k].status}`}>
-                  {STATUS_WORD[lot.evidence[k].status]}
+                  {t(STATUS_WORD[lot.evidence[k].status])}
                 </span>
               </li>
             ))}
           </ul>
           <p className="mini-more">
-            Origin checks: {c.passed} of {c.total} passed
-            {c.failed ? `, ${c.failed} failed` : ""}.{" "}
-            <a href={href(routes.lot, lot.slug)}>Open the certificate</a>{" "}
-            <a href={href(routes.check, lot.slug)}>Open the trust check</a>
+            {t("Origin checks: {n} of {m} passed", { n: c.passed, m: c.total })}
+            {c.failed ? `, ${t("{n} failed", { n: c.failed })}` : ""}.{" "}
+            <a href={href(routes.lot, lot.slug)}>{t("Open the certificate")}</a>{" "}
+            <a href={href(routes.check, lot.slug)}>{t("Open the trust check")}</a>
           </p>
 
           {decision ? (
             <div className="decided" role="status">
-              <p className="reserved-title">Decision recorded (demo)</p>
+              <p className="reserved-title">{t("Decision recorded (demo)")}</p>
               <p>
-                {LABEL[decision.choice]}, by you, today.
-                {decision.reason && <> Reason: {decision.reason}</>}
+                {t(LABEL[decision.choice])}, {t("by you, today.")}
+                {decision.reason && <> {t("Reason:")} {decision.reason}</>}
               </p>
               <button type="button" className="btn btn-quiet" onClick={undo}>
-                Change decision
+                {t("Change decision")}
               </button>
             </div>
           ) : !isPending ? (
             <div className="decided">
               <p className="reserved-title">
-                {lot.review.status === "approved" ? "Approved" : "Rejected"}
+                {lot.review.status === "approved" ? t("Approved") : t("Rejected")}
               </p>
               <p>
-                By {lot.review.by}, {fmtDate(lot.review.at)}.{" "}
-                {lot.review.note ?? "No conditions were set."}
+                {t("by {who}, {d}", { who: lot.review.by, d: fmtDate(lot.review.at) })}.{" "}
+                {lot.review.note ?? t("No conditions were set.")}
               </p>
             </div>
           ) : (
             <form className="decide" onSubmit={submit}>
               <fieldset>
-                <legend>Your decision</legend>
+                <legend>{t("Your decision")}</legend>
                 {(Object.keys(LABEL) as Choice[]).map((k) => (
                   <label key={k} className={allowed[k] ? undefined : "is-off"}>
                     <input
@@ -215,11 +216,10 @@ export default function ReviewDesk({ lots, routes }: { lots: Lot[]; routes: Rout
                       onChange={() => setChoice(k)}
                     />
                     <span>
-                      <strong>{LABEL[k]}</strong>
+                      <strong>{t(LABEL[k])}</strong>
                       {!allowed[k] && (
                         <small>
-                          The rules do not allow this for a{" "}
-                          {g.grade === "Blocked" ? "Blocked" : `Grade ${g.grade}`} lot.
+                          {t("The rules do not allow this for a {g} lot.", { g: g.grade === "Blocked" ? t("Blocked") : `${t("Grade")} ${g.grade}` })}
                         </small>
                       )}
                     </span>
@@ -227,20 +227,19 @@ export default function ReviewDesk({ lots, routes }: { lots: Lot[]; routes: Rout
                 ))}
               </fieldset>
               <label className="reason-field">
-                <span>Reason{needsReason ? " (at least 10 characters)" : ""}</span>
+                <span>{needsReason ? t("Reason (at least 10 characters)") : t("Reason")}</span>
                 <textarea
                   rows={3}
                   value={reason}
                   onChange={(e) => setReason(e.target.value)}
-                  placeholder="What did you check, and why does it justify this decision?"
+                  placeholder={t("What did you check, and why does it justify this decision?")}
                 />
               </label>
               <button type="submit" className="btn" disabled={!valid}>
-                Record decision
+                {t("Record decision")}
               </button>
               <p className="reserve-note">
-                Recorded under your name. AI can summarise and flag, but it never approves, rejects
-                or changes a tier. Nothing is saved in this demo.
+                {t("Recorded under your name. AI can summarise and flag, but it never approves, rejects or changes a tier. Nothing is saved in this demo.")}
               </p>
             </form>
           )}

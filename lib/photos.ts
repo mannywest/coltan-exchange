@@ -29,3 +29,11 @@ export function photoSet(lot: Lot): PhotoSlot[] {
     { kind: "handover", title: "Handover scan", what: "Seals, weight display and a location pin at the handover.", present: custodied, at: c[2]?.at, by: c[2]?.by },
   ];
 }
+
+// The four required slots, used by the seller form.
+export const PHOTO_SLOTS: { kind: PhotoKind; title: string; what: string }[] = [
+  { kind: "scale", title: "Sample on the scale", what: "Weight display in frame and the lot ID on the bag." },
+  { kind: "xrf", title: "Handheld reading", what: "The whole instrument screen, with every element line." },
+  { kind: "bags", title: "Sealed bags", what: "Seal numbers readable and matching the custody log." },
+  { kind: "handover", title: "Handover scan", what: "Seals, weight display and a location pin at the handover." },
+];

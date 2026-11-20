@@ -1,0 +1,1427 @@
+// Translations. English text is the key. Unknown text stays English.
+export const DICT: Record<string, { fr: string; zh: string }> = {
+ "(submitted {d})": {
+  "fr": "(soumis le {d})",
+  "zh": "（{d} 提交）"
+ },
+ "A Ta reading is entered.": {
+  "fr": "Une lecture de Ta est saisie.",
+  "zh": "已输入 Ta 读数。"
+ },
+ "A determined actor who falsifies the pin, photos and paperwork together, especially where an armed group controls a mine, may pass every check. A mixed lot can also look clean. Passed checks lower the risk. They do not guarantee origin.": {
+  "fr": "Un acteur déterminé qui falsifie ensemble la position, les photos et les documents, surtout là où un groupe armé contrôle une mine, peut réussir tous les contrôles. Un lot mélangé peut aussi paraître propre. Les contrôles réussis réduisent le risque. Ils ne garantissent pas l'origine.",
+  "zh": "一个蓄意者若同时伪造定位、照片和文件，尤其是在武装团体控制矿山的地方，可能通过所有检查。混合批次也可能看起来没有问题。通过检查只能降低风险，不能保证来源。"
+ },
+ "A good grade means the evidence is independent, consistent, and nothing suspicious was flagged. It makes origin claims harder to fake. It does not guarantee origin: a determined actor who falsifies the site, photos and paperwork together may not be caught, and a mixed lot can look clean.": {
+  "fr": "Une bonne note signifie que les preuves sont indépendantes, cohérentes et qu'aucun signal suspect n'a été relevé. Elle rend les déclarations d'origine plus difficiles à falsifier. Elle ne garantit pas l'origine : un acteur déterminé qui falsifie ensemble le site, les photos et les documents peut passer inaperçu, et un lot mélangé peut paraître propre.",
+  "zh": "好的评级表示证据独立、一致，且没有发现可疑迹象。它让来源声明更难伪造，但不能保证来源：蓄意者若同时伪造矿点、照片和文件，可能不会被发现，混合批次也可能看起来没有问题。"
+ },
+ "A name matches a designated party (demo data).": {
+  "fr": "Un nom correspond à une partie désignée (données de démonstration).",
+  "zh": "有名称与受制裁方匹配（演示数据）。"
+ },
+ "A named reviewer confirms every result before {company} can reserve or list a lot. Nothing is saved in this demo.": {
+  "fr": "Un examinateur nommé confirme chaque résultat avant que {company} puisse réserver ou mettre en vente un lot. Rien n'est enregistré dans cette démo.",
+  "zh": "在 {company} 预订或挂牌批次之前，由具名审核员确认每项结果。此演示不保存任何内容。"
+ },
+ "A named reviewer decides. AI can summarise and flag, but it never approves a lot.": {
+  "fr": "Un examinateur nommé décide. L'IA peut résumer et signaler, mais n'approuve jamais un lot.",
+  "zh": "由具名审核员决定。AI 可以总结和标记，但绝不批准批次。"
+ },
+ "A rules engine sets the grade from the evidence. AI can summarise and flag, but it never sets a grade, approves a lot or changes a mine tier.": {
+  "fr": "Un moteur de règles fixe la note à partir des preuves. L'IA peut résumer et signaler, mais ne fixe jamais une note, n'approuve aucun lot et ne change aucun niveau de mine.",
+  "zh": "评级由规则引擎根据证据确定。AI 可以总结和标记，但绝不设定评级、批准批次或更改矿山等级。"
+ },
+ "A: all six checks verified and the mine tier is Verified.": {
+  "fr": "A : les six contrôles sont vérifiés et la mine est au niveau Vérifié.",
+  "zh": "A：六项检查全部验证，且矿山等级为已验证。"
+ },
+ "Above your {n}% target. A lab must still confirm it.": {
+  "fr": "Au-dessus de votre objectif de {n} %. Un laboratoire doit encore le confirmer.",
+  "zh": "高于您的 {n}% 目标。仍需实验室确认。"
+ },
+ "Add an owner": {
+  "fr": "Ajouter un propriétaire",
+  "zh": "添加所有人"
+ },
+ "Add at least one owner.": {
+  "fr": "Ajoutez au moins un propriétaire.",
+  "zh": "请至少添加一位所有人。"
+ },
+ "Add photo": {
+  "fr": "Ajouter une photo",
+  "zh": "添加照片"
+ },
+ "Added (demo). Tap to remove.": {
+  "fr": "Ajoutée (démo). Touchez pour retirer.",
+  "zh": "已添加（演示）。点按可移除。"
+ },
+ "All grades": {
+  "fr": "Toutes les notes",
+  "zh": "所有评级"
+ },
+ "All lots": {
+  "fr": "Tous les lots",
+  "zh": "所有批次"
+ },
+ "All tiers": {
+  "fr": "Tous les niveaux",
+  "zh": "所有等级"
+ },
+ "Also show lots buyers cannot see (demo view)": {
+  "fr": "Afficher aussi les lots que les acheteurs ne peuvent pas voir (vue démo)",
+  "zh": "同时显示买家看不到的批次（演示视图）"
+ },
+ "An independent site visit was done in the last 90 days": {
+  "fr": "Une visite indépendante du site a eu lieu au cours des 90 derniers jours",
+  "zh": "过去 90 天内已进行独立现场访问"
+ },
+ "Approved": {
+  "fr": "Approuvé",
+  "zh": "已批准"
+ },
+ "Approve": {
+  "fr": "Approuver",
+  "zh": "批准"
+ },
+ "Approve with conditions": {
+  "fr": "Approuver sous conditions",
+  "zh": "有条件批准"
+ },
+ "Reject": {
+  "fr": "Rejeter",
+  "zh": "拒绝"
+ },
+ "Asking price (USD per lb Ta2O5)": {
+  "fr": "Prix demandé (USD par lb de Ta2O5)",
+  "zh": "报价（美元/磅 Ta2O5）"
+ },
+ "Assay": {
+  "fr": "Analyse",
+  "zh": "化验"
+ },
+ "Assay on arrival": {
+  "fr": "Analyse à l'arrivée",
+  "zh": "到货化验"
+ },
+ "At least {n} of 4 photos.": {
+  "fr": "Au moins {n} photos sur 4.",
+  "zh": "4 张照片中至少 {n} 张。"
+ },
+ "B: four or five checks verified and none failed.": {
+  "fr": "B : quatre ou cinq contrôles vérifiés et aucun échec.",
+  "zh": "B：四或五项检查已验证，且无失败项。"
+ },
+ "Back to lot {n}": {
+  "fr": "Retour au lot {n}",
+  "zh": "返回批次 {n}"
+ },
+ "Balance due to the seller: {amount}.": {
+  "fr": "Solde dû au vendeur : {amount}.",
+  "zh": "应付卖方余额：{amount}。"
+ },
+ "Below your {n}% target. A handheld cannot give a true Ta2O5, so a lab must confirm.": {
+  "fr": "En dessous de votre objectif de {n} %. Un appareil portable ne donne pas un vrai Ta2O5 : un laboratoire doit confirmer.",
+  "zh": "低于您的 {n}% 目标。手持仪器无法给出真实的 Ta2O5，需由实验室确认。"
+ },
+ "Beneficial owners": {
+  "fr": "Bénéficiaires effectifs",
+  "zh": "受益所有人"
+ },
+ "Blocked": {
+  "fr": "Bloqué",
+  "zh": "已封锁"
+ },
+ "Blocked.": {
+  "fr": "Bloqué.",
+  "zh": "已封锁。"
+ },
+ "Blocked: the mine is Blocked, or a party failed sanctions screening.": {
+  "fr": "Bloqué : la mine est Bloquée, ou une partie a échoué au filtrage des sanctions.",
+  "zh": "已封锁：矿山被封锁，或有一方未通过制裁筛查。"
+ },
+ "Buyer's lab result (% Ta2O5)": {
+  "fr": "Résultat du laboratoire de l'acheteur (% Ta2O5)",
+  "zh": "买方实验室结果（% Ta2O5）"
+ },
+ "C: anything else.": {
+  "fr": "C : tout le reste.",
+  "zh": "C：其他情况。"
+ },
+ "Cannot onboard": {
+  "fr": "Intégration impossible",
+  "zh": "无法接入"
+ },
+ "Certificate of evidence": {
+  "fr": "Certificat de preuves",
+  "zh": "证据证书"
+ },
+ "Change decision": {
+  "fr": "Modifier la décision",
+  "zh": "更改决定"
+ },
+ "Change log (this session)": {
+  "fr": "Journal des modifications (cette session)",
+  "zh": "变更记录（本次会话）"
+ },
+ "Change tier": {
+  "fr": "Changer de niveau",
+  "zh": "更改等级"
+ },
+ "Choose a mine": {
+  "fr": "Choisir une mine",
+  "zh": "选择矿山"
+ },
+ "Cleared": {
+  "fr": "Autorisé",
+  "zh": "已通过"
+ },
+ "Coltan Exchange": {
+  "fr": "Coltan Exchange",
+  "zh": "钶钽铁矿交易所"
+ },
+ "Company": {
+  "fr": "Entreprise",
+  "zh": "公司"
+ },
+ "Company name": {
+  "fr": "Nom de l'entreprise",
+  "zh": "公司名称"
+ },
+ "Continue to the deal": {
+  "fr": "Continuer vers la transaction",
+  "zh": "继续办理交易"
+ },
+ "Country": {
+  "fr": "Pays",
+  "zh": "国家"
+ },
+ "Country of registration": {
+  "fr": "Pays d'immatriculation",
+  "zh": "注册国家"
+ },
+ "Custody log": {
+  "fr": "Journal de chaîne de possession",
+  "zh": "监管链记录"
+ },
+ "Deal": {
+  "fr": "Transaction",
+  "zh": "交易"
+ },
+ "Deal for lot {n}": {
+  "fr": "Transaction pour le lot {n}",
+  "zh": "批次 {n} 的交易"
+ },
+ "Decided": {
+  "fr": "Décidé",
+  "zh": "已决定"
+ },
+ "Decision recorded (demo)": {
+  "fr": "Décision enregistrée (démo)",
+  "zh": "决定已记录（演示）"
+ },
+ "Delivery": {
+  "fr": "Livraison",
+  "zh": "交货"
+ },
+ "Demo data. Every lot, name, number and price on this site is invented.": {
+  "fr": "Données de démonstration. Chaque lot, nom, numéro et prix de ce site est inventé.",
+  "zh": "演示数据。本站所有批次、名称、编号和价格均为虚构。"
+ },
+ "Demo only. Not an offer to trade.": {
+  "fr": "Démo uniquement. Ceci n'est pas une offre de négociation.",
+  "zh": "仅为演示。并非交易要约。"
+ },
+ "Demo rule: if results sit within 0.5 points, the average is used; if not, the umpire lab decides.": {
+  "fr": "Règle de démo : si les résultats sont à moins de 0,5 point, la moyenne est retenue ; sinon, le laboratoire arbitre tranche.",
+  "zh": "演示规则：若结果相差在 0.5 个百分点以内，取平均值；否则由仲裁实验室决定。"
+ },
+ "Demo: ticking a box stands in for uploading the document.": {
+  "fr": "Démo : cocher une case remplace le téléversement du document.",
+  "zh": "演示：勾选方框代表上传文件。"
+ },
+ "Documents": {
+  "fr": "Documents",
+  "zh": "文件"
+ },
+ "Draft summary": {
+  "fr": "Résumé provisoire",
+  "zh": "摘要草稿"
+ },
+ "Due": {
+  "fr": "À venir",
+  "zh": "待定"
+ },
+ "Edit details": {
+  "fr": "Modifier les détails",
+  "zh": "编辑详情"
+ },
+ "English text {n}": {
+  "fr": "Texte anglais {n}",
+  "zh": "英文文本 {n}"
+ },
+ "Enough photos are on file for buyers to see this lot.": {
+  "fr": "Assez de photos sont au dossier pour que les acheteurs voient ce lot.",
+  "zh": "已有足够照片，买家可以查看此批次。"
+ },
+ "Enter the Ta reading.": {
+  "fr": "Saisissez la lecture de Ta.",
+  "zh": "请输入 Ta 读数。"
+ },
+ "Enter the company name.": {
+  "fr": "Saisissez le nom de l'entreprise.",
+  "zh": "请输入公司名称。"
+ },
+ "Escrow is held by a regulated partner, not connected in this demo. AI cannot release money.": {
+  "fr": "Le séquestre est détenu par un partenaire réglementé, non connecté dans cette démo. L'IA ne peut pas libérer de fonds.",
+  "zh": "托管资金由受监管的合作方持有，本演示未连接。AI 无法放款。"
+ },
+ "Estimate: Ta reading {ta}% x {f}. A handheld cannot give a true Ta2O5 figure.": {
+  "fr": "Estimation : lecture de Ta {ta} % x {f}. Un appareil portable ne donne pas un vrai chiffre de Ta2O5.",
+  "zh": "估算：Ta 读数 {ta}% x {f}。手持仪器无法给出真实的 Ta2O5 数值。"
+ },
+ "Estimated Ta2O5 (Ta x 1.22)": {
+  "fr": "Ta2O5 estimé (Ta x 1,22)",
+  "zh": "估算 Ta2O5（Ta x 1.22）"
+ },
+ "Every buyer, seller, transporter and exporter is screened before they can reserve or list a lot.": {
+  "fr": "Chaque acheteur, vendeur, transporteur et exportateur est filtré avant de pouvoir réserver ou mettre en vente un lot.",
+  "zh": "每位买家、卖家、运输方和出口方在预订或挂牌批次之前都要经过筛查。"
+ },
+ "Every element line, not only Ta (at least 3 lines).": {
+  "fr": "Chaque ligne d'élément, pas seulement Ta (au moins 3 lignes).",
+  "zh": "每条元素读数，不只是 Ta（至少 3 行）。"
+ },
+ "Every lot here was approved by a named reviewer. The letter is its Trust Grade, set by fixed rules from the evidence. Open a lot to see what backs it.": {
+  "fr": "Chaque lot ici a été approuvé par un examinateur nommé. La lettre est sa note de confiance, fixée par des règles à partir des preuves. Ouvrez un lot pour voir ce qui la soutient.",
+  "zh": "这里的每个批次都经具名审核员批准。字母是其信任评级，由固定规则根据证据得出。打开批次可查看依据。"
+ },
+ "Every mine starts in a risk tier. Only Verified and Watch mines can supply lots. Reviewers see this page. Buyers see a mine's tier and an evidence summary, never its location.": {
+  "fr": "Chaque mine commence dans un niveau de risque. Seules les mines Vérifiées et Sous surveillance peuvent fournir des lots. Les examinateurs voient cette page. Les acheteurs voient le niveau d'une mine et un résumé des preuves, jamais son emplacement.",
+  "zh": "每座矿山都有风险等级。只有“已验证”和“观察”矿山可以供货。审核员可查看此页面。买家只能看到矿山等级和证据摘要，看不到其位置。"
+ },
+ "Evidence": {
+  "fr": "Preuves",
+  "zh": "证据"
+ },
+ "Evidence pack": {
+  "fr": "Dossier de preuves",
+  "zh": "证据包"
+ },
+ "Exact location and route stay hidden. They can put miners and field staff at risk.": {
+  "fr": "L'emplacement exact et l'itinéraire restent cachés. Ils peuvent mettre en danger les mineurs et le personnel de terrain.",
+  "zh": "确切位置和路线保持隐藏，以免危及矿工和现场人员。"
+ },
+ "Export for your bank": {
+  "fr": "Exporter pour votre banque",
+  "zh": "导出给您的银行"
+ },
+ "Field handheld": {
+  "fr": "Appareil portable de terrain",
+  "zh": "现场手持仪器"
+ },
+ "Field reading": {
+  "fr": "Lecture de terrain",
+  "zh": "现场读数"
+ },
+ "Filter by Trust Grade": {
+  "fr": "Filtrer par note de confiance",
+  "zh": "按信任评级筛选"
+ },
+ "Filter by tier": {
+  "fr": "Filtrer par niveau",
+  "zh": "按等级筛选"
+ },
+ "Final payment": {
+  "fr": "Paiement final",
+  "zh": "最终付款"
+ },
+ "Final value at {ta}% Ta2O5: {value}. Already paid: {paid}.": {
+  "fr": "Valeur finale à {ta} % de Ta2O5 : {value}. Déjà payé : {paid}.",
+  "zh": "按 {ta}% Ta2O5 的最终价值：{value}。已付：{paid}。"
+ },
+ "Flag.": {
+  "fr": "Signalement.",
+  "zh": "标记。"
+ },
+ "Full instrument reading": {
+  "fr": "Lecture complète de l'appareil",
+  "zh": "仪器完整读数"
+ },
+ "Full instrument reading (every element line)": {
+  "fr": "Lecture complète de l'appareil (chaque ligne d'élément)",
+  "zh": "仪器完整读数（每条元素读数）"
+ },
+ "Gap between the two lab results: {g} points.": {
+  "fr": "Écart entre les deux résultats de laboratoire : {g} points.",
+  "zh": "两个实验室结果相差：{g} 个百分点。"
+ },
+ "Gap {gap} points, inside the {tol} point tolerance. The average is used: {ta}% Ta2O5.": {
+  "fr": "Écart de {gap} points, dans la tolérance de {tol} point. La moyenne est retenue : {ta} % de Ta2O5.",
+  "zh": "相差 {gap} 个百分点，在 {tol} 个百分点的容差内。取平均值：{ta}% Ta2O5。"
+ },
+ "Gap {gap} points, outside the {tol} point tolerance. The sealed umpire sample is opened and its result decides.": {
+  "fr": "Écart de {gap} points, hors de la tolérance de {tol} point. L'échantillon arbitre scellé est ouvert et son résultat tranche.",
+  "zh": "相差 {gap} 个百分点，超出 {tol} 个百分点的容差。开启密封的仲裁样品，以其结果为准。"
+ },
+ "Get cleared": {
+  "fr": "Se faire autoriser",
+  "zh": "申请准入"
+ },
+ "Grade": {
+  "fr": "Note",
+  "zh": "评级"
+ },
+ "Grade basis": {
+  "fr": "Base de teneur",
+  "zh": "品位基准"
+ },
+ "Grade basis is fixed at 25% Ta2O5": {
+  "fr": "La base de teneur est fixée à 25 % de Ta2O5",
+  "zh": "品位基准固定为 25% Ta2O5"
+ },
+ "Handheld XRF": {
+  "fr": "XRF portable",
+  "zh": "手持 XRF"
+ },
+ "Handheld reading": {
+  "fr": "Lecture portable",
+  "zh": "手持读数"
+ },
+ "Held back. Opened only if the buyer's result and the others disagree.": {
+  "fr": "Mis de côté. Ouvert seulement si le résultat de l'acheteur et les autres divergent.",
+  "zh": "留存。仅当买方结果与其他结果不一致时才开启。"
+ },
+ "Holds the lot for {n} hours. You pay nothing now. Payment goes through a regulated escrow partner, which this demo does not connect.": {
+  "fr": "Réserve le lot pendant {n} heures. Vous ne payez rien maintenant. Le paiement passe par un partenaire de séquestre réglementé, non connecté dans cette démo.",
+  "zh": "为您保留批次 {n} 小时。现在无需付款。付款通过受监管的托管合作方进行，本演示未连接。"
+ },
+ "How the grade is decided": {
+  "fr": "Comment la note est décidée",
+  "zh": "评级如何确定"
+ },
+ "I am the named approver for this release (demo)": {
+  "fr": "Je suis l'approbateur nommé pour ce déblocage (démo)",
+  "zh": "我是此次放款的具名批准人（演示）"
+ },
+ "Included": {
+  "fr": "Inclus",
+  "zh": "已包含"
+ },
+ "Incomplete": {
+  "fr": "Incomplet",
+  "zh": "不完整"
+ },
+ "Independent lab": {
+  "fr": "Laboratoire indépendant",
+  "zh": "独立实验室"
+ },
+ "It goes to a named reviewer. Buyers cannot see it until the reviewer approves it. Nothing is saved in this demo.": {
+  "fr": "Il est transmis à un examinateur nommé. Les acheteurs ne le voient qu'après son approbation. Rien n'est enregistré dans cette démo.",
+  "zh": "将提交给具名审核员。审核员批准前买家看不到。此演示不保存任何内容。"
+ },
+ "Lab result on the seller's third of the sample.": {
+  "fr": "Résultat du laboratoire sur le tiers d'échantillon du vendeur.",
+  "zh": "卖方三分之一样品的实验室结果。"
+ },
+ "Last verified": {
+  "fr": "Dernière vérification",
+  "zh": "最近验证"
+ },
+ "List a lot": {
+  "fr": "Mettre un lot en vente",
+  "zh": "挂牌批次"
+ },
+ "List another lot": {
+  "fr": "Mettre un autre lot en vente",
+  "zh": "再挂牌一个批次"
+ },
+ "Location": {
+  "fr": "Emplacement",
+  "zh": "位置"
+ },
+ "Location data removed.": {
+  "fr": "Données de localisation supprimées.",
+  "zh": "位置数据已移除。"
+ },
+ "Locked terms": {
+  "fr": "Conditions verrouillées",
+  "zh": "锁定条款"
+ },
+ "Locked until the assay result is settled.": {
+  "fr": "Verrouillé jusqu'à ce que le résultat d'analyse soit réglé.",
+  "zh": "在化验结果确定前锁定。"
+ },
+ "Locked until the provisional payment is released.": {
+  "fr": "Verrouillé jusqu'au déblocage du paiement provisoire.",
+  "zh": "在临时付款放出前锁定。"
+ },
+ "Locked until the terms are signed.": {
+  "fr": "Verrouillé jusqu'à la signature des conditions.",
+  "zh": "在条款签署前锁定。"
+ },
+ "Lot": {
+  "fr": "Lot",
+  "zh": "批次"
+ },
+ "Lot details": {
+  "fr": "Détails du lot",
+  "zh": "批次详情"
+ },
+ "Lot {n} (demo)": {
+  "fr": "Lot {n} (démo)",
+  "zh": "批次 {n}（演示）"
+ },
+ "Lot {n} is held for you. Before any money moves:": {
+  "fr": "Le lot {n} est réservé pour vous. Avant tout mouvement d'argent :",
+  "zh": "批次 {n} 已为您保留。在任何资金流动之前："
+ },
+ "Lot {n} submitted (demo)": {
+  "fr": "Lot {n} soumis (démo)",
+  "zh": "批次 {n} 已提交（演示）"
+ },
+ "Lot {n}. Reference CE-{n} (demo). Issued {d}.": {
+  "fr": "Lot {n}. Référence CE-{n} (démo). Émis le {d}.",
+  "zh": "批次 {n}。编号 CE-{n}（演示）。签发于 {d}。"
+ },
+ "Lot {n}. Reference XC-{n} (demo). Run by the platform rules engine, not by AI.": {
+  "fr": "Lot {n}. Référence XC-{n} (démo). Exécuté par le moteur de règles de la plateforme, pas par l'IA.",
+  "zh": "批次 {n}。编号 XC-{n}（演示）。由平台规则引擎运行，而非 AI。"
+ },
+ "Lots": {
+  "fr": "Lots",
+  "zh": "批次"
+ },
+ "Lots from this mine": {
+  "fr": "Lots de cette mine",
+  "zh": "来自此矿山的批次"
+ },
+ "Lots on the exchange": {
+  "fr": "Lots sur la plateforme",
+  "zh": "交易所上的批次"
+ },
+ "Lots that the rules cannot clear alone wait here for a named person. You decide. The rules set the limits, and AI only drafts a summary.": {
+  "fr": "Les lots que les règles ne peuvent pas valider seules attendent ici une personne nommée. Vous décidez. Les règles fixent les limites, et l'IA se contente de rédiger un résumé.",
+  "zh": "规则无法单独放行的批次在此等待具名人员。由您决定。规则设定界限，AI 只起草摘要。"
+ },
+ "Mine and counterparties": {
+  "fr": "Mine et contreparties",
+  "zh": "矿山与交易对手"
+ },
+ "Mine can supply lots": {
+  "fr": "La mine peut fournir des lots",
+  "zh": "矿山可以供货"
+ },
+ "Mine registry": {
+  "fr": "Registre des mines",
+  "zh": "矿山登记册"
+ },
+ "Mine risk tier": {
+  "fr": "Niveau de risque de la mine",
+  "zh": "矿山风险等级"
+ },
+ "Mines": {
+  "fr": "Mines",
+  "zh": "矿山"
+ },
+ "Missing": {
+  "fr": "Manquant",
+  "zh": "缺失"
+ },
+ "Name shown once both sides are cleared": {
+  "fr": "Nom affiché une fois les deux parties autorisées",
+  "zh": "双方通过后显示名称"
+ },
+ "Needs an independent site visit in the last 90 days.": {
+  "fr": "Nécessite une visite indépendante du site au cours des 90 derniers jours.",
+  "zh": "需要在过去 90 天内进行独立现场访问。"
+ },
+ "Needs review": {
+  "fr": "À examiner",
+  "zh": "需审核"
+ },
+ "Neutral lab, sealed sample from the inspector's split.": {
+  "fr": "Laboratoire neutre, échantillon scellé issu de la division de l'inspecteur.",
+  "zh": "中立实验室，使用检验员分样的密封样品。"
+ },
+ "Never": {
+  "fr": "Jamais",
+  "zh": "从未"
+ },
+ "No conditions were set.": {
+  "fr": "Aucune condition n'a été fixée.",
+  "zh": "未设条件。"
+ },
+ "No country-level concern.": {
+  "fr": "Aucune préoccupation au niveau du pays.",
+  "zh": "没有国家层面的顾虑。"
+ },
+ "No lab result on file.": {
+  "fr": "Aucun résultat de laboratoire au dossier.",
+  "zh": "没有实验室结果。"
+ },
+ "No list or media matches (demo rules).": {
+  "fr": "Aucune correspondance avec les listes ou les médias (règles de démo).",
+  "zh": "无名单或媒体匹配（演示规则）。"
+ },
+ "No lots match": {
+  "fr": "Aucun lot ne correspond",
+  "zh": "没有匹配的批次"
+ },
+ "No lots yet.": {
+  "fr": "Aucun lot pour l'instant.",
+  "zh": "暂无批次。"
+ },
+ "No open signals.": {
+  "fr": "Aucun signal ouvert.",
+  "zh": "没有未处理的信号。"
+ },
+ "None": {
+  "fr": "Aucun",
+  "zh": "无"
+ },
+ "Not added yet.": {
+  "fr": "Pas encore ajouté.",
+  "zh": "尚未添加。"
+ },
+ "Not available": {
+  "fr": "Non disponible",
+  "zh": "不可用"
+ },
+ "Not connected": {
+  "fr": "Non connecté",
+  "zh": "未连接"
+ },
+ "Not connected in this demo.": {
+  "fr": "Non connecté dans cette démo.",
+  "zh": "本演示未连接。"
+ },
+ "Not connected in this demo. The real pack would be a signed file your bank can check on its own.": {
+  "fr": "Non connecté dans cette démo. Le vrai dossier serait un fichier signé que votre banque peut vérifier seule.",
+  "zh": "本演示未连接。真实的证据包将是一份已签名的文件，银行可自行核验。"
+ },
+ "Not on file for this lot.": {
+  "fr": "Non disponible pour ce lot.",
+  "zh": "此批次没有该项。"
+ },
+ "Not received yet.": {
+  "fr": "Pas encore reçu.",
+  "zh": "尚未收到。"
+ },
+ "Not sanctioned countrywide, but enhanced checks apply on this trade route.": {
+  "fr": "Pas sanctionné à l'échelle du pays, mais des contrôles renforcés s'appliquent sur cette route commerciale.",
+  "zh": "该国未受全面制裁，但此贸易路线适用强化审查。"
+ },
+ "Only lots a reviewer approved, and that are not Blocked, can go into a deal.": {
+  "fr": "Seuls les lots approuvés par un examinateur et non Bloqués peuvent entrer dans une transaction.",
+  "zh": "只有审核员批准且未被封锁的批次才能进入交易。"
+ },
+ "Open the certificate": {
+  "fr": "Ouvrir le certificat",
+  "zh": "打开证书"
+ },
+ "Open the full trust check": {
+  "fr": "Ouvrir le contrôle de confiance complet",
+  "zh": "打开完整的信任检查"
+ },
+ "Open the reviewer desk": {
+  "fr": "Ouvrir le poste d'examen",
+  "zh": "打开审核台"
+ },
+ "Open the trust check": {
+  "fr": "Ouvrir le contrôle de confiance",
+  "zh": "打开信任检查"
+ },
+ "Operator who took the reading": {
+  "fr": "Opérateur ayant fait la lecture",
+  "zh": "读数操作员"
+ },
+ "Origin checks: {n} of {m} passed": {
+  "fr": "Contrôles d'origine : {n} sur {m} réussis",
+  "zh": "来源检查：{m} 项中通过 {n} 项"
+ },
+ "Origin cross-check report": {
+  "fr": "Rapport de recoupement d'origine",
+  "zh": "来源交叉核验报告"
+ },
+ "Owner name": {
+  "fr": "Nom du propriétaire",
+  "zh": "所有人姓名"
+ },
+ "Ownership is fully disclosed.": {
+  "fr": "La propriété est entièrement divulguée.",
+  "zh": "所有权已完全披露。"
+ },
+ "Passed means no concern found": {
+  "fr": "Réussi signifie qu'aucun problème n'a été trouvé",
+  "zh": "“通过”表示未发现问题"
+ },
+ "Pending": {
+  "fr": "En attente",
+  "zh": "待定"
+ },
+ "Permit": {
+  "fr": "Permis",
+  "zh": "许可证"
+ },
+ "Photo evidence": {
+  "fr": "Preuves photographiques",
+  "zh": "照片证据"
+ },
+ "Photos": {
+  "fr": "Photos",
+  "zh": "照片"
+ },
+ "Photos back up the other checks and never raise a grade on their own, because they can be reused or staged. Buyers see copies with location data removed, checked for people. The drawings above are placeholders for real field photos.": {
+  "fr": "Les photos appuient les autres contrôles et ne relèvent jamais une note à elles seules, car elles peuvent être réutilisées ou mises en scène. Les acheteurs voient des copies sans données de localisation, vérifiées pour l'absence de personnes. Les dessins ci-dessus remplacent de vraies photos de terrain.",
+  "zh": "照片用来佐证其他检查，但不能单独提高评级，因为照片可能被重复使用或摆拍。买家看到的是已移除位置数据并检查过人物的副本。上方图画是真实现场照片的占位图。"
+ },
+ "Platform rule: no clients in sanctioned countries.": {
+  "fr": "Règle de la plateforme : aucun client dans les pays sanctionnés.",
+  "zh": "平台规则：不接受受制裁国家的客户。"
+ },
+ "Platform rules engine": {
+  "fr": "Moteur de règles de la plateforme",
+  "zh": "平台规则引擎"
+ },
+ "Prepared by Plerosis with AI assistance": {
+  "fr": "Préparé par Plerosis avec l'aide de l'IA",
+  "zh": "由 Plerosis 在 AI 辅助下制作"
+ },
+ "Price": {
+  "fr": "Prix",
+  "zh": "价格"
+ },
+ "Provisional payment into escrow": {
+  "fr": "Paiement provisoire en séquestre",
+  "zh": "向托管账户支付临时款项"
+ },
+ "Quantity": {
+  "fr": "Quantité",
+  "zh": "数量"
+ },
+ "Quantity (tonnes)": {
+  "fr": "Quantité (tonnes)",
+  "zh": "数量（吨）"
+ },
+ "Ready once the final payment is released.": {
+  "fr": "Prêt une fois le paiement final libéré.",
+  "zh": "最终付款放出后即可使用。"
+ },
+ "Ready to submit?": {
+  "fr": "Prêt à soumettre ?",
+  "zh": "可以提交了吗？"
+ },
+ "Reason": {
+  "fr": "Motif",
+  "zh": "理由"
+ },
+ "Reason (at least 10 characters)": {
+  "fr": "Motif (au moins 10 caractères)",
+  "zh": "理由（至少 10 个字符）"
+ },
+ "Reason:": {
+  "fr": "Motif :",
+  "zh": "理由："
+ },
+ "Record decision": {
+  "fr": "Enregistrer la décision",
+  "zh": "记录决定"
+ },
+ "Record the lot the way the field team does. A named reviewer checks it before any buyer sees it.": {
+  "fr": "Saisissez le lot comme le fait l'équipe de terrain. Un examinateur nommé le vérifie avant qu'un acheteur ne le voie.",
+  "zh": "按现场团队的方式录入批次。具名审核员核查后，买家才能看到。"
+ },
+ "Record tier change": {
+  "fr": "Enregistrer le changement de niveau",
+  "zh": "记录等级变更"
+ },
+ "Recorded under your name and kept in the change log. Nothing is saved in this demo.": {
+  "fr": "Enregistré sous votre nom et conservé dans le journal des modifications. Rien n'est enregistré dans cette démo.",
+  "zh": "以您的名字记录并保存在变更记录中。此演示不保存任何内容。"
+ },
+ "Recorded under your name. AI can summarise and flag, but it never approves, rejects or changes a tier. Nothing is saved in this demo.": {
+  "fr": "Enregistré sous votre nom. L'IA peut résumer et signaler, mais n'approuve, ne rejette ni ne change jamais un niveau. Rien n'est enregistré dans cette démo.",
+  "zh": "以您的名字记录。AI 可以总结和标记，但绝不批准、拒绝或更改等级。此演示不保存任何内容。"
+ },
+ "Refund due to the buyer: {amount}.": {
+  "fr": "Remboursement dû à l'acheteur : {amount}.",
+  "zh": "应退还买方：{amount}。"
+ },
+ "Rejected": {
+  "fr": "Rejeté",
+  "zh": "已拒绝"
+ },
+ "Release final payment (demo)": {
+  "fr": "Libérer le paiement final (démo)",
+  "zh": "放出最终付款（演示）"
+ },
+ "Release provisional payment (demo)": {
+  "fr": "Libérer le paiement provisoire (démo)",
+  "zh": "放出临时付款（演示）"
+ },
+ "Release reservation": {
+  "fr": "Annuler la réservation",
+  "zh": "取消预订"
+ },
+ "Remove": {
+  "fr": "Retirer",
+  "zh": "移除"
+ },
+ "Reserve the lot": {
+  "fr": "Réserver le lot",
+  "zh": "预订批次"
+ },
+ "Reserve this lot": {
+  "fr": "Réserver ce lot",
+  "zh": "预订此批次"
+ },
+ "Reserved for {n} hours (demo)": {
+  "fr": "Réservé pour {n} heures (démo)",
+  "zh": "已预订 {n} 小时（演示）"
+ },
+ "Reserved for {n} hours. Nothing is paid yet.": {
+  "fr": "Réservé pour {n} heures. Rien n'est encore payé.",
+  "zh": "已预订 {n} 小时。尚未付款。"
+ },
+ "Result": {
+  "fr": "Résultat",
+  "zh": "结果"
+ },
+ "Reviewer desk": {
+  "fr": "Poste d'examen",
+  "zh": "审核台"
+ },
+ "Risk signals": {
+  "fr": "Signaux de risque",
+  "zh": "风险信号"
+ },
+ "Role on the exchange": {
+  "fr": "Rôle sur la plateforme",
+  "zh": "在交易所的角色"
+ },
+ "Rules propose": {
+  "fr": "Les règles proposent",
+  "zh": "规则建议"
+ },
+ "Rules set the result. A named reviewer confirms it. AI never clears or blocks anyone.": {
+  "fr": "Les règles fixent le résultat. Un examinateur nommé le confirme. L'IA n'autorise ni ne bloque personne.",
+  "zh": "结果由规则确定，具名审核员确认。AI 绝不放行或封锁任何人。"
+ },
+ "Sanctions and media screening": {
+  "fr": "Filtrage des sanctions et des médias",
+  "zh": "制裁与媒体筛查"
+ },
+ "Scale weight (tonnes)": {
+  "fr": "Poids à la balance (tonnes)",
+  "zh": "磅秤重量（吨）"
+ },
+ "Scale weight matches": {
+  "fr": "Le poids à la balance correspond",
+  "zh": "磅秤重量吻合"
+ },
+ "Screened {d}": {
+  "fr": "Filtré le {d}",
+  "zh": "筛查于 {d}"
+ },
+ "Screening": {
+  "fr": "Filtrage",
+  "zh": "筛查"
+ },
+ "Screening result": {
+  "fr": "Résultat du filtrage",
+  "zh": "筛查结果"
+ },
+ "Sealed": {
+  "fr": "Scellé",
+  "zh": "已密封"
+ },
+ "Seller": {
+  "fr": "Vendeur",
+  "zh": "卖方"
+ },
+ "Seller's lab": {
+  "fr": "Laboratoire du vendeur",
+  "zh": "卖方实验室"
+ },
+ "Seven independent checks look for signs of false origin. None proves origin alone. Together they make it harder to fake.": {
+  "fr": "Sept contrôles indépendants recherchent des signes de fausse origine. Aucun ne prouve l'origine à lui seul. Ensemble, ils rendent la falsification plus difficile.",
+  "zh": "七项独立检查寻找虚假来源的迹象。单项不能证明来源，合在一起则更难造假。"
+ },
+ "Share (%)": {
+  "fr": "Part (%)",
+  "zh": "份额（%）"
+ },
+ "Show all grades": {
+  "fr": "Afficher toutes les notes",
+  "zh": "显示所有评级"
+ },
+ "Showing {a} of {b} lots": {
+  "fr": "{a} lots affichés sur {b}",
+  "zh": "显示 {b} 个批次中的 {a} 个"
+ },
+ "Sign terms (demo)": {
+  "fr": "Signer les conditions (démo)",
+  "zh": "签署条款（演示）"
+ },
+ "Sign the locked terms": {
+  "fr": "Signer les conditions verrouillées",
+  "zh": "签署锁定条款"
+ },
+ "Six steps from reservation to evidence pack. Each step unlocks the next. Money moves only when a named person approves.": {
+  "fr": "Six étapes de la réservation au dossier de preuves. Chaque étape débloque la suivante. L'argent ne bouge que lorsqu'une personne nommée approuve.",
+  "zh": "从预订到证据包共六步。每一步解锁下一步。只有具名人员批准，资金才会流动。"
+ },
+ "Source": {
+  "fr": "Source",
+  "zh": "来源"
+ },
+ "Source mine": {
+  "fr": "Mine d'origine",
+  "zh": "来源矿山"
+ },
+ "Start the demo again": {
+  "fr": "Recommencer la démo",
+  "zh": "重新开始演示"
+ },
+ "Submit for review": {
+  "fr": "Soumettre pour examen",
+  "zh": "提交审核"
+ },
+ "Submitted (demo)": {
+  "fr": "Soumis (démo)",
+  "zh": "已提交（演示）"
+ },
+ "Submitted {d}": {
+  "fr": "Soumis le {d}",
+  "zh": "提交于 {d}"
+ },
+ "Ta reading (%)": {
+  "fr": "Lecture de Ta (%)",
+  "zh": "Ta 读数（%）"
+ },
+ "Ta2O5 content, percent": {
+  "fr": "Teneur en Ta2O5, pourcentage",
+  "zh": "Ta2O5 含量，百分比"
+ },
+ "That Ta reading is not plausible. Check the instrument.": {
+  "fr": "Cette lecture de Ta n'est pas plausible. Vérifiez l'appareil.",
+  "zh": "该 Ta 读数不合理。请检查仪器。"
+ },
+ "The app records the location for reviewers. Buyers never see it.": {
+  "fr": "L'application enregistre l'emplacement pour les examinateurs. Les acheteurs ne le voient jamais.",
+  "zh": "应用会为审核员记录位置，买家永远看不到。"
+ },
+ "The interface is translated. Lot evidence and case notes stay in English in this demo. The real product translates them with AI and keeps the original beside the translation.": {
+  "fr": "L'interface est traduite. Les preuves des lots et les notes de dossier restent en anglais dans cette démo. Le vrai produit les traduit avec l'IA et garde l'original à côté de la traduction.",
+  "zh": "界面已翻译。本演示中批次证据和案件备注仍为英文。正式产品会用 AI 翻译，并在译文旁保留原文。"
+ },
+ "The mine is Verified or Watch.": {
+  "fr": "La mine est Vérifiée ou Sous surveillance.",
+  "zh": "矿山为已验证或观察状态。"
+ },
+ "The queue is clear. Nothing is waiting for you.": {
+  "fr": "La file est vide. Rien ne vous attend.",
+  "zh": "队列已清空，没有待处理事项。"
+ },
+ "The rules do not allow a direct move from {a} to {b}.": {
+  "fr": "Les règles n'autorisent pas de passage direct de {a} à {b}.",
+  "zh": "规则不允许从 {a} 直接变为 {b}。"
+ },
+ "The rules do not allow this for a {g} lot.": {
+  "fr": "Les règles ne l'autorisent pas pour un lot {g}.",
+  "zh": "规则不允许对{g}批次这样做。"
+ },
+ "The rules engine and AI flag signals for a reviewer to judge. They never change a tier.": {
+  "fr": "Le moteur de règles et l'IA signalent des éléments qu'un examinateur juge. Ils ne changent jamais un niveau.",
+  "zh": "规则引擎和 AI 标记信号，由审核员判断，绝不更改等级。"
+ },
+ "The scale weight differs from the listed tonnes by {p}%.": {
+  "fr": "Le poids à la balance diffère des tonnes annoncées de {p} %.",
+  "zh": "磅秤重量与标注吨数相差 {p}%。"
+ },
+ "The seven checks": {
+  "fr": "Les sept contrôles",
+  "zh": "七项检查"
+ },
+ "There are no approved Grade {g} lots right now. Try another grade, or show all grades.": {
+  "fr": "Aucun lot de note {g} approuvé pour le moment. Essayez une autre note ou affichez toutes les notes.",
+  "zh": "目前没有已批准的 {g} 级批次。请试试其他评级，或显示所有评级。"
+ },
+ "This lot cannot be reserved. It failed a hard compliance rule.": {
+  "fr": "Ce lot ne peut pas être réservé. Il a échoué à une règle de conformité stricte.",
+  "zh": "此批次无法预订，未通过一项硬性合规规则。"
+ },
+ "This lot cannot be traded": {
+  "fr": "Ce lot ne peut pas être négocié",
+  "zh": "此批次无法交易"
+ },
+ "This lot is waiting for a reviewer's approval.": {
+  "fr": "Ce lot attend l'approbation d'un examinateur.",
+  "zh": "此批次正在等待审核员批准。"
+ },
+ "Tick the named approver box in the provisional payment step first.": {
+  "fr": "Cochez d'abord la case de l'approbateur nommé à l'étape du paiement provisoire.",
+  "zh": "请先在临时付款步骤勾选具名批准人方框。"
+ },
+ "Tier": {
+  "fr": "Niveau",
+  "zh": "等级"
+ },
+ "Tonnes, price and operator are filled in.": {
+  "fr": "Les tonnes, le prix et l'opérateur sont renseignés.",
+  "zh": "已填写吨数、价格和操作员。"
+ },
+ "Too few photos are on file. Buyers cannot see a lot with fewer than three.": {
+  "fr": "Trop peu de photos au dossier. Les acheteurs ne voient pas un lot avec moins de trois photos.",
+  "zh": "照片太少。少于三张照片的批次买家看不到。"
+ },
+ "Traceability tag": {
+  "fr": "Étiquette de traçabilité",
+  "zh": "可追溯标签"
+ },
+ "Trust Grade {g}": {
+  "fr": "Note de confiance {g}",
+  "zh": "信任评级 {g}"
+ },
+ "Trust Grade {g}.": {
+  "fr": "Note de confiance {g}.",
+  "zh": "信任评级 {g}。"
+ },
+ "Trust check": {
+  "fr": "Contrôle de confiance",
+  "zh": "信任检查"
+ },
+ "Try 25.9 as the buyer's result to see the umpire step.": {
+  "fr": "Essayez 25,9 comme résultat de l'acheteur pour voir l'étape d'arbitrage.",
+  "zh": "将买方结果填为 25.9，可查看仲裁步骤。"
+ },
+ "Try the name Demo Designated Holdings, or the country Iran, to see a hard block.": {
+  "fr": "Essayez le nom Demo Designated Holdings, ou le pays Iran, pour voir un blocage strict.",
+  "zh": "试试名称 Demo Designated Holdings 或国家伊朗，查看硬性封锁。"
+ },
+ "Umpire lab": {
+  "fr": "Laboratoire arbitre",
+  "zh": "仲裁实验室"
+ },
+ "Umpire lab result (% Ta2O5)": {
+  "fr": "Résultat du laboratoire arbitre (% Ta2O5)",
+  "zh": "仲裁实验室结果（% Ta2O5）"
+ },
+ "Waiting for a decision ({n})": {
+  "fr": "En attente d'une décision ({n})",
+  "zh": "等待决定（{n}）"
+ },
+ "Waiting for approval": {
+  "fr": "En attente d'approbation",
+  "zh": "等待批准"
+ },
+ "What backs this grade": {
+  "fr": "Ce qui soutient cette note",
+  "zh": "此评级的依据"
+ },
+ "What did you check, and why does it justify this decision?": {
+  "fr": "Qu'avez-vous vérifié, et pourquoi cela justifie-t-il cette décision ?",
+  "zh": "您检查了什么？为什么这能支持此决定？"
+ },
+ "What it is": {
+  "fr": "De quoi il s'agit",
+  "zh": "说明"
+ },
+ "What these checks cannot do": {
+  "fr": "Ce que ces contrôles ne peuvent pas faire",
+  "zh": "这些检查做不到的事"
+ },
+ "What this grade does not mean": {
+  "fr": "Ce que cette note ne signifie pas",
+  "zh": "此评级不代表什么"
+ },
+ "What your bank or auditor would receive with this lot.": {
+  "fr": "Ce que votre banque ou votre auditeur recevrait avec ce lot.",
+  "zh": "您的银行或审计方会随此批次收到的内容。"
+ },
+ "Why a person must decide": {
+  "fr": "Pourquoi une personne doit décider",
+  "zh": "为何必须由人决定"
+ },
+ "Withheld. Seen only by a few named people.": {
+  "fr": "Masqué. Visible uniquement par quelques personnes nommées.",
+  "zh": "已隐藏。仅少数具名人员可见。"
+ },
+ "Within 1% of the listed tonnes.": {
+  "fr": "À moins de 1 % des tonnes annoncées.",
+  "zh": "与标注吨数相差在 1% 以内。"
+ },
+ "Written by AI. Check it against the evidence before you rely on it.": {
+  "fr": "Rédigé par l'IA. Vérifiez-le avec les preuves avant de vous y fier.",
+  "zh": "由 AI 撰写。请对照证据核实后再采信。"
+ },
+ "Your decision": {
+  "fr": "Votre décision",
+  "zh": "您的决定"
+ },
+ "by you, today.": {
+  "fr": "par vous, aujourd'hui.",
+  "zh": "由您于今天作出。"
+ },
+ "by {who}, {d}": {
+  "fr": "par {who}, le {d}",
+  "zh": "由 {who} 于 {d}"
+ },
+ "cannot supply lots": {
+  "fr": "ne peut pas fournir de lots",
+  "zh": "不可供货"
+ },
+ "per lb": {
+  "fr": "par lb",
+  "zh": "每磅"
+ },
+ "per lb Ta2O5": {
+  "fr": "par lb de Ta2O5",
+  "zh": "每磅 Ta2O5"
+ },
+ "{a} of 4 added": {
+  "fr": "{a} sur 4 ajoutées",
+  "zh": "已添加 {a}/4"
+ },
+ "{a} of {b} required photos": {
+  "fr": "{a} photos requises sur {b}",
+  "zh": "{b} 张必需照片中的 {a} 张"
+ },
+ "{a} to {b}": {
+  "fr": "{a} vers {b}",
+  "zh": "{a} 变为 {b}"
+ },
+ "{mine} is in the {tier} tier.": {
+  "fr": "{mine} est au niveau {tier}.",
+  "zh": "{mine} 属于{tier}等级。"
+ },
+ "{n} failed": {
+  "fr": "{n} échoué(s)",
+  "zh": "{n} 项失败"
+ },
+ "{n} failed.": {
+  "fr": "{n} échoué(s).",
+  "zh": "{n} 项失败。"
+ },
+ "{n} handovers recorded": {
+  "fr": "{n} transferts enregistrés",
+  "zh": "已记录 {n} 次交接"
+ },
+ "{n} lots": {
+  "fr": "{n} lots",
+  "zh": "{n} 个批次"
+ },
+ "{n} need a closer look.": {
+  "fr": "{n} à examiner de plus près.",
+  "zh": "{n} 项需要进一步查看。"
+ },
+ "{n} not run.": {
+  "fr": "{n} non exécuté(s).",
+  "zh": "{n} 项未运行。"
+ },
+ "{n} of 4 documents provided.": {
+  "fr": "{n} documents sur 4 fournis.",
+  "zh": "已提供 4 份文件中的 {n} 份。"
+ },
+ "{n} of 4 provided": {
+  "fr": "{n} sur 4 fournis",
+  "zh": "已提供 {n}/4"
+ },
+ "{n} of 6": {
+  "fr": "{n} sur 6",
+  "zh": "{n}/6"
+ },
+ "{n} of 6 checks verified": {
+  "fr": "{n} contrôles sur 6 vérifiés",
+  "zh": "6 项检查中 {n} 项已验证"
+ },
+ "{n} of {m} origin checks passed.": {
+  "fr": "{n} contrôles d'origine sur {m} réussis.",
+  "zh": "{m} 项来源检查中通过 {n} 项。"
+ },
+ "{n} of {m} passed": {
+  "fr": "{n} sur {m} réussis",
+  "zh": "{m} 项中通过 {n} 项"
+ },
+ "{n} tonnes": {
+  "fr": "{n} tonnes",
+  "zh": "{n} 吨"
+ },
+ "{n} tonnes of tantalum ore, {b}% Ta2O5 basis": {
+  "fr": "{n} tonnes de minerai de tantale, base {b} % de Ta2O5",
+  "zh": "{n} 吨钽矿石，Ta2O5 基准 {b}%"
+ },
+ "{n} tonnes, {b}% Ta2O5 basis": {
+  "fr": "{n} tonnes, base {b} % de Ta2O5",
+  "zh": "{n} 吨，Ta2O5 基准 {b}%"
+ },
+ "{pct}% of the value on the independent assay ({ta}% Ta2O5): {amount}.": {
+  "fr": "{pct} % de la valeur selon l'analyse indépendante ({ta} % de Ta2O5) : {amount}.",
+  "zh": "按独立化验价值的 {pct}%（{ta}% Ta2O5）：{amount}。"
+ },
+ "{p}% disclosed": {
+  "fr": "{p} % divulgué",
+  "zh": "已披露 {p}%"
+ },
+ "{p}% of ownership is not disclosed.": {
+  "fr": "{p} % de la propriété n'est pas divulgué.",
+  "zh": "有 {p}% 的所有权未披露。"
+ },
+ "{tier} mine": {
+  "fr": "Mine {tier}",
+  "zh": "{tier}矿山"
+ },
+ "{tier} mines cannot supply lots.": {
+  "fr": "Les mines {tier} ne peuvent pas fournir de lots.",
+  "zh": "{tier}矿山不能供货。"
+ },
+ "{tonnes} tonnes, {basis}% Ta2O5 basis, {incoterm}, USD {price} per lb. Both sides must be cleared by screening first.": {
+  "fr": "{tonnes} tonnes, base {basis} % de Ta2O5, {incoterm}, {price} USD par lb. Les deux parties doivent d'abord être autorisées par le filtrage.",
+  "zh": "{tonnes} 吨，Ta2O5 基准 {basis}%，{incoterm}，每磅 {price} 美元。双方须先通过筛查。"
+ },
+ "Verified": {
+  "fr": "Vérifiée",
+  "zh": "已验证"
+ },
+ "Watch": {
+  "fr": "Sous surveillance",
+  "zh": "观察"
+ },
+ "Unverified": {
+  "fr": "Non vérifiée",
+  "zh": "未验证"
+ },
+ "Partial": {
+  "fr": "Partiel",
+  "zh": "部分"
+ },
+ "Failed": {
+  "fr": "Échoué",
+  "zh": "失败"
+ },
+ "Passed": {
+  "fr": "Réussi",
+  "zh": "通过"
+ },
+ "Look closer": {
+  "fr": "À examiner",
+  "zh": "需细查"
+ },
+ "Not run": {
+  "fr": "Non exécuté",
+  "zh": "未运行"
+ },
+ "Independent sampling": {
+  "fr": "Échantillonnage indépendant",
+  "zh": "独立取样"
+ },
+ "Certificate of analysis": {
+  "fr": "Certificat d'analyse",
+  "zh": "分析证书"
+ },
+ "Sealed custody log": {
+  "fr": "Journal de possession scellé",
+  "zh": "密封监管链记录"
+ },
+ "Counterparty screening": {
+  "fr": "Filtrage des contreparties",
+  "zh": "交易对手筛查"
+ },
+ "Origin cross-checks": {
+  "fr": "Recoupements d'origine",
+  "zh": "来源交叉核验"
+ },
+ "Independent site evidence": {
+  "fr": "Preuves indépendantes du site",
+  "zh": "独立现场证据"
+ },
+ "Location and boundaries": {
+  "fr": "Emplacement et limites",
+  "zh": "位置与边界"
+ },
+ "Pin and photos checked against the mine's recorded boundary and known conflict areas.": {
+  "fr": "Position et photos comparées aux limites enregistrées de la mine et aux zones de conflit connues.",
+  "zh": "将定位和照片与矿山登记边界及已知冲突区域比对。"
+ },
+ "Volume sanity": {
+  "fr": "Cohérence des volumes",
+  "zh": "产量合理性"
+ },
+ "Reported output compared with what this mine and its crew can plausibly produce.": {
+  "fr": "Production déclarée comparée à ce que cette mine et son équipe peuvent raisonnablement produire.",
+  "zh": "将申报产量与该矿山及其人员合理产能比对。"
+ },
+ "Assay profile": {
+  "fr": "Profil d'analyse",
+  "zh": "化验特征"
+ },
+ "Niobium, uranium, tin and other lines compared with this mine's earlier lots.": {
+  "fr": "Niobium, uranium, étain et autres éléments comparés aux lots précédents de cette mine.",
+  "zh": "将铌、铀、锡等元素与该矿山以往批次比对。"
+ },
+ "Route and timing": {
+  "fr": "Itinéraire et délais",
+  "zh": "路线与时间"
+ },
+ "Transport log checked against realistic journey times and known mixing points.": {
+  "fr": "Journal de transport comparé aux durées réalistes et aux points de mélange connus.",
+  "zh": "将运输记录与合理行程时间及已知混杂点比对。"
+ },
+ "Price compared with the market range. Far below it is a warning sign.": {
+  "fr": "Prix comparé à la fourchette du marché. Très en dessous est un signal d'alerte.",
+  "zh": "将价格与市场区间比对。远低于区间是警示信号。"
+ },
+ "People": {
+  "fr": "Personnes",
+  "zh": "人员"
+ },
+ "Owners, transporters and exporters checked for sanctions and adverse media.": {
+  "fr": "Propriétaires, transporteurs et exportateurs vérifiés pour les sanctions et les médias négatifs.",
+  "zh": "核查所有人、运输方和出口方是否涉及制裁和负面媒体。"
+ },
+ "Track record": {
+  "fr": "Historique",
+  "zh": "历史记录"
+ },
+ "How this seller and mine have performed on earlier lots.": {
+  "fr": "Comment ce vendeur et cette mine se sont comportés sur les lots précédents.",
+  "zh": "该卖方和矿山在以往批次中的表现。"
+ },
+ "Sample on the scale": {
+  "fr": "Échantillon sur la balance",
+  "zh": "秤上的样品"
+ },
+ "Weight display in frame and the lot ID on the bag.": {
+  "fr": "Affichage du poids dans le cadre et numéro du lot sur le sac.",
+  "zh": "画面中有重量显示，袋上有批次编号。"
+ },
+ "The whole instrument screen, with every element line.": {
+  "fr": "Tout l'écran de l'appareil, avec chaque ligne d'élément.",
+  "zh": "完整的仪器屏幕，包含每条元素读数。"
+ },
+ "Sealed bags": {
+  "fr": "Sacs scellés",
+  "zh": "密封袋"
+ },
+ "Seal numbers readable and matching the custody log.": {
+  "fr": "Numéros de scellés lisibles et conformes au journal de possession.",
+  "zh": "封条编号清晰可读，并与监管链记录一致。"
+ },
+ "Handover scan": {
+  "fr": "Scan de transfert",
+  "zh": "交接扫描"
+ },
+ "Seals, weight display and a location pin at the handover.": {
+  "fr": "Scellés, affichage du poids et position lors du transfert.",
+  "zh": "交接时的封条、重量显示和位置定位。"
+ },
+ "Sample split record": {
+  "fr": "Registre de division d'échantillon",
+  "zh": "分样记录"
+ },
+ "Custody log with seal numbers": {
+  "fr": "Journal de possession avec numéros de scellés",
+  "zh": "含封条编号的监管链记录"
+ },
+ "Screening report": {
+  "fr": "Rapport de filtrage",
+  "zh": "筛查报告"
+ },
+ "Site audit report": {
+  "fr": "Rapport d'audit du site",
+  "zh": "现场审计报告"
+ },
+ "Cross-check report": {
+  "fr": "Rapport de recoupement",
+  "zh": "交叉核验报告"
+ },
+ "Exporter": {
+  "fr": "Exportateur",
+  "zh": "出口方"
+ },
+ "Transporter": {
+  "fr": "Transporteur",
+  "zh": "运输方"
+ },
+ "Buyer": {
+  "fr": "Acheteur",
+  "zh": "买方"
+ },
+ "Both sides are cleared by screening": {
+  "fr": "Les deux parties sont autorisées par le filtrage",
+  "zh": "双方通过筛查"
+ },
+ "Locked terms are signed": {
+  "fr": "Les conditions verrouillées sont signées",
+  "zh": "锁定条款已签署"
+ },
+ "Funds go into escrow with a regulated partner": {
+  "fr": "Les fonds sont placés en séquestre chez un partenaire réglementé",
+  "zh": "资金存入受监管合作方的托管账户"
+ },
+ "A named approver releases payment after final assay": {
+  "fr": "Un approbateur nommé libère le paiement après l'analyse finale",
+  "zh": "具名批准人在最终化验后放款"
+ },
+ "Company registration": {
+  "fr": "Immatriculation de l'entreprise",
+  "zh": "公司注册文件"
+ },
+ "Directors' ID": {
+  "fr": "Pièces d'identité des dirigeants",
+  "zh": "董事身份证明"
+ },
+ "Proof of address": {
+  "fr": "Justificatif de domicile",
+  "zh": "地址证明"
+ },
+ "Source of funds": {
+  "fr": "Origine des fonds",
+  "zh": "资金来源"
+ },
+ "United Kingdom": {
+  "fr": "Royaume-Uni",
+  "zh": "英国"
+ },
+ "China": {
+  "fr": "Chine",
+  "zh": "中国"
+ },
+ "Hong Kong": {
+  "fr": "Hong Kong",
+  "zh": "香港"
+ },
+ "United Arab Emirates": {
+  "fr": "Émirats arabes unis",
+  "zh": "阿拉伯联合酋长国"
+ },
+ "Democratic Republic of the Congo": {
+  "fr": "République démocratique du Congo",
+  "zh": "刚果民主共和国"
+ },
+ "Rwanda": {
+  "fr": "Rwanda",
+  "zh": "卢旺达"
+ },
+ "Kazakhstan": {
+  "fr": "Kazakhstan",
+  "zh": "哈萨克斯坦"
+ },
+ "Cuba": {
+  "fr": "Cuba",
+  "zh": "古巴"
+ },
+ "Iran": {
+  "fr": "Iran",
+  "zh": "伊朗"
+ },
+ "North Korea": {
+  "fr": "Corée du Nord",
+  "zh": "朝鲜"
+ },
+ "Syria": {
+  "fr": "Syrie",
+  "zh": "叙利亚"
+ }
+};

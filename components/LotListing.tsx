@@ -5,11 +5,13 @@ import { computeGrade, type Grade, type Lot } from "@/lib/grade";
 import { GRADE_COLOUR } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
 import { Meter } from "./Mark";
+import { useT } from "./I18n";
 
 type Filter = "All" | Grade;
 const ORDER: Record<Grade, number> = { A: 0, B: 1, C: 2, Blocked: 3 };
 
 export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Routes }) {
+  const t = useT();
   const [filter, setFilter] = useState<Filter>("All");
   // COMPLIANCE: buyers only see lots a named reviewer has approved and that are not Blocked.
   // The switch below exists only so the demo can show what buyers do not see.
@@ -28,14 +30,13 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
 
   return (
     <section className="listing">
-      <h1>Lots on the exchange</h1>
+      <h1>{t("Lots on the exchange")}</h1>
       <p className="listing-intro">
-        Every lot here was approved by a named reviewer. The letter is its Trust Grade, set by
-        fixed rules from the evidence. Open a lot to see what backs it.
+        {t("Every lot here was approved by a named reviewer. The letter is its Trust Grade, set by fixed rules from the evidence. Open a lot to see what backs it.")}
       </p>
 
       <div className="filters">
-        <div role="group" aria-label="Filter by Trust Grade" className="chips">
+        <div role="group" aria-label={t("Filter by Trust Grade")} className="chips">
           {chips.map((c) => (
             <button
               key={c}
@@ -44,7 +45,7 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
               aria-pressed={active === c}
               onClick={() => setFilter(c)}
             >
-              {c === "All" ? "All grades" : c === "Blocked" ? "Blocked" : `Grade ${c}`}
+              {c === "All" ? t("All grades") : c === "Blocked" ? t("Blocked") : `${t("Grade")} ${c}`}
               <span>{count(c)}</span>
             </button>
           ))}
@@ -55,23 +56,22 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
             checked={showHidden}
             onChange={(e) => setShowHidden(e.target.checked)}
           />
-          <span>Also show lots buyers cannot see (demo view)</span>
+          <span>{t("Also show lots buyers cannot see (demo view)")}</span>
         </label>
       </div>
 
       <p className="count" aria-live="polite">
-        Showing {shown.length} of {rows.length} lots
+        {t("Showing {a} of {b} lots", { a: shown.length, b: rows.length })}
       </p>
 
       {shown.length === 0 ? (
         <div className="empty">
-          <h2>No lots match</h2>
+          <h2>{t("No lots match")}</h2>
           <p>
-            There are no approved Grade {active} lots right now. Try another grade, or show all
-            grades.
+            {t("There are no approved Grade {g} lots right now. Try another grade, or show all grades.", { g: active })}
           </p>
           <button type="button" className="btn btn-quiet" onClick={() => setFilter("All")}>
-            Show all grades
+            {t("Show all grades")}
           </button>
         </div>
       ) : (
@@ -79,9 +79,9 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
           {shown.map(({ lot, grade }) => {
             const tag =
               lot.review.status === "pending"
-                ? "Waiting for approval"
+                ? t("Waiting for approval")
                 : lot.review.status === "rejected"
-                  ? "Rejected"
+                  ? t("Rejected")
                   : null;
             return (
               <li
@@ -90,22 +90,22 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
                 style={{ "--grade": GRADE_COLOUR[grade] } as CSSProperties}
               >
                 <a href={href(routes.lot, lot.slug)}>
-                  <span className={`row-grade${grade === "Blocked" ? " is-word" : ""}`}>{grade}</span>
+                  <span className={`row-grade${grade === "Blocked" ? " is-word" : ""}`}>{grade === "Blocked" ? t("Blocked") : grade}</span>
                   <span className="row-main">
-                    <strong>Lot {lot.number}</strong>
+                    <strong>{t("Lot")} {lot.number}</strong>
                     <span>
-                      {lot.tonnes} tonnes, {lot.basisTa2O5}% Ta2O5 basis
+                      {t("{n} tonnes, {b}% Ta2O5 basis", { n: lot.tonnes, b: lot.basisTa2O5 })}
                     </span>
                     <span>{lot.incoterm}</span>
                     {tag && <em>{tag}</em>}
                   </span>
                   <span className="row-evidence">
                     <Meter lot={lot} />
-                    <span>{lot.mine.tier} mine</span>
+                    <span>{t("{tier} mine", { tier: t(lot.mine.tier) })}</span>
                   </span>
                   <span className="row-price">
                     USD {lot.priceUsdPerLb}
-                    <small> per lb</small>
+                    <small> {t("per lb")}</small>
                   </span>
                 </a>
               </li>

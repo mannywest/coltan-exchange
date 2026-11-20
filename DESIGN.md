@@ -69,3 +69,8 @@ Colour is never the only signal: every status also has a word and a shape.
 - Four required photos per lot: sample on the scale, handheld reading, sealed bags, handover scan. Buyers need at least three, and a reviewer must approve a lot missing one.
 - No decorative or marketing images. The demo uses drawn line placeholders on dark tiles; missing photos show as dashed tiles.
 - Buyer copies have location data removed and are checked for people. Photos never raise a grade on their own.
+
+## Update: seller, deal flow, onboarding, registry, languages
+- Screens added: List a lot (/sell), Deal (/lots/{slug}/deal, six locked stages), Get cleared (/onboarding), Mine registry (/registry).
+- Languages: EN, FR, 中文 through useT(); English text is the key, translations in lib/i18n-dict.ts. Lot evidence and case notes stay English in the demo.
+- Rules stay deterministic: mine must be Verified/Watch to list; photos >= 3; named approver ticks before any payment; umpire lab when assay gap > 0.5; sanctioned countries and designated names hard-block onboarding.

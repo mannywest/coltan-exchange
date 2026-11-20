@@ -1,5 +1,8 @@
+"use client";
+
 import type { Lot, Status } from "@/lib/grade";
 import { CHECK_ORDER } from "@/lib/grade";
+import { useT } from "./I18n";
 
 export default function Mark({ status }: { status: Status }) {
   return (
@@ -20,14 +23,15 @@ export default function Mark({ status }: { status: Status }) {
 
 // Six small blocks, one per evidence check, so a row shows its evidence at a glance.
 export function Meter({ lot }: { lot: Lot }) {
+  const t = useT();
   const items = CHECK_ORDER.map((k) => lot.evidence[k].status);
   const n = items.filter((s) => s === "verified").length;
   return (
-    <span className="meter" role="img" aria-label={`${n} of 6 checks verified`}>
+    <span className="meter" role="img" aria-label={t("{n} of 6 checks verified", { n })}>
       {items.map((s, i) => (
         <i key={i} className={`m-${s}`} />
       ))}
-      <b>{n} of 6</b>
+      <b>{t("{n} of 6", { n })}</b>
     </span>
   );
 }

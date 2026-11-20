@@ -1,3 +1,5 @@
+"use client";
+
 import type { CSSProperties } from "react";
 import {
   CHECK_LABELS,
@@ -14,6 +16,7 @@ import {
 import { fmtDate, fmtDateTime } from "@/lib/format";
 import ReservePanel from "./ReservePanel";
 import Mark from "./Mark";
+import { useT } from "./I18n";
 import PhotoEvidence from "./PhotoEvidence";
 import { GRADE_COLOUR, GRADE_INK } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
@@ -25,8 +28,8 @@ export default function LotView({
   routes,
 }: {
   lot: Lot;
-  routes: Routes;
-}) {
+  routes: Routes; }) {
+  const t = useT();
   const g = computeGrade(lot);
   const colour = GRADE_COLOUR[g.grade];
   const blocked = g.grade === "Blocked";
@@ -34,17 +37,17 @@ export default function LotView({
   const spread = assaySpread(lot);
 
   const blockedReason = blocked
-    ? "This lot cannot be reserved. It failed a hard compliance rule."
+    ? t("This lot cannot be reserved. It failed a hard compliance rule.")
     : lot.review.status !== "approved"
-      ? "This lot is waiting for a reviewer's approval."
+      ? t("This lot is waiting for a reviewer's approval.")
       : undefined;
 
   return (
     <div className="lot" style={{ "--grade": colour } as CSSProperties}>
       <nav className="crumbs" aria-label="Breadcrumb">
-        <a href={routes.lots}>All lots</a>
+        <a href={routes.lots}>{t("All lots")}</a>
         <span aria-hidden="true">/</span>
-        <span aria-current="page">Lot {lot.number}</span>
+        <span aria-current="page">{t("Lot")} {lot.number}</span>
       </nav>
 
       <div className="lot-grid">
@@ -58,26 +61,23 @@ export default function LotView({
             {g.grade}
           </div>
           <div className="hero-copy">
-            <p className="lot-id">Lot {lot.number}</p>
-            <h1>
-              {lot.tonnes} tonnes of tantalum ore, {lot.basisTa2O5}% Ta2O5 basis
-            </h1>
+            <p className="lot-id">{t("Lot")} {lot.number}</p>
+            <h1>{t("{n} tonnes of tantalum ore, {b}% Ta2O5 basis", { n: lot.tonnes, b: lot.basisTa2O5 })}</h1>
             <p className="reason">
-              <strong>{blocked ? "Blocked." : `Trust Grade ${g.grade}.`}</strong>{" "}
+              <strong>{blocked ? t("Blocked.") : t("Trust Grade {g}.", { g: g.grade })}</strong>{" "}
               {g.reasons[0]}
             </p>
             <details className="rules">
-              <summary>How the grade is decided</summary>
+              <summary>{t("How the grade is decided")}</summary>
               {/* COMPLIANCE: grade rules are fixed and published. People, not AI, approve lots. */}
               <ul>
-                <li>Blocked: the mine is Blocked, or a party failed sanctions screening.</li>
-                <li>A: all six checks verified and the mine tier is Verified.</li>
-                <li>B: four or five checks verified and none failed.</li>
-                <li>C: anything else.</li>
+                <li>{t("Blocked: the mine is Blocked, or a party failed sanctions screening.")}</li>
+                <li>{t("A: all six checks verified and the mine tier is Verified.")}</li>
+                <li>{t("B: four or five checks verified and none failed.")}</li>
+                <li>{t("C: anything else.")}</li>
               </ul>
               <p>
-                A rules engine sets the grade from the evidence. AI can summarise and flag, but it
-                never sets a grade, approves a lot or changes a mine tier.
+                {t("A rules engine sets the grade from the evidence. AI can summarise and flag, but it never sets a grade, approves a lot or changes a mine tier.")}
               </p>
             </details>
           </div>
@@ -85,32 +85,32 @@ export default function LotView({
 
         {/* Locked terms and reserve */}
         <aside className="rail" aria-label="Locked terms">
-          <h2>Locked terms</h2>
+          <h2>{t("Locked terms")}</h2>
           <dl className="terms">
             <div>
-              <dt>Quantity</dt>
-              <dd>{lot.tonnes} tonnes</dd>
+              <dt>{t("Quantity")}</dt>
+              <dd>{t("{n} tonnes", { n: lot.tonnes })}</dd>
             </div>
             <div>
-              <dt>Grade basis</dt>
+              <dt>{t("Grade basis")}</dt>
               <dd>{lot.basisTa2O5}% Ta2O5</dd>
             </div>
             <div>
-              <dt>Delivery</dt>
+              <dt>{t("Delivery")}</dt>
               <dd>{lot.incoterm}</dd>
             </div>
             <div className="terms-price">
-              <dt>Price</dt>
+              <dt>{t("Price")}</dt>
               <dd>
                 USD {lot.priceUsdPerLb}
-                <span> per lb Ta2O5</span>
+                <span> {t("per lb Ta2O5")}</span>
               </dd>
             </div>
             <div>
-              <dt>Seller</dt>
+              <dt>{t("Seller")}</dt>
               <dd>
                 {lot.sellerAlias}
-                <span> Name shown once both sides are cleared</span>
+                <span> {t("Name shown once both sides are cleared")}</span>
               </dd>
             </div>
           </dl>
@@ -118,19 +118,20 @@ export default function LotView({
             lotNumber={lot.number}
             holdHours={lot.holdHours}
             blockedReason={blockedReason}
+            dealHref={href(routes.deal, lot.slug)}
           />
           <div className="review">
             <p>
               <strong>
                 {lot.review.status === "approved"
-                  ? "Approved"
+                  ? t("Approved")
                   : lot.review.status === "rejected"
-                    ? "Rejected"
-                    : "Waiting for approval"}
+                    ? t("Rejected")
+                    : t("Waiting for approval")}
               </strong>{" "}
              {lot.review.status === "pending"
-                ? `(submitted ${fmtDate(lot.review.at)})`
-                : ` by ${lot.review.by}, ${fmtDate(lot.review.at)}`}
+                ? t("(submitted {d})", { d: fmtDate(lot.review.at) })
+                : ` ${t("by {who}, {d}", { who: lot.review.by, d: fmtDate(lot.review.at) })}`}
             </p>
             {lot.review.note && <p className="review-note">{lot.review.note}</p>}
           </div>
@@ -144,21 +145,21 @@ export default function LotView({
          >
           <header className="sheet-head">
             <div>
-              <h2 className="sheet-title">Certificate of evidence</h2>
+              <h2 className="sheet-title">{t("Certificate of evidence")}</h2>
               <p>
-                Lot {lot.number}. Reference CE-{lot.number} (demo). Issued {fmtDate(lot.review.at)}.
+                {t("Lot {n}. Reference CE-{n} (demo). Issued {d}.", { n: lot.number, d: fmtDate(lot.review.at) })}
               </p>
             </div>
             <div className="stamp" aria-hidden="true">
               <span className="stamp-main">
-                {blocked ? "Blocked" : `Trust Grade ${g.grade}`}
+                {blocked ? t("Blocked") : t("Trust Grade {g}", { g: g.grade })}
               </span>
               <span>
                 {lot.review.status === "approved"
-                  ? "Approved"
+                  ? t("Approved")
                   : lot.review.status === "rejected"
-                    ? "Rejected"
-                    : "Pending"}{" "}
+                    ? t("Rejected")
+                    : t("Pending")}{" "}
                 {fmtDate(lot.review.at)}
               </span>
             </div>
@@ -166,8 +167,8 @@ export default function LotView({
           {/* Evidence ledger */}
           <section className="block" aria-labelledby="h-evidence">
             <div className="block-head">
-              <h2 id="h-evidence">What backs this grade</h2>
-              <p>{g.verified} of 6 checks verified</p>
+              <h2 id="h-evidence">{t("What backs this grade")}</h2>
+              <p>{t("{n} of 6 checks verified", { n: g.verified })}</p>
             </div>
             <ul className="ledger">
               {CHECK_ORDER.map((k, i) => {
@@ -176,11 +177,11 @@ export default function LotView({
                   <li key={k} style={{ "--i": i } as CSSProperties}>
                     <Mark status={e.status} />
                     <div className="l-main">
-                      <h3>{CHECK_LABELS[k]}</h3>
+                      <h3>{t(CHECK_LABELS[k])}</h3>
                       <p>{e.detail}</p>
                     </div>
                     <p className="l-meta">
-                      <span className={`word word-${e.status}`}>{STATUS_WORD[e.status]}</span>
+                      <span className={`word word-${e.status}`}>{t(STATUS_WORD[e.status])}</span>
                       <span>{e.source}</span>
                     </p>
                   </li>
@@ -188,15 +189,15 @@ export default function LotView({
               })}
             </ul>
             <p className="more">
-              <a href={href(routes.check, lot.slug)}>Open the full trust check</a>
+              <a href={href(routes.check, lot.slug)}>{t("Open the full trust check")}</a>
             </p>
           </section>
 
           {/* Assay */}
           <section className="block" aria-labelledby="h-assay">
             <div className="block-head">
-              <h2 id="h-assay">Assay</h2>
-              <p>Ta2O5 content, percent</p>
+              <h2 id="h-assay">{t("Assay")}</h2>
+              <p>{t("Ta2O5 content, percent")}</p>
             </div>
             <table className="assay">
               <caption className="sr-only">
@@ -204,57 +205,55 @@ export default function LotView({
               </caption>
               <thead>
                 <tr>
-                  <th scope="col">Source</th>
-                  <th scope="col" className="num">Result</th>
-                  <th scope="col">What it is</th>
+                  <th scope="col">{t("Source")}</th>
+                  <th scope="col" className="num">{t("Result")}</th>
+                  <th scope="col">{t("What it is")}</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
-                  <th scope="row">Field handheld</th>
+                  <th scope="row">{t("Field handheld")}</th>
                   <td className="num">{estimate.toFixed(1)}</td>
                   <td>
-                    Estimate: Ta reading {lot.assay.fieldTa.toFixed(1)}% x {lot.assay.factor}. A
-                    handheld cannot give a true Ta2O5 figure.
+                    {t("Estimate: Ta reading {ta}% x {f}. A handheld cannot give a true Ta2O5 figure.", { ta: lot.assay.fieldTa.toFixed(1), f: lot.assay.factor })}
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Seller&apos;s lab</th>
+                  <th scope="row">{t("Seller's lab")}</th>
                   <td className="num">
-                    {lot.assay.sellerLab !== null ? lot.assay.sellerLab.toFixed(1) : "None"}
+                    {lot.assay.sellerLab !== null ? lot.assay.sellerLab.toFixed(1) : t("None")}
                   </td>
                   <td>
                     {lot.assay.sellerLab !== null
-                      ? "Lab result on the seller's third of the sample."
-                      : "No lab result on file."}
+                      ? t("Lab result on the seller's third of the sample.")
+                      : t("No lab result on file.")}
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Independent lab</th>
+                  <th scope="row">{t("Independent lab")}</th>
                   <td className="num">
                     {lot.assay.independentLab !== null
                       ? lot.assay.independentLab.toFixed(1)
-                      : "Due"}
+                      : t("Due")}
                   </td>
                   <td>
                     {lot.assay.independentLab !== null
-                      ? "Neutral lab, sealed sample from the inspector's split."
-                      : "Not received yet."}
+                      ? t("Neutral lab, sealed sample from the inspector's split.")
+                      : t("Not received yet.")}
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">Umpire lab</th>
-                  <td className="num">Sealed</td>
-                  <td>Held back. Opened only if the buyer&apos;s result and the others disagree.</td>
+                  <th scope="row">{t("Umpire lab")}</th>
+                  <td className="num">{t("Sealed")}</td>
+                  <td>{t("Held back. Opened only if the buyer's result and the others disagree.")}</td>
                 </tr>
               </tbody>
             </table>
             <p className="assay-note">
               {spread !== null
-                ? `Gap between the two lab results: ${spread.toFixed(1)} points. ${lot.assay.toleranceCheck}`
+                ? `${t("Gap between the two lab results: {g} points.", { g: spread.toFixed(1) })} ${lot.assay.toleranceCheck}`
                 : lot.assay.toleranceCheck}{" "}
-              Demo rule: if results sit within 0.5 points, the average is used; if not, the umpire
-              lab decides.
+              {t("Demo rule: if results sit within 0.5 points, the average is used; if not, the umpire lab decides.")}
             </p>
           </section>
 
@@ -263,8 +262,8 @@ export default function LotView({
           {/* Custody */}
           <section className="block" aria-labelledby="h-custody">
             <div className="block-head">
-              <h2 id="h-custody">Custody log</h2>
-              <p>{lot.custody.length} handovers recorded</p>
+              <h2 id="h-custody">{t("Custody log")}</h2>
+              <p>{t("{n} handovers recorded", { n: lot.custody.length })}</p>
             </div>
             <ol className="timeline">
               {lot.custody.map((c) => (
@@ -277,7 +276,7 @@ export default function LotView({
                     </p>
                     {c.flag && (
                       <p className="flag">
-                        <strong>Flag.</strong> {c.flag}
+                        <strong>{t("Flag.")}</strong> {c.flag}
                       </p>
                     )}
                   </div>
@@ -289,40 +288,40 @@ export default function LotView({
           {/* Mine and screening */}
           <section className="block" aria-labelledby="h-mine">
             <div className="block-head">
-              <h2 id="h-mine">Mine and counterparties</h2>
-              <p>Screened {fmtDate(lot.lastScreened)}</p>
+              <h2 id="h-mine">{t("Mine and counterparties")}</h2>
+              <p>{t("Screened {d}", { d: fmtDate(lot.lastScreened) })}</p>
             </div>
             <div className="duo">
               <div>
                 <h3 className="sub">{lot.mine.name}</h3>
                 {/* COMPLIANCE: buyers see the tier and an evidence summary, never coordinates. */}
                 <ol className="tiers" aria-label="Mine risk tier">
-                  {TIERS.map((t) => (
+                  {TIERS.map((tr) => (
                     <li
-                      key={t}
-                      className={`tier tier-${t.toLowerCase()}${t === lot.mine.tier ? " is-current" : ""}`}
-                      aria-current={t === lot.mine.tier ? "true" : undefined}
+                      key={tr}
+                      className={`tier tier-${tr.toLowerCase()}${tr === lot.mine.tier ? " is-current" : ""}`}
+                      aria-current={tr === lot.mine.tier ? "true" : undefined}
                     >
-                      {t}
+                      {t(tr)}
                     </li>
                   ))}
                 </ol>
                 <p className="tier-note">{TIER_NOTES[lot.mine.tier]}</p>
                 <p className="withheld">
-                  Exact location and route stay hidden. They can put miners and field staff at risk.
+                  {t("Exact location and route stay hidden. They can put miners and field staff at risk.")}
                 </p>
               </div>
               <div>
-                <h3 className="sub">Screening</h3>
+                <h3 className="sub">{t("Screening")}</h3>
                 {/* COMPLIANCE: sanctions and adverse-media screening of every party. */}
                 <ul className="screens">
                   {lot.screening.map((s) => (
                     <li key={s.party}>
                       <Mark status={s.status} />
                       <div>
-                        <p className="s-party">{s.party}</p>
+                        <p className="s-party">{t(s.party)}</p>
                         <p className="s-note">
-                          <span className={`word word-${s.status}`}>{STATUS_WORD[s.status]}.</span>{" "}
+                          <span className={`word word-${s.status}`}>{t(STATUS_WORD[s.status])}.</span>{" "}
                           {s.note}
                         </p>
                       </div>
@@ -335,13 +334,10 @@ export default function LotView({
 
           {/* Honest limits */}
           <section className="limits" aria-labelledby="h-limits">
-            <h2 id="h-limits">What this grade does not mean</h2>
+            <h2 id="h-limits">{t("What this grade does not mean")}</h2>
             {/* COMPLIANCE: never claim origin is guaranteed. State the limits plainly. */}
             <p>
-              A good grade means the evidence is independent, consistent, and nothing suspicious
-              was flagged. It makes origin claims harder to fake. It does not guarantee origin: a
-              determined actor who falsifies the site, photos and paperwork together may not be
-              caught, and a mixed lot can look clean.
+              {t("A good grade means the evidence is independent, consistent, and nothing suspicious was flagged. It makes origin claims harder to fake. It does not guarantee origin: a determined actor who falsifies the site, photos and paperwork together may not be caught, and a mixed lot can look clean.")}
             </p>
           </section>
          </article>

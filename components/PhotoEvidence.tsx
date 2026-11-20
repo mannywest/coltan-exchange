@@ -1,9 +1,12 @@
+"use client";
+
 import type { Lot } from "@/lib/grade";
 import { MIN_PHOTOS, photoSet, type PhotoKind } from "@/lib/photos";
 import { fmtDateTime } from "@/lib/format";
+import { useT } from "./I18n";
 
 // Simple line drawings stand in for the photos in this demo.
-function Art({ kind }: { kind: PhotoKind }) {
+export function Art({ kind }: { kind: PhotoKind }) {
   const common = { fill: "none", stroke: "currentColor", strokeWidth: 2, strokeLinecap: "round", strokeLinejoin: "round" } as const;
   return (
     <svg viewBox="0 0 160 120" role="img" aria-hidden="true" {...common}>
@@ -44,30 +47,31 @@ function Art({ kind }: { kind: PhotoKind }) {
 }
 
 export default function PhotoEvidence({ lot }: { lot: Lot }) {
+  const t = useT();
   const slots = photoSet(lot);
   const have = slots.filter((s) => s.present).length;
   return (
     <section className="block" aria-labelledby="h-photos">
       <div className="block-head">
-        <h2 id="h-photos">Photo evidence</h2>
+        <h2 id="h-photos">{t("Photo evidence")}</h2>
         <p>
-          {have} of {slots.length} required photos
+          {t("{a} of {b} required photos", { a: have, b: slots.length })}
         </p>
       </div>
       <ul className="photos">
         {slots.map((s) => (
           <li key={s.kind} className={s.present ? "photo" : "photo is-missing"}>
             <div className="photo-art">
-              {s.present ? <Art kind={s.kind} /> : <span>Missing</span>}
+              {s.present ? <Art kind={s.kind} /> : <span>{t("Missing")}</span>}
             </div>
-            <h3>{s.title}</h3>
-            <p>{s.what}</p>
+            <h3>{t(s.title)}</h3>
+            <p>{t(s.what)}</p>
             {s.present && s.at ? (
               <p className="photo-meta">
-                {fmtDateTime(s.at)}, {s.by}. Location data removed.
+                {fmtDateTime(s.at)}, {s.by}. {t("Location data removed.")}
               </p>
             ) : (
-              <p className="photo-meta">Not on file for this lot.</p>
+              <p className="photo-meta">{t("Not on file for this lot.")}</p>
             )}
           </li>
         ))}
@@ -75,11 +79,9 @@ export default function PhotoEvidence({ lot }: { lot: Lot }) {
       {/* COMPLIANCE: buyers see cleaned copies only. Originals and exact locations stay with a few named people. */}
       <p className="assay-note">
         {have >= MIN_PHOTOS
-          ? "Enough photos are on file for buyers to see this lot."
-          : "Too few photos are on file. Buyers cannot see a lot with fewer than three."}{" "}
-        Photos back up the other checks and never raise a grade on their own, because they can be
-        reused or staged. Buyers see copies with location data removed, checked for people. The
-        drawings above are placeholders for real field photos.
+          ? t("Enough photos are on file for buyers to see this lot.")
+          : t("Too few photos are on file. Buyers cannot see a lot with fewer than three.")}{" "}
+        {t("Photos back up the other checks and never raise a grade on their own, because they can be reused or staged. Buyers see copies with location data removed, checked for people. The drawings above are placeholders for real field photos.")}
       </p>
     </section>
   );

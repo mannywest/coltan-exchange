@@ -2,6 +2,7 @@
 // The real app is the Next.js project; this reuses the same components.
 //   #all-lots (or empty)   listing        #review         reviewer desk
 //   #lot-0417              lot detail     #check-lot-0417 trust check
+//   #deal-lot-0417 deal    #sell  #onboarding  #registry
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import Chrome from "@/components/Chrome";
@@ -9,6 +10,10 @@ import LotView from "@/components/LotView";
 import LotListing from "@/components/LotListing";
 import TrustCheck from "@/components/TrustCheck";
 import ReviewDesk from "@/components/ReviewDesk";
+import SellForm from "@/components/SellForm";
+import DealTracker from "@/components/DealTracker";
+import Onboarding from "@/components/Onboarding";
+import MineRegistry from "@/components/MineRegistry";
 import { lots, getLot } from "@/data/lots";
 import { hashRoutes } from "@/lib/routes";
 
@@ -27,6 +32,13 @@ function useHash() {
 
 function Screen({ hash }: { hash: string }) {
   if (hash === "review") return <ReviewDesk lots={lots} routes={hashRoutes} />;
+  if (hash === "sell") return <SellForm routes={hashRoutes} />;
+  if (hash === "onboarding") return <Onboarding />;
+  if (hash === "registry") return <MineRegistry routes={hashRoutes} />;
+  if (hash.startsWith("deal-")) {
+    const d = getLot(hash.slice(5));
+    if (d) return <DealTracker lot={d} routes={hashRoutes} />;
+  }
   if (hash.startsWith("check-")) {
     const l = getLot(hash.slice(6));
     if (l) return <TrustCheck lot={l} routes={hashRoutes} />;
