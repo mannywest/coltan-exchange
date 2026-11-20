@@ -6,7 +6,7 @@ import { CONFIRMATIONS, NETWORK_FEE_USDT, type Cx } from "@/lib/chainState";
 import { useT } from "./I18n";
 import SignPanel from "./SignPanel";
 
-const usdt = (n: number) => `${Math.round(n).toLocaleString("en-GB")} USDT`;
+const usdt = (n: number) => `USDT ${Math.round(n).toLocaleString("en-GB")}`;
 
 function Qr({ seed }: { seed: string }) {
   const t = useT();
@@ -78,7 +78,7 @@ export default function UsdtFlow({
           </div>
           <div>
             <dt>{t("Balance")}</dt>
-            <dd>{t("{n} USDT (demo)", { n: "2,000,000" })}</dd>
+            <dd>{t("USDT {n} (demo)", { n: "2,000,000" })}</dd>
           </div>
         </dl>
         <div className="wallet-actions">
@@ -154,7 +154,7 @@ export default function UsdtFlow({
       {cx.pay === "confirmed" && (
         <>
           <p className="outcome ok pop">
-            {t("Payment confirmed in block {b}. Network fee {f} USDT (demo). The contract now holds {amount}.", {
+            {t("Payment confirmed in block {b}. Network fee USDT {f} (demo). The contract now holds {amount}.", {
               b: block.toLocaleString("en-GB"),
               f: NETWORK_FEE_USDT,
               amount: usdt(amount),

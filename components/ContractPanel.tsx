@@ -54,7 +54,7 @@ export default function ContractPanel({
           {statement.map((r) => (
             <tr key={r.label}>
               <th scope="row">{t(r.label)}</th>
-              <td className="num">{Math.round(r.amount).toLocaleString("en-GB")} USDT</td>
+              <td className="num">USDT {Math.round(r.amount).toLocaleString("en-GB")}</td>
             </tr>
           ))}
         </tbody>

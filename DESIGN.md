@@ -131,3 +131,6 @@ Colour is never the only signal: every status also has a word and a shape.
 - Compact grade bar (cards, list, home certificate) redesigned: one bar that fills to the lot's tantalum reading (independent lab first), a tick and label at the selling grade, labelled ends 22% and 28%, and a plain-words line under it. The detailed dot chart stays on the lot page.
 - Access gate: the whole demo opens on a "Private demo" screen asking for an access code. Only a SHA-256 hash is stored (lib/access.ts); change it with `node scripts/set-access-code.mjs "new code"` and rebuild. A few seconds' delay grows after wrong tries. This is a screen for casual visitors, not real security: for real protection use Cloudflare Access when hosted.
 - Success pop on payment confirmation (off if the visitor prefers reduced motion).
+
+## Round: consistency pass
+- Money reads the same way everywhere: "USD 150", "USDT 800,013" (code first, then amount, thousands separated).

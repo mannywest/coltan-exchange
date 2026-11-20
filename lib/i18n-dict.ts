@@ -2204,9 +2204,9 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
   "fr": "Solde",
   "zh": "余额"
  },
- "{n} USDT (demo)": {
-  "fr": "{n} USDT (démo)",
-  "zh": "{n} USDT（演示）"
+ "USDT {n} (demo)": {
+  "fr": "USDT {n} (démo)",
+  "zh": "USDT {n}（演示）"
  },
  "Connect wallet": {
   "fr": "Connecter le portefeuille",
@@ -2264,9 +2264,9 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
   "fr": "Paiement détecté. Confirmation sur le réseau : {n} sur {m} confirmations.",
   "zh": "已检测到付款。网络确认中：{n}/{m} 次确认。"
  },
- "Payment confirmed in block {b}. Network fee {f} USDT (demo). The contract now holds {amount}.": {
-  "fr": "Paiement confirmé dans le bloc {b}. Frais de réseau {f} USDT (démo). Le contrat détient maintenant {amount}.",
-  "zh": "付款已在区块 {b} 确认。网络费用 {f} USDT（演示）。合约现持有 {amount}。"
+ "Payment confirmed in block {b}. Network fee USDT {f} (demo). The contract now holds {amount}.": {
+  "fr": "Paiement confirmé dans le bloc {b}. Frais de réseau USDT {f} (démo). Le contrat détient maintenant {amount}.",
+  "zh": "付款已在区块 {b} 确认。网络费用 USDT {f}（演示）。合约现持有 {amount}。"
  },
  "Escrow statement": {
   "fr": "Relevé de séquestre",
@@ -2360,13 +2360,13 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
   "fr": "Vue du vendeur (simulée)",
   "zh": "卖方视图（模拟）"
  },
- "Total received: {n} USDT. The deal is complete.": {
-  "fr": "Total reçu : {n} USDT. La transaction est terminée.",
-  "zh": "共收到 {n} USDT。交易完成。"
+ "Total received: USDT {n}. The deal is complete.": {
+  "fr": "Total reçu : USDT {n}. La transaction est terminée.",
+  "zh": "共收到 USDT {n}。交易完成。"
  },
- "Incoming payment: {n} USDT received from the contract.": {
-  "fr": "Paiement entrant : {n} USDT reçus du contrat.",
-  "zh": "收到付款：合约转入 {n} USDT。"
+ "Incoming payment: USDT {n} received from the contract.": {
+  "fr": "Paiement entrant : USDT {n} reçus du contrat.",
+  "zh": "收到付款：合约转入 USDT {n}。"
  },
  "What do you want to do with it?": {
   "fr": "Que voulez-vous en faire ?",

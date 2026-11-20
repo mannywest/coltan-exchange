@@ -276,9 +276,9 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     if (assayOk && provApproved) events.push({ label: "Assay result recorded", who: "Named Reviewer entered it", seed: "assay" });
     if (finalApproved) events.push({ label: "Balance settled", who: "2 of 2 named people signed", seed: "final" });
 
-    if (funded) notices.push({ subject: "Funds received in escrow", body: `${Math.round(provisional).toLocaleString("en-GB")} USDT confirmed. Approval needed to release.` });
+    if (funded) notices.push({ subject: "Funds received in escrow", body: `USDT ${Math.round(provisional).toLocaleString("en-GB")} confirmed. Approval needed to release.` });
     if (funded && !provApproved) notices.push({ subject: "Approval needed: provisional release", body: "Two named people must sign." });
-    if (provApproved) notices.push({ subject: "Provisional payment released", body: `${Math.round(provisional).toLocaleString("en-GB")} USDT sent to the seller.` });
+    if (provApproved) notices.push({ subject: "Provisional payment released", body: `USDT ${Math.round(provisional).toLocaleString("en-GB")} sent to the seller.` });
     if (assayOk && provApproved) notices.push({ subject: "Assay result recorded", body: `Final grade ${finalTa.toFixed(2)}% Ta2O5.` });
     if (assayOk && provApproved && !finalApproved) notices.push({ subject: "Approval needed: final release", body: "Two named people must sign." });
     if (finalApproved) notices.push({ subject: "Deal complete", body: "Evidence pack and receipt are ready." });

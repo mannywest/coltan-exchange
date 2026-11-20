@@ -18,8 +18,8 @@ export function SellerView({ amount, final }: { amount: number; final: boolean }
       <h2 id="h-seller">{t("Seller's view (simulated)")}</h2>
       <p className="outcome ok">
         {final
-          ? t("Total received: {n} USDT. The deal is complete.", { n: n0(amount) })
-          : t("Incoming payment: {n} USDT received from the contract.", { n: n0(amount) })}
+          ? t("Total received: USDT {n}. The deal is complete.", { n: n0(amount) })
+          : t("Incoming payment: USDT {n} received from the contract.", { n: n0(amount) })}
       </p>
       <fieldset className="method">
         <legend>{t("What do you want to do with it?")}</legend>
@@ -62,8 +62,8 @@ export function Receipt({ lotNumber, paid, ta, fee }: { lotNumber: string; paid:
     `DEMO RECEIPT ${no}`,
     `Lot ${lotNumber}`,
     `Final grade ${ta.toFixed(2)}% Ta2O5`,
-    `Total paid ${n0(paid)} USDT (demo)`,
-    `Platform fee ${n0(fee)} USDT (demo)`,
+    `Total paid USDT ${n0(paid)} (demo)`,
+    `Platform fee USDT ${n0(fee)} (demo)`,
     `Final transaction ${tx}`,
     `Certificate fingerprint ${demoHash(`cert-${lotNumber}`, 3)}`,
     "Demo data. Not a real payment. Prepared by Plerosis with AI assistance.",
@@ -87,8 +87,8 @@ export function Receipt({ lotNumber, paid, ta, fee }: { lotNumber: string; paid:
         <div><dt>{t("Receipt no.")}</dt><dd>{no}</dd></div>
         <div><dt>{t("Lot")}</dt><dd>{lotNumber}</dd></div>
         <div><dt>{t("Final grade")}</dt><dd>{ta.toFixed(2)}% Ta2O5</dd></div>
-        <div><dt>{t("Total paid")}</dt><dd>{n0(paid)} USDT</dd></div>
-        <div><dt>{t("Platform fee (demo)")}</dt><dd>{n0(fee)} USDT</dd></div>
+        <div><dt>{t("Total paid")}</dt><dd>USDT {n0(paid)}</dd></div>
+        <div><dt>{t("Platform fee (demo)")}</dt><dd>USDT {n0(fee)}</dd></div>
         <div><dt>{t("Final transaction")}</dt><dd><code>{short(tx)}</code></dd></div>
         <div><dt>{t("Certificate fingerprint")}</dt><dd><code>{short(demoHash(`cert-${lotNumber}`, 3))}</code></dd></div>
       </dl>
