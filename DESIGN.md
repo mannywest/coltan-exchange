@@ -64,3 +64,8 @@ Colour is never the only signal: every status also has a word and a shape.
 - **Listing:** ruled rows on the dark desk. The Trust Grade letter is the first thing in every row (5.5rem, grade colour). Each row has a six-block evidence meter (filled, half, dashed, hatched = verified, partial, missing, failed) so evidence reads at a glance. Filter chips by grade; an empty state when a filter has no lots. A demo switch shows the lots buyers cannot see (waiting or rejected), dimmed and labelled.
 - **Trust check:** same hero and rail as the lot page. The seven origin cross-checks sit on a second paper sheet ("Origin cross-check report"). The rail lists the evidence pack and a disabled "Export for your bank".
 - **Reviewer desk:** a working screen, so it stays dark and dense. Queue on the left, case on the right. The AI draft summary is in a dashed box labelled as AI-written. Decision rules are fixed: Blocked lots cannot be approved; Grade C lots can only be approved with conditions; conditions and rejection need a written reason.
+
+## Update 20 Nov 2026: photo evidence
+- Four required photos per lot: sample on the scale, handheld reading, sealed bags, handover scan. Buyers need at least three, and a reviewer must approve a lot missing one.
+- No decorative or marketing images. The demo uses drawn line placeholders on dark tiles; missing photos show as dashed tiles.
+- Buyer copies have location data removed and are checked for people. Photos never raise a grade on their own.

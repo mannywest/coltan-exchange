@@ -14,6 +14,7 @@ import {
 import { fmtDate, fmtDateTime } from "@/lib/format";
 import ReservePanel from "./ReservePanel";
 import Mark from "./Mark";
+import PhotoEvidence from "./PhotoEvidence";
 import { GRADE_COLOUR, GRADE_INK } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
 
@@ -256,6 +257,8 @@ export default function LotView({
               lab decides.
             </p>
           </section>
+
+          <PhotoEvidence lot={lot} />
 
           {/* Custody */}
           <section className="block" aria-labelledby="h-custody">
