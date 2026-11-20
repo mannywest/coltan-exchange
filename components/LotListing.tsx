@@ -5,6 +5,7 @@ import { computeGrade, type Grade, type Lot } from "@/lib/grade";
 import { GRADE_COLOUR } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
 import { Meter } from "./Mark";
+import { GRADE_LABEL } from "@/lib/ui";
 import { useT } from "./I18n";
 
 type Filter = "All" | Grade;
@@ -93,6 +94,7 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
                   <span className={`row-grade${grade === "Blocked" ? " is-word" : ""}`}>{grade === "Blocked" ? t("Blocked") : grade}</span>
                   <span className="row-main">
                     <strong>{t("Lot")} {lot.number}</strong>
+                    <small className="row-label">{t(GRADE_LABEL[grade])}</small>
                     <span>
                       {t("{n} tonnes, {b}% Ta2O5 basis", { n: lot.tonnes, b: lot.basisTa2O5 })}
                     </span>

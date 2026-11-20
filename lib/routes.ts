@@ -1,6 +1,7 @@
 // Route templates are plain strings so they can cross from server to client components.
 // Next app uses real paths; the hosted preview uses hash routes.
 export type Routes = {
+  home: string;
   lots: string;
   lot: string;
   check: string;
@@ -12,7 +13,8 @@ export type Routes = {
 };
 
 export const nextRoutes: Routes = {
-  lots: "/",
+  home: "/",
+  lots: "/lots",
   lot: "/lots/{slug}",
   check: "/lots/{slug}/check",
   deal: "/lots/{slug}/deal",
@@ -23,6 +25,7 @@ export const nextRoutes: Routes = {
 };
 
 export const hashRoutes: Routes = {
+  home: "#home",
   lots: "#all-lots",
   lot: "#{slug}",
   check: "#check-{slug}",

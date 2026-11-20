@@ -18,7 +18,8 @@ import ReservePanel from "./ReservePanel";
 import Mark from "./Mark";
 import { useT } from "./I18n";
 import PhotoEvidence from "./PhotoEvidence";
-import { GRADE_COLOUR, GRADE_INK } from "@/lib/ui";
+import { GRADE_COLOUR, GRADE_INK, GRADE_LABEL } from "@/lib/ui";
+import Term from "./Term";
 import { href, type Routes } from "@/lib/routes";
 
 const TIERS: Tier[] = ["Blocked", "Unverified", "Watch", "Verified"];
@@ -50,6 +51,19 @@ export default function LotView({
         <span aria-current="page">{t("Lot")} {lot.number}</span>
       </nav>
 
+      <div className="glance" role="region" aria-label={t("At a glance")}>
+        <span>
+          <strong>USD {lot.priceUsdPerLb}</strong> {t("per lb Ta2O5")}
+        </span>
+        <button
+          type="button"
+          className="btn"
+          onClick={() => document.getElementById("reserve-panel")?.scrollIntoView({ behavior: "smooth" })}
+        >
+          {blockedReason ? t("See terms") : t("Reserve this lot")}
+        </button>
+      </div>
+
       <div className="lot-grid">
         {/* Grade and headline facts */}
         <header className="hero">
@@ -65,6 +79,7 @@ export default function LotView({
             <h1>{t("{n} tonnes of tantalum ore, {b}% Ta2O5 basis", { n: lot.tonnes, b: lot.basisTa2O5 })}</h1>
             <p className="reason">
               <strong>{blocked ? t("Blocked.") : t("Trust Grade {g}.", { g: g.grade })}</strong>{" "}
+              <em className="grade-words">{t(GRADE_LABEL[g.grade])}.</em>{" "}
               {g.reasons[0]}
             </p>
             <details className="rules">
@@ -84,7 +99,7 @@ export default function LotView({
         </header>
 
         {/* Locked terms and reserve */}
-        <aside className="rail" aria-label="Locked terms">
+        <aside className="rail" id="reserve-panel" aria-label="Locked terms">
           <h2>{t("Locked terms")}</h2>
           <dl className="terms">
             <div>
@@ -92,11 +107,11 @@ export default function LotView({
               <dd>{t("{n} tonnes", { n: lot.tonnes })}</dd>
             </div>
             <div>
-              <dt>{t("Grade basis")}</dt>
+              <dt><Term k="Grade basis">{t("Grade basis")}</Term></dt>
               <dd>{lot.basisTa2O5}% Ta2O5</dd>
             </div>
             <div>
-              <dt>{t("Delivery")}</dt>
+              <dt>{t("Delivery")} (<Term k="CIF">CIF</Term>)</dt>
               <dd>{lot.incoterm}</dd>
             </div>
             <div className="terms-price">
@@ -196,7 +211,7 @@ export default function LotView({
           {/* Assay */}
           <section className="block" aria-labelledby="h-assay">
             <div className="block-head">
-              <h2 id="h-assay">{t("Assay")}</h2>
+              <h2 id="h-assay"><Term k="Assay">{t("Assay")}</Term></h2>
               <p>{t("Ta2O5 content, percent")}</p>
             </div>
             <table className="assay">
@@ -243,7 +258,7 @@ export default function LotView({
                   </td>
                 </tr>
                 <tr>
-                  <th scope="row">{t("Umpire lab")}</th>
+                  <th scope="row"><Term k="Umpire lab">{t("Umpire lab")}</Term></th>
                   <td className="num">{t("Sealed")}</td>
                   <td>{t("Held back. Opened only if the buyer's result and the others disagree.")}</td>
                 </tr>
@@ -262,7 +277,7 @@ export default function LotView({
           {/* Custody */}
           <section className="block" aria-labelledby="h-custody">
             <div className="block-head">
-              <h2 id="h-custody">{t("Custody log")}</h2>
+              <h2 id="h-custody"><Term k="Custody log">{t("Custody log")}</Term></h2>
               <p>{t("{n} handovers recorded", { n: lot.custody.length })}</p>
             </div>
             <ol className="timeline">

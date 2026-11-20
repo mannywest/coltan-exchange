@@ -1423,5 +1423,209 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
  "Syria": {
   "fr": "Syrie",
   "zh": "叙利亚"
+ },
+ "Viewing as": {
+  "fr": "Vue en tant que",
+  "zh": "查看身份"
+ },
+ "Visitor": {
+  "fr": "Visiteur",
+  "zh": "访客"
+ },
+ "Reviewer": {
+  "fr": "Examinateur",
+  "zh": "审核员"
+ },
+ "This screen is for reviewers": {
+  "fr": "Cet écran est réservé aux examinateurs",
+  "zh": "此页面仅供审核员使用"
+ },
+ "This screen is for sellers": {
+  "fr": "Cet écran est réservé aux vendeurs",
+  "zh": "此页面仅供卖方使用"
+ },
+ "Buyers and sellers do not see the reviewer desk or the mine registry. In the real product, login decides this.": {
+  "fr": "Les acheteurs et les vendeurs ne voient ni le poste d'examen ni le registre des mines. Dans le vrai produit, la connexion en décide.",
+  "zh": "买方和卖方看不到审核台和矿山登记册。在正式产品中由登录权限决定。"
+ },
+ "Only cleared sellers can list a lot. In the real product, login decides this.": {
+  "fr": "Seuls les vendeurs autorisés peuvent mettre un lot en vente. Dans le vrai produit, la connexion en décide.",
+  "zh": "只有通过准入的卖方才能挂牌批次。在正式产品中由登录权限决定。"
+ },
+ "View as a reviewer (demo)": {
+  "fr": "Voir en tant qu'examinateur (démo)",
+  "zh": "以审核员身份查看（演示）"
+ },
+ "View as a seller (demo)": {
+  "fr": "Voir en tant que vendeur (démo)",
+  "zh": "以卖方身份查看（演示）"
+ },
+ "Strong evidence": {
+  "fr": "Preuves solides",
+  "zh": "证据充分"
+ },
+ "Good evidence, gaps": {
+  "fr": "Bonnes preuves, avec des lacunes",
+  "zh": "证据较好，有缺口"
+ },
+ "Weak evidence": {
+  "fr": "Preuves faibles",
+  "zh": "证据薄弱"
+ },
+ "Cannot be traded": {
+  "fr": "Ne peut pas être négocié",
+  "zh": "不可交易"
+ },
+ "A neutral exchange for tantalum ore, where every lot comes with its evidence": {
+  "fr": "Une plateforme neutre pour le minerai de tantale, où chaque lot est accompagné de ses preuves",
+  "zh": "中立的钽矿石交易所，每个批次都附有证据"
+ },
+ "Buyers and sellers trade lots that have been tested, tracked and checked for signs of false origin. Rules set the grade. People approve. AI never decides.": {
+  "fr": "Acheteurs et vendeurs échangent des lots testés, suivis et vérifiés pour détecter les signes de fausse origine. Les règles fixent la note. Des personnes approuvent. L'IA ne décide jamais.",
+  "zh": "买卖双方交易的批次都经过检测、追踪，并核查是否有虚假来源迹象。评级由规则确定，由人批准，AI 从不做决定。"
+ },
+ "Browse the lots": {
+  "fr": "Parcourir les lots",
+  "zh": "浏览批次"
+ },
+ "Who are you?": {
+  "fr": "Qui êtes-vous ?",
+  "zh": "您是哪一方？"
+ },
+ "I want to buy": {
+  "fr": "Je veux acheter",
+  "zh": "我想买"
+ },
+ "Browse approved lots, read the evidence and reserve one.": {
+  "fr": "Parcourez les lots approuvés, lisez les preuves et réservez-en un.",
+  "zh": "浏览已批准的批次，查看证据并预订。"
+ },
+ "Get cleared to buy": {
+  "fr": "Se faire autoriser pour acheter",
+  "zh": "申请买方准入"
+ },
+ "I want to sell": {
+  "fr": "Je veux vendre",
+  "zh": "我想卖"
+ },
+ "Record a lot the way the field team does and send it for review.": {
+  "fr": "Saisissez un lot comme le fait l'équipe de terrain et envoyez-le pour examen.",
+  "zh": "按现场团队的方式录入批次并提交审核。"
+ },
+ "Get cleared to sell": {
+  "fr": "Se faire autoriser pour vendre",
+  "zh": "申请卖方准入"
+ },
+ "I review lots": {
+  "fr": "J'examine des lots",
+  "zh": "我审核批次"
+ },
+ "Decide the lots the rules cannot clear alone, and manage mine tiers.": {
+  "fr": "Décidez des lots que les règles ne peuvent pas valider seules et gérez les niveaux des mines.",
+  "zh": "决定规则无法单独放行的批次，并管理矿山等级。"
+ },
+ "How it works": {
+  "fr": "Comment ça marche",
+  "zh": "运作方式"
+ },
+ "Every buyer, seller, transporter and exporter is screened first. Sanctioned countries are refused.": {
+  "fr": "Chaque acheteur, vendeur, transporteur et exportateur est d'abord filtré. Les pays sanctionnés sont refusés.",
+  "zh": "每位买家、卖家、运输方和出口方都先经过筛查。受制裁国家一律拒绝。"
+ },
+ "See the evidence": {
+  "fr": "Voir les preuves",
+  "zh": "查看证据"
+ },
+ "Each lot carries a Trust Grade built from tests, sealed custody and origin cross-checks.": {
+  "fr": "Chaque lot porte une note de confiance fondée sur des tests, une possession scellée et des recoupements d'origine.",
+  "zh": "每个批次都有信任评级，依据检测、密封监管链和来源交叉核验得出。"
+ },
+ "Reserve and sign": {
+  "fr": "Réserver et signer",
+  "zh": "预订并签约"
+ },
+ "Terms are locked before anyone commits. A named reviewer approves each lot first.": {
+  "fr": "Les conditions sont verrouillées avant tout engagement. Un examinateur nommé approuve d'abord chaque lot.",
+  "zh": "在任何人承诺之前先锁定条款。每个批次须先经具名审核员批准。"
+ },
+ "Test, then pay": {
+  "fr": "Tester, puis payer",
+  "zh": "先检测，后付款"
+ },
+ "A lab confirms the grade on arrival. A named person releases payment through escrow.": {
+  "fr": "Un laboratoire confirme la teneur à l'arrivée. Une personne nommée libère le paiement via le séquestre.",
+  "zh": "货到后由实验室确认品位。具名人员通过托管放款。"
+ },
+ "What the Trust Grade means": {
+  "fr": "Ce que signifie la note de confiance",
+  "zh": "信任评级的含义"
+ },
+ "The grade says how strong the evidence is. It does not guarantee origin.": {
+  "fr": "La note indique la solidité des preuves. Elle ne garantit pas l'origine.",
+  "zh": "评级表示证据的强弱，不保证来源。"
+ },
+ "All six checks verified, and the mine is Verified.": {
+  "fr": "Les six contrôles sont vérifiés et la mine est Vérifiée.",
+  "zh": "六项检查全部验证，且矿山为已验证。"
+ },
+ "Four or five checks verified, none failed.": {
+  "fr": "Quatre ou cinq contrôles vérifiés, aucun échec.",
+  "zh": "四或五项检查已验证，无失败项。"
+ },
+ "Anything else. Look closely before you trade.": {
+  "fr": "Tout le reste. Examinez de près avant de négocier.",
+  "zh": "其他情况。交易前请仔细查看。"
+ },
+ "A hard rule failed, such as a sanctions match. It cannot be reserved.": {
+  "fr": "Une règle stricte a échoué, par exemple une correspondance de sanctions. Il ne peut pas être réservé.",
+  "zh": "未通过硬性规则，例如制裁匹配。无法预订。"
+ },
+ "Terms in plain words": {
+  "fr": "Les termes en mots simples",
+  "zh": "术语通俗解释"
+ },
+ "Tantalum pentoxide. The tantalum content that sets the price of the ore.": {
+  "fr": "Pentoxyde de tantale. La teneur en tantale qui fixe le prix du minerai.",
+  "zh": "五氧化二钽。决定矿石价格的钽含量。"
+ },
+ "A lab test that measures how much tantalum is really in the ore.": {
+  "fr": "Un test de laboratoire qui mesure la quantité réelle de tantale dans le minerai.",
+  "zh": "通过实验室检测测量矿石中真实的钽含量。"
+ },
+ "A neutral lab that settles the result when buyer and seller labs disagree.": {
+  "fr": "Un laboratoire neutre qui tranche lorsque les laboratoires de l'acheteur et du vendeur divergent.",
+  "zh": "当买卖双方实验室结果不一致时，由中立实验室定论。"
+ },
+ "The Ta2O5 percentage the price is quoted on. Results above or below adjust the final value.": {
+  "fr": "Le pourcentage de Ta2O5 sur lequel le prix est établi. Un résultat supérieur ou inférieur ajuste la valeur finale.",
+  "zh": "报价所依据的 Ta2O5 百分比。结果高于或低于该值会调整最终价值。"
+ },
+ "The seller pays shipping and insurance to the named port. Risk passes to the buyer once loaded.": {
+  "fr": "Le vendeur paie le transport et l'assurance jusqu'au port désigné. Le risque passe à l'acheteur une fois le chargement effectué.",
+  "zh": "卖方承担到指定港口的运费和保险。装船后风险转移给买方。"
+ },
+ "A regulated partner holds the money and releases it only when a named person approves.": {
+  "fr": "Un partenaire réglementé détient l'argent et ne le libère que lorsqu'une personne nommée approuve.",
+  "zh": "由受监管的合作方保管资金，仅在具名人员批准后放款。"
+ },
+ "A record of every handover of the lot, with seal numbers, weights and times.": {
+  "fr": "Un registre de chaque transfert du lot, avec numéros de scellés, poids et heures.",
+  "zh": "记录批次每次交接的封条编号、重量和时间。"
+ },
+ "Escrow": {
+  "fr": "Séquestre",
+  "zh": "托管"
+ },
+ "CIF": {
+  "fr": "CIF",
+  "zh": "CIF（到岸价）"
+ },
+ "At a glance": {
+  "fr": "En un coup d'œil",
+  "zh": "概览"
+ },
+ "See terms": {
+  "fr": "Voir les conditions",
+  "zh": "查看条款"
  }
 };

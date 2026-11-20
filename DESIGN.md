@@ -74,3 +74,11 @@ Colour is never the only signal: every status also has a word and a shape.
 - Screens added: List a lot (/sell), Deal (/lots/{slug}/deal, six locked stages), Get cleared (/onboarding), Mine registry (/registry).
 - Languages: EN, FR, 中文 through useT(); English text is the key, translations in lib/i18n-dict.ts. Lot evidence and case notes stay English in the demo.
 - Rules stay deterministic: mine must be Verified/Watch to list; photos >= 3; named approver ticks before any payment; umpire lab when assay gap > 0.5; sanctioned countries and designated names hard-block onboarding.
+
+## Update: outsider-clarity pass
+- Home page is the front door (/): what it is, who are you, how it works (4 steps), what grades mean, terms in plain words. Lots list moved to /lots.
+- "Viewing as" switch: Visitor, Buyer, Seller, Reviewer. Menu shows only that role's screens; reviewer desk, mine registry and List a lot show a gate unless the matching view is chosen (demo stand-in for login).
+- Every grade letter has a plain label: A Strong evidence, B Good evidence with gaps, C Weak evidence, Blocked Cannot be traded.
+- Trade terms (Ta2O5, assay, umpire lab, grade basis, CIF, custody log) have tap or hover meanings (components/Term.tsx, lib/glossary.ts).
+- Get cleared is first in the menu for visitors, buyers and sellers.
+- Mobile lot page: fixed bar with price and Reserve so the action is always in reach.

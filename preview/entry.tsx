@@ -1,6 +1,6 @@
 // Browser-only entry for the hosted preview (a single HTML file with hash routing).
 // The real app is the Next.js project; this reuses the same components.
-//   #all-lots (or empty)   listing        #review         reviewer desk
+//   (empty) or #home home   #all-lots listing        #review         reviewer desk
 //   #lot-0417              lot detail     #check-lot-0417 trust check
 //   #deal-lot-0417 deal    #sell  #onboarding  #registry
 import { createRoot } from "react-dom/client";
@@ -14,6 +14,8 @@ import SellForm from "@/components/SellForm";
 import DealTracker from "@/components/DealTracker";
 import Onboarding from "@/components/Onboarding";
 import MineRegistry from "@/components/MineRegistry";
+import Home from "@/components/Home";
+import RoleGate from "@/components/RoleGate";
 import { lots, getLot } from "@/data/lots";
 import { hashRoutes } from "@/lib/routes";
 
@@ -31,10 +33,26 @@ function useHash() {
 }
 
 function Screen({ hash }: { hash: string }) {
-  if (hash === "review") return <ReviewDesk lots={lots} routes={hashRoutes} />;
-  if (hash === "sell") return <SellForm routes={hashRoutes} />;
+  if (hash === "" || hash === "home") return <Home routes={hashRoutes} />;
+  if (hash === "review")
+    return (
+      <RoleGate need="reviewer">
+        <ReviewDesk lots={lots} routes={hashRoutes} />
+      </RoleGate>
+    );
+  if (hash === "sell")
+    return (
+      <RoleGate need="seller">
+        <SellForm routes={hashRoutes} />
+      </RoleGate>
+    );
   if (hash === "onboarding") return <Onboarding />;
-  if (hash === "registry") return <MineRegistry routes={hashRoutes} />;
+  if (hash === "registry")
+    return (
+      <RoleGate need="reviewer">
+        <MineRegistry routes={hashRoutes} />
+      </RoleGate>
+    );
   if (hash.startsWith("deal-")) {
     const d = getLot(hash.slice(5));
     if (d) return <DealTracker lot={d} routes={hashRoutes} />;

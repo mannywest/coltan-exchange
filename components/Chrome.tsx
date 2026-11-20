@@ -1,6 +1,6 @@
 import type { ReactNode } from "react";
 import type { Routes } from "@/lib/routes";
-import { LangProvider } from "./I18n";
+import { LangProvider, RoleProvider } from "./I18n";
 import Frame from "./Frame";
 
 // Shared page frame: demo notice, header, language switch, footer.
@@ -8,7 +8,9 @@ import Frame from "./Frame";
 export default function Chrome({ routes, children }: { routes: Routes; children: ReactNode }) {
   return (
     <LangProvider>
-      <Frame routes={routes}>{children}</Frame>
+      <RoleProvider>
+        <Frame routes={routes}>{children}</Frame>
+      </RoleProvider>
     </LangProvider>
   );
 }

@@ -12,3 +12,11 @@ export const GRADE_INK = {
   C: "#b04a1e",
   Blocked: "#b3262b",
 } as const;
+
+// Plain-words label shown next to every grade letter.
+export const GRADE_LABEL = {
+  A: "Strong evidence",
+  B: "Good evidence, gaps",
+  C: "Weak evidence",
+  Blocked: "Cannot be traded",
+} as const;

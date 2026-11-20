@@ -1,7 +1,6 @@
-import LotListing from "@/components/LotListing";
-import { lots } from "@/data/lots";
+import Home from "@/components/Home";
 import { nextRoutes } from "@/lib/routes";
 
-export default function Home() {
-  return <LotListing lots={lots} routes={nextRoutes} />;
+export default function HomePage() {
+  return <Home routes={nextRoutes} />;
 }

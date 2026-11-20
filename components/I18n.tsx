@@ -31,6 +31,25 @@ export function useT() {
   };
 }
 
+export type Role = "visitor" | "buyer" | "seller" | "reviewer";
+export const ROLES: { id: Role; label: string }[] = [
+  { id: "visitor", label: "Visitor" },
+  { id: "buyer", label: "Buyer" },
+  { id: "seller", label: "Seller" },
+  { id: "reviewer", label: "Reviewer" },
+];
+const RoleCtx = createContext<{ role: Role; setRole: (r: Role) => void }>({
+  role: "visitor",
+  setRole: () => {},
+});
+export function RoleProvider({ children }: { children: ReactNode }) {
+  const [role, setRole] = useState<Role>("visitor");
+  return <RoleCtx.Provider value={{ role, setRole }}>{children}</RoleCtx.Provider>;
+}
+export function useRole() {
+  return useContext(RoleCtx);
+}
+
 export function LangSwitch() {
   const { lang, setLang } = useLang();
   return (
