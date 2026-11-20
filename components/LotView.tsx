@@ -13,47 +13,18 @@ import {
 } from "@/lib/grade";
 import { fmtDate, fmtDateTime } from "@/lib/format";
 import ReservePanel from "./ReservePanel";
-
-const GRADE_COLOUR = {
-  A: "var(--verified)",
-  B: "var(--amber)",
-  C: "var(--copper)",
-  Blocked: "var(--blocked)",
-} as const;
-
-// Darker versions of the grade colours that pass contrast on the paper sheet.
-const GRADE_INK = {
-  A: "#006b5a",
-  B: "#7a5a0a",
-  C: "#b04a1e",
-  Blocked: "#b3262b",
-} as const;
+import Mark from "./Mark";
+import { GRADE_COLOUR, GRADE_INK } from "@/lib/ui";
+import { href, type Routes } from "@/lib/routes";
 
 const TIERS: Tier[] = ["Blocked", "Unverified", "Watch", "Verified"];
 
-function Mark({ status }: { status: Status }) {
-  return (
-    <svg
-      className={`mark mark-${status}`}
-      viewBox="0 0 20 20"
-      width="20"
-      height="20"
-      aria-hidden="true"
-    >
-      <circle className="mark-ring" cx="10" cy="10" r="8.5" />
-      {status === "verified" && <path className="tick" d="M5.8 10.4l2.9 2.9 5.5-6" />}
-      {status === "partial" && <path className="half" d="M10 1.5a8.5 8.5 0 0 1 0 17z" />}
-      {status === "failed" && <path className="cross" d="M6.5 6.5l7 7M13.5 6.5l-7 7" />}
-    </svg>
-  );
-}
-
 export default function LotView({
   lot,
-  homeHref = "/",
+  routes,
 }: {
   lot: Lot;
-  homeHref?: string;
+  routes: Routes;
 }) {
   const g = computeGrade(lot);
   const colour = GRADE_COLOUR[g.grade];
@@ -70,7 +41,7 @@ export default function LotView({
   return (
     <div className="lot" style={{ "--grade": colour } as CSSProperties}>
       <nav className="crumbs" aria-label="Breadcrumb">
-        <a href={homeHref}>All lots</a>
+        <a href={routes.lots}>All lots</a>
         <span aria-hidden="true">/</span>
         <span aria-current="page">Lot {lot.number}</span>
       </nav>
@@ -156,7 +127,9 @@ export default function LotView({
                     ? "Rejected"
                     : "Waiting for approval"}
               </strong>{" "}
-              by {lot.review.by}, {fmtDate(lot.review.at)}
+             {lot.review.status === "pending"
+                ? `(submitted ${fmtDate(lot.review.at)})`
+                : ` by ${lot.review.by}, ${fmtDate(lot.review.at)}`}
             </p>
             {lot.review.note && <p className="review-note">{lot.review.note}</p>}
           </div>
@@ -213,6 +186,9 @@ export default function LotView({
                 );
               })}
             </ul>
+            <p className="more">
+              <a href={href(routes.check, lot.slug)}>Open the full trust check</a>
+            </p>
           </section>
 
           {/* Assay */}

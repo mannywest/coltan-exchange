@@ -59,3 +59,8 @@ Colour is never the only signal: every status also has a word and a shape.
 - A rotated stamp carries the grade and review date. It lands once on load (off under reduced motion).
 - The hero grade letter, locked terms and reserve panel stay on the dark desk.
 - Hosted preview: `node preview/build.mjs` after `npm run build` makes one self-contained `preview/dist/index.html` (hash routes: #all-lots, #lot-0417).
+
+## Update 20 Nov 2026: listing, trust check, reviewer desk
+- **Listing:** ruled rows on the dark desk. The Trust Grade letter is the first thing in every row (5.5rem, grade colour). Each row has a six-block evidence meter (filled, half, dashed, hatched = verified, partial, missing, failed) so evidence reads at a glance. Filter chips by grade; an empty state when a filter has no lots. A demo switch shows the lots buyers cannot see (waiting or rejected), dimmed and labelled.
+- **Trust check:** same hero and rail as the lot page. The seven origin cross-checks sit on a second paper sheet ("Origin cross-check report"). The rail lists the evidence pack and a disabled "Export for your bank".
+- **Reviewer desk:** a working screen, so it stays dark and dense. Queue on the left, case on the right. The AI draft summary is in a dashed box labelled as AI-written. Decision rules are fixed: Blocked lots cannot be approved; Grade C lots can only be approved with conditions; conditions and rejection need a written reason.

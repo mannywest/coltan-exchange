@@ -3,6 +3,8 @@ import "@fontsource-variable/manrope";
 import "@fontsource/big-shoulders-display/700";
 import "@fontsource/big-shoulders-display/800";
 import "./globals.css";
+import Chrome from "@/components/Chrome";
+import { nextRoutes } from "@/lib/routes";
 
 export const metadata: Metadata = {
   title: "Coltan Exchange (demo) | Plerosis",
@@ -14,20 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en">
       <body>
-        <div className="demo-bar" role="note">
-          Demo data. Every lot, name, number and price on this site is invented.
-        </div>
-        <header className="top">
-          <a className="wordmark" href="/">
-            Plerosis
-          </a>
-          <span className="product">Coltan Exchange</span>
-        </header>
-        <main className="page">{children}</main>
-        <footer className="foot">
-          <p>Prepared by Plerosis with AI assistance</p>
-          <p>Demo only. Not an offer to trade.</p>
-        </footer>
+        <Chrome routes={nextRoutes}>{children}</Chrome>
       </body>
     </html>
   );

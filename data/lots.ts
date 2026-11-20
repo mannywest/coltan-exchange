@@ -1,10 +1,11 @@
 import type { Lot } from "@/lib/grade";
+import { extraLots } from "./extra";
 
 // DEMO DATA ONLY. Every lot, name, number, date and price below is invented.
 // COMPLIANCE: screening results here are pretend. Real screening must come from a
 // regulated provider, never from this file.
 
-export const lots: Lot[] = [
+const baseLots: Lot[] = [
   {
     slug: "lot-0417",
     number: "0417",
@@ -105,6 +106,15 @@ export const lots: Lot[] = [
       { party: "Beneficial owners", status: "verified", note: "Identified and cleared" },
     ],
     lastScreened: "2026-11-17T06:00:00Z",
+    cross: [
+      ["verified", "Site photos and pin sit inside the mine's recorded boundary. No armed-group area nearby (demo map)."],
+      ["verified", "12 t is well inside this mine's usual monthly output."],
+      ["verified", "Niobium, uranium and tin lines are within the range of earlier lots."],
+      ["verified", "Six days door to door, which matches the usual route."],
+      ["verified", "USD 150 is inside the demo market range of 140 to 160."],
+      ["verified", "No sanctions or media matches on any party."],
+      ["verified", "Four earlier lots from this seller, all settled without a dispute."],
+    ],
     review: {
       status: "approved",
       by: "Compliance reviewer R. (demo)",
@@ -204,6 +214,15 @@ export const lots: Lot[] = [
       { party: "Beneficial owners", status: "verified", note: "Identified and cleared" },
     ],
     lastScreened: "2026-11-16T06:00:00Z",
+    cross: [
+      ["verified", "Photos and pin sit inside the mine's recorded boundary."],
+      ["partial", "Output rose 40% in one month. Held open until the new site visit."],
+      ["verified", "Assay profile is within the range of earlier lots."],
+      ["verified", "Journey time fits the route. One 0.3% weight gap was cleared."],
+      ["verified", "USD 142 is inside the demo market range of 140 to 160."],
+      ["verified", "No sanctions or media matches on any party."],
+      ["verified", "Two earlier lots from this seller, both settled."],
+    ],
     review: {
       status: "approved",
       by: "Compliance reviewer R. (demo)",
@@ -292,6 +311,15 @@ export const lots: Lot[] = [
       { party: "Beneficial owners", status: "partial", note: "One owner still to be identified" },
     ],
     lastScreened: "2026-11-16T06:00:00Z",
+    cross: [
+      ["partial", "The pin matches the mine, but the photos are older than 30 days."],
+      ["verified", "10 t is plausible for this mine."],
+      ["partial", "The independent lab result is due, so the profile cannot be compared yet."],
+      ["missing", "The border scan is missing, so journey time cannot be checked."],
+      ["partial", "USD 118 is below the demo market range of 140 to 160."],
+      ["partial", "One beneficial owner is still to be identified."],
+      ["missing", "First lot from this seller, so there is no track record."],
+    ],
     review: {
       status: "approved",
       by: "Compliance reviewer R. (demo)",
@@ -366,6 +394,15 @@ export const lots: Lot[] = [
       { party: "Beneficial owners", status: "missing", note: "Not provided" },
     ],
     lastScreened: "2026-11-14T06:00:00Z",
+    cross: [
+      ["failed", "The pin falls inside a Blocked area."],
+      ["missing", "No output figures were supplied."],
+      ["missing", "No independent lab result to compare."],
+      ["failed", "The route passes a known mixing point."],
+      ["failed", "USD 96 is far below the demo market range of 140 to 160."],
+      ["failed", "The transporter matches a designated party (demo data)."],
+      ["missing", "First lot from this seller, so there is no track record."],
+    ],
     review: {
       status: "rejected",
       by: "Compliance reviewer R. (demo)",
@@ -374,6 +411,8 @@ export const lots: Lot[] = [
     },
   },
 ];
+
+export const lots: Lot[] = [...baseLots, ...extraLots];
 
 export function getLot(slug: string): Lot | undefined {
   return lots.find((l) => l.slug === slug);

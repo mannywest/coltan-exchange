@@ -1,6 +1,7 @@
-import { redirect } from "next/navigation";
+import LotListing from "@/components/LotListing";
+import { lots } from "@/data/lots";
+import { nextRoutes } from "@/lib/routes";
 
-// The listing page comes next. Until the first screen is approved, go straight to a lot.
 export default function Home() {
-  redirect("/lots/lot-0417");
+  return <LotListing lots={lots} routes={nextRoutes} />;
 }

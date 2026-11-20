@@ -66,6 +66,9 @@ export type Lot = {
   }[];
   screening: { party: string; status: Status; note: string }[];
   lastScreened: string;
+  cross: [Status, string][];
+  caseNote?: string;
+  aiSummary?: string;
   review: {
     status: "approved" | "pending" | "rejected";
     by: string;
@@ -160,4 +163,42 @@ export function computeGrade(lot: Lot): {
       `Only ${verified} of 6 evidence checks are verified. Still open: ${list(notVerified)}.`,
     ],
   };
+}
+
+// ---------- Origin cross-checks (the trust check screen) ----------
+
+export const CROSS_META = [
+  { id: "geo", label: "Location and boundaries", what: "Pin and photos checked against the mine's recorded boundary and known conflict areas." },
+  { id: "volume", label: "Volume sanity", what: "Reported output compared with what this mine and its crew can plausibly produce." },
+  { id: "chemistry", label: "Assay profile", what: "Niobium, uranium, tin and other lines compared with this mine's earlier lots." },
+  { id: "route", label: "Route and timing", what: "Transport log checked against realistic journey times and known mixing points." },
+  { id: "price", label: "Price", what: "Price compared with the market range. Far below it is a warning sign." },
+  { id: "people", label: "People", what: "Owners, transporters and exporters checked for sanctions and adverse media." },
+  { id: "track", label: "Track record", what: "How this seller and mine have performed on earlier lots." },
+] as const;
+
+export const CROSS_WORD: Record<Status, string> = {
+  verified: "Passed",
+  partial: "Look closer",
+  missing: "Not run",
+  failed: "Failed",
+};
+
+export function crossSummary(lot: Lot) {
+  const n = (s: Status) => lot.cross.filter(([x]) => x === s).length;
+  return { total: lot.cross.length, passed: n("verified"), look: n("partial"), notRun: n("missing"), failed: n("failed") };
+}
+
+export function evidencePack(lot: Lot): { label: string; status: Status }[] {
+  const c = crossSummary(lot);
+  const cross: Status =
+    c.failed > 0 ? "failed" : c.passed === c.total ? "verified" : c.passed > 0 ? "partial" : "missing";
+  return [
+    { label: "Certificate of analysis", status: lot.evidence.assay.status },
+    { label: "Sample split record", status: lot.evidence.sampling.status },
+    { label: "Custody log with seal numbers", status: lot.evidence.custody.status },
+    { label: "Screening report", status: lot.evidence.screening.status },
+    { label: "Site audit report", status: lot.evidence.site.status },
+    { label: "Cross-check report", status: cross },
+  ];
 }
