@@ -1627,5 +1627,9 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
  "See terms": {
   "fr": "Voir les conditions",
   "zh": "查看条款"
+ },
+ "Home": {
+  "fr": "Accueil",
+  "zh": "首页"
  }
 };

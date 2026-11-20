@@ -8,7 +8,7 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
   const t = useT();
   const { lang } = useLang();
   const { role, setRole } = useRole();
-  const links: [string, string][] =
+  const nav: [string, string][] =
     role === "reviewer"
       ? [[routes.review, "Reviewer desk"], [routes.registry, "Mine registry"], [routes.lots, "Lots"]]
       : role === "seller"
@@ -36,7 +36,7 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
           </select>
         </label>
         <nav className="topnav" aria-label="Main">
-          {links.map(([h, l]) => (
+          {[[routes.home, "Home"] as [string, string], ...nav].map(([h, l]) => (
             <a key={l} href={h}>
               {t(l)}
             </a>
