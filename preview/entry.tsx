@@ -20,7 +20,14 @@ import { lots, getLot } from "@/data/lots";
 import { hashRoutes } from "@/lib/routes";
 
 function useHash() {
-  const [hash, setHash] = useState(() => window.location.hash.slice(1));
+  // Always open on the home page. A leftover address fragment from an earlier visit
+  // must not drop a new visitor into another screen. Lot links still work.
+  const [hash, setHash] = useState(() => {
+    const h = window.location.hash.slice(1);
+    if (h.startsWith("lot-")) return h;
+    if (h !== "" && h !== "home") window.location.hash = "home";
+    return "home";
+  });
   useEffect(() => {
     const onChange = () => {
       setHash(window.location.hash.slice(1));
