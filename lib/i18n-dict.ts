@@ -1835,5 +1835,13 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
  "Only {n} of 6 evidence checks are verified. Still open: {list}.": {
   "fr": "Seulement {n} contrôles de preuves sur 6 sont vérifiés. Encore ouverts : {list}.",
   "zh": "6 项证据检查中仅 {n} 项已验证。尚未完成：{list}。"
+ },
+ "Estimated total": {
+  "fr": "Total estimé",
+  "zh": "预计总额"
+ },
+ "{amount} goes into escrow after you sign terms. Estimate until the lab confirms the grade.": {
+  "fr": "{amount} sont placés en séquestre après la signature des conditions. Estimation jusqu'à la confirmation de la teneur par le laboratoire.",
+  "zh": "签署条款后，{amount} 存入托管账户。在实验室确认品位之前均为估算。"
  }
 };

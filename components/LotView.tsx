@@ -31,6 +31,9 @@ export default function LotView({
   lot: Lot;
   routes: Routes; }) {
   const t = useT();
+  // Value = tonnes x lb per tonne x Ta2O5 share x price per lb. An estimate on the grade basis until the lab confirms.
+  const total = lot.tonnes * 2204.62 * (lot.basisTa2O5 / 100) * lot.priceUsdPerLb;
+  const money = { total, provisional: total * 0.8 };
   const g = computeGrade(lot);
   const colour = GRADE_COLOUR[g.grade];
   const blocked = g.grade === "Blocked";
@@ -122,6 +125,10 @@ export default function LotView({
               </dd>
             </div>
             <div>
+              <dt>{t("Estimated total")}</dt>
+              <dd>USD {Math.round(total).toLocaleString("en-GB")}</dd>
+            </div>
+            <div>
               <dt>{t("Seller")}</dt>
               <dd>
                 {lot.sellerAlias}
@@ -134,7 +141,7 @@ export default function LotView({
             holdHours={lot.holdHours}
             blockedReason={blockedReason}
             dealHref={href(routes.deal, lot.slug)}
-            clearHref={routes.onboarding}
+            estimate={money}
           />
           <div className="review">
             <p>

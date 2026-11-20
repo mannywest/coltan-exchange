@@ -36,14 +36,13 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
     ["Evidence pack", "A record your bank or auditor can check on its own."],
   ];
   const refuse = [
-    "No clients in sanctioned countries.",
     "AI never approves a lot, releases money or changes a mine tier.",
     "The platform never trades for itself or holds client money.",
     "No lot is called guaranteed clean. Evidence makes false origin harder, and suspicious lots are flagged.",
   ];
   const roles: { id: Role; title: string; text: string; to: string; cta: string }[] = [
-    { id: "buyer", title: "I want to buy", text: "Browse approved lots, read the evidence and reserve one.", to: routes.onboarding, cta: "Get cleared to buy" },
-    { id: "seller", title: "I want to sell", text: "Record a lot the way the field team does and send it for review.", to: routes.onboarding, cta: "Get cleared to sell" },
+    { id: "buyer", title: "I want to buy", text: "Browse approved lots, read the evidence and reserve one.", to: routes.lots, cta: "Browse the lots" },
+    { id: "seller", title: "I want to sell", text: "Record a lot the way the field team does and send it for review.", to: routes.sell, cta: "List a lot" },
     { id: "reviewer", title: "I review lots", text: "Decide the lots the rules cannot clear alone, and manage mine tiers.", to: routes.review, cta: "Open the reviewer desk" },
   ];
   const grades = ["A", "B", "C", "Blocked"] as const;
@@ -72,8 +71,8 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             <a className="btn" href={routes.lots}>
               {t("Browse the lots")}
             </a>
-            <a className="btn btn-quiet" href={routes.onboarding}>
-              {t("Get cleared")}
+            <a className="btn btn-quiet" href={routes.sell} onClick={() => setRole("seller")}>
+              {t("List a lot")}
             </a>
           </div>
           <dl className="home-stats">

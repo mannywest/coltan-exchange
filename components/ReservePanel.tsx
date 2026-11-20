@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { useRole, useT } from "./I18n";
+import { useT } from "./I18n";
 
 type Props = {
   lotNumber: string;
@@ -9,21 +9,20 @@ type Props = {
   blockedReason?: string;
   dealHref?: string;
   clearHref?: string;
+  estimate?: { total: number; provisional: number };
 };
 
 // COMPLIANCE: reserving never releases money or clears a counterparty.
-// In the real product, both sides must pass screening before terms are signed,
-// and escrow release needs a named human approver. Here those steps are stubs.
+// Counterparty screening is planned for a later phase and is not part of this flow yet.
+// Escrow release needs a named human approver. Here those steps are stubs.
 const NEXT_STEPS = [
-  "Both sides are cleared by screening",
   "Locked terms are signed",
   "Funds go into escrow with a regulated partner",
   "A named approver releases payment after final assay",
 ];
 
-export default function ReservePanel({ lotNumber, holdHours, blockedReason, dealHref, clearHref }: Props) {
+export default function ReservePanel({ lotNumber, holdHours, blockedReason, dealHref, estimate }: Props) {
   const t = useT();
-  const { cleared, setCleared } = useRole();
   const [reserved, setReserved] = useState(false);
 
   if (blockedReason) {
@@ -64,23 +63,20 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
     );
   }
 
-  // COMPLIANCE: nobody reserves before counterparty screening. The skip button is a demo shortcut only.
-  if (!cleared) {
-    return (
-      <div className="reserve">
-        <a className="btn btn-link" href={clearHref}>
-          {t("Get cleared to reserve")}
-        </a>
-        <p className="reserve-note">{t("Every buyer is screened before they can reserve a lot.")}</p>
-        <button type="button" className="btn btn-quiet" onClick={() => setCleared(true)}>
-          {t("Demo: continue as a cleared buyer")}
-        </button>
-      </div>
-    );
-  }
-
+  const usd = (n: number) => `USD ${Math.round(n).toLocaleString("en-GB")}`;
   return (
     <div className="reserve">
+      {estimate && (
+        <p className="est-money">
+          <span>{t("Estimated total")}</span>
+          <strong>{usd(estimate.total)}</strong>
+          <small>
+            {t("{amount} goes into escrow after you sign terms. Estimate until the lab confirms the grade.", {
+              amount: usd(estimate.provisional),
+            })}
+          </small>
+        </p>
+      )}
       <button type="button" className="btn" onClick={() => setReserved(true)}>
         {t("Reserve this lot")}
       </button>

@@ -97,3 +97,8 @@ Colour is never the only signal: every status also has a word and a shape.
 - Refresh keeps your place and language/role within a tab; a brand-new visit opens on home.
 - Reserve needs a cleared buyer (Get cleared, or a labelled demo shortcut).
 - Mobile header is two rows; tap targets are 44px; grade reason sentence translates; "Demo view" label; meta description and favicon added.
+
+## Update: free-flowing transaction (screening moved to a later phase)
+- Reserve no longer requires being cleared. Get cleared stays as an optional page. Sanctions and screening are planned for a later phase and are not promised on the home page.
+- Lot page and Reserve show an estimated total and the 80% provisional amount (tonnes x 2,204.62 lb x grade basis x price), marked as an estimate until the lab confirms.
+- Buyer menu: Lots first, Get cleared last. Role cards go straight to Lots or List a lot.

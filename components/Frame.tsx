@@ -12,8 +12,8 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
     role === "reviewer"
       ? [[routes.review, "Reviewer desk"], [routes.registry, "Mine registry"], [routes.lots, "Lots"]]
       : role === "seller"
-        ? [[routes.onboarding, "Get cleared"], [routes.sell, "List a lot"], [routes.lots, "Lots"]]
-        : [[routes.onboarding, "Get cleared"], [routes.lots, "Lots"]];
+        ? [[routes.lots, "Lots"], [routes.sell, "List a lot"], [routes.onboarding, "Get cleared"]]
+        : [[routes.lots, "Lots"], [routes.onboarding, "Get cleared"]];
   return (
     <>
       <div className="demo-bar" role="note">
