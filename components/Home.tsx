@@ -5,9 +5,9 @@ import type { Routes } from "@/lib/routes";
 import { href } from "@/lib/routes";
 import { GLOSSARY } from "@/lib/glossary";
 import { GRADE_COLOUR, GRADE_LABEL } from "@/lib/ui";
-import { CROSS_META, computeGrade, type Lot } from "@/lib/grade";
-import { SamplePhoto } from "./HomeArt";
-import { SAMPLES, sampleSrc } from "@/lib/samples";
+import { CHECK_LABELS, CHECK_ORDER, CROSS_META, computeGrade, type Lot } from "@/lib/grade";
+import { AssayStrip } from "./HomeArt";
+import Mark, { Meter } from "./Mark";
 import { useRole, useT, type Role } from "./I18n";
 
 const ORDER = { A: 0, B: 1, C: 2, Blocked: 3 } as const;
@@ -19,6 +19,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
   const live = lots
     .map((lot) => ({ lot, grade: computeGrade(lot).grade }))
     .filter((r) => r.lot.review.status === "approved" && r.grade !== "Blocked");
+  const demoLot = live.find((r) => r.grade === "A")?.lot;
   const featured = [...live].sort((a, b) => ORDER[a.grade] - ORDER[b.grade]).slice(0, 4);
 
   const problems = [
@@ -90,15 +91,31 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             </div>
           </dl>
         </div>
-        <figure className="hero-photo">
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src={sampleSrc("manganotantalite")} alt={SAMPLES.manganotantalite.alt} />
-          <div className="hero-cert" aria-hidden="true">
-            <small>{t("Certificate of evidence")}</small>
-            <b>A</b>
-          </div>
-          <figcaption>{t("Illustrative sample, not a real lot.")}</figcaption>
-        </figure>
+        {demoLot && (
+          <a className="hero-sheet" href={href(routes.lot, demoLot.slug)} aria-label={t("Open the certificate")}>
+            <span className="hs-title">{t("Certificate of evidence")}</span>
+            <span className="hs-ref">
+              {t("Lot")} {demoLot.number} ({t("demo")})
+            </span>
+            <span className="hs-grade">
+              <b>{computeGrade(demoLot).grade}</b>
+              <span>{t(GRADE_LABEL[computeGrade(demoLot).grade])}</span>
+            </span>
+            <ul className="hs-checks">
+              {CHECK_ORDER.map((k) => (
+                <li key={k}>
+                  <Mark status={demoLot.evidence[k].status} />
+                  <span>{t(CHECK_LABELS[k])}</span>
+                </li>
+              ))}
+            </ul>
+            <span className="hs-assay">
+              <small>{t("Assay readings, % Ta2O5")}</small>
+              <AssayStrip lot={demoLot} grade="A" />
+            </span>
+            <span className="hs-foot">{t("Set by rules. Approved by a named reviewer.")}</span>
+          </a>
+        )}
       </header>
 
       <section aria-labelledby="h-feat">
@@ -107,7 +124,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
           {featured.map(({ lot, grade }) => (
             <li key={lot.slug} style={{ "--grade": GRADE_COLOUR[grade] } as CSSProperties}>
               <a href={href(routes.lot, lot.slug)}>
-                <SamplePhoto grade={grade} seed={Number(lot.number) || 1} />
+                <AssayStrip lot={lot} grade={grade} />
                 <span className="feat-body">
                   <span className="feat-grade">
                     <b>{grade}</b> {t(GRADE_LABEL[grade])}
@@ -116,6 +133,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
                     {t("Lot")} {lot.number}
                   </strong>
                   <span>{t("{n} tonnes, {b}% Ta2O5 basis", { n: lot.tonnes, b: lot.basisTa2O5 })}</span>
+                  <Meter lot={lot} />
                   <span className="feat-price">
                     USD {lot.priceUsdPerLb} <small>{t("per lb")}</small>
                   </span>
@@ -124,9 +142,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             </li>
           ))}
         </ul>
-        <p className="credits">
-          {t("Illustrative sample photos, not real lots.")} {SAMPLES.tantalite.credit} {SAMPLES.manganotantalite.credit}
-        </p>
+
         <p className="home-more">
           <a href={routes.lots}>{t("See all lots")}</a>
         </p>

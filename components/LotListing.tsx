@@ -6,7 +6,7 @@ import { GRADE_COLOUR } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
 import { Meter } from "./Mark";
 import { GRADE_LABEL } from "@/lib/ui";
-import { SamplePhoto } from "./HomeArt";
+import { AssayStrip } from "./HomeArt";
 import { useT } from "./I18n";
 
 type Filter = "All" | Grade;
@@ -93,7 +93,7 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
               >
                 <a href={href(routes.lot, lot.slug)}>
                   <span className="row-thumb">
-                    <SamplePhoto grade={grade} seed={Number(lot.number) || 1} />
+                    <AssayStrip lot={lot} grade={grade} />
                   </span>
                   <span className={`row-grade${grade === "Blocked" ? " is-word" : ""}`}>{grade === "Blocked" ? t("Blocked") : grade}</span>
                   <span className="row-main">

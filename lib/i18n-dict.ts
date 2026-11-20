@@ -1780,12 +1780,16 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
   "fr": "Un partenaire de séquestre réglementé, pas la plateforme. Une personne nommée approuve chaque déblocage.",
   "zh": "由受监管的托管合作方保管，而非平台。每次放款都由具名人员批准。"
  },
- "Illustrative sample, not a real lot.": {
-  "fr": "Échantillon illustratif, pas un vrai lot.",
-  "zh": "示意样品，并非真实批次。"
+ "Assay readings, % Ta2O5": {
+  "fr": "Résultats d'analyse, % Ta2O5",
+  "zh": "化验读数，% Ta2O5"
  },
- "Illustrative sample photos, not real lots.": {
-  "fr": "Photos d'échantillons à titre d'illustration, pas de vrais lots.",
-  "zh": "示意样品照片，并非真实批次。"
+ "demo": {
+  "fr": "démo",
+  "zh": "演示"
+ },
+ "Set by rules. Approved by a named reviewer.": {
+  "fr": "Fixé par des règles. Approuvé par un examinateur nommé.",
+  "zh": "由规则确定，经具名审核员批准。"
  }
 };
