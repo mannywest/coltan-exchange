@@ -86,3 +86,7 @@ Colour is never the only signal: every status also has a word and a shape.
 ## Update: fuller home page and lot pictures
 - Home: hero with drawn ore-and-certificate illustration, live stats, four featured lot cards, the problem, six-stage trade, trust grade key, seven origin checks, "what we will not do", role cards, FAQ, glossary.
 - Pictures are drawn placeholders only (components/HomeArt.tsx): no stock or web photos, because all data is invented. Lot pictures tint by grade; Blocked lots are crossed out. Lots list rows also carry a picture. Replace with real field photos later.
+
+## Update: real sample photos
+- Two free-to-use mineral photos (public/samples): tantalite (public domain, A. Silver / BYU) and manganotantalite (free for all use, E. Zimbres and T. Epaminondas), via Wikimedia Commons. Used in the home hero, featured lot cards and lots list, always labelled "Illustrative sample, not a real lot" with credits on the home page. Blocked lots show the photo greyed with a red cross.
+- Lot-page "Photo evidence" still uses drawn placeholders (scale, handheld reading, sealed bags, handover scan) until real field photos exist.

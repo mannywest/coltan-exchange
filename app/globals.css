@@ -2441,3 +2441,90 @@ ol {
   max-width: 64ch;
   padding-bottom: 6px;
 }
+
+/* ---------- Sample photos ---------- */
+
+.sample {
+  position: relative;
+  display: block;
+  aspect-ratio: 8 / 5;
+  overflow: hidden;
+  background: #0e1214;
+}
+
+.sample img,
+.hero-photo img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.sample.is-blocked img {
+  filter: grayscale(1) brightness(0.55);
+}
+
+.sample.is-blocked i {
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(to top right, transparent calc(50% - 1.5px), var(--blocked) 50%, transparent calc(50% + 1.5px)),
+    linear-gradient(to top left, transparent calc(50% - 1.5px), var(--blocked) 50%, transparent calc(50% + 1.5px));
+}
+
+.row-thumb .sample {
+  border: 1px solid var(--line);
+}
+
+.hero-photo {
+  position: relative;
+  margin: 0;
+  border: 1px solid var(--line);
+}
+
+.hero-photo img {
+  aspect-ratio: 3 / 2;
+}
+
+.hero-cert {
+  position: absolute;
+  right: 16px;
+  bottom: 40px;
+  width: 128px;
+  padding: 10px 12px 6px;
+  background: var(--paper);
+  color: #006b5a;
+  border: 3px double var(--ink);
+  transform: rotate(3deg);
+  text-align: center;
+}
+
+.hero-cert small {
+  display: block;
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 0.8125rem;
+  line-height: 1.1;
+}
+
+.hero-cert b {
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 4.5rem;
+  line-height: 1;
+}
+
+.hero-photo figcaption {
+  padding: 8px 12px;
+  color: var(--muted);
+  font-size: 0.8125rem;
+  background: var(--ink);
+}
+
+.credits {
+  margin-top: 12px;
+  color: var(--faint);
+  font-size: 0.75rem;
+  max-width: 90ch;
+}

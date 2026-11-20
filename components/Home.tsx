@@ -6,7 +6,8 @@ import { href } from "@/lib/routes";
 import { GLOSSARY } from "@/lib/glossary";
 import { GRADE_COLOUR, GRADE_LABEL } from "@/lib/ui";
 import { CROSS_META, computeGrade, type Lot } from "@/lib/grade";
-import { HeroArt, LotThumb } from "./HomeArt";
+import { SamplePhoto } from "./HomeArt";
+import { SAMPLES, sampleSrc } from "@/lib/samples";
 import { useRole, useT, type Role } from "./I18n";
 
 const ORDER = { A: 0, B: 1, C: 2, Blocked: 3 } as const;
@@ -89,7 +90,15 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             </div>
           </dl>
         </div>
-        <HeroArt />
+        <figure className="hero-photo">
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src={sampleSrc("manganotantalite")} alt={SAMPLES.manganotantalite.alt} />
+          <div className="hero-cert" aria-hidden="true">
+            <small>{t("Certificate of evidence")}</small>
+            <b>A</b>
+          </div>
+          <figcaption>{t("Illustrative sample, not a real lot.")}</figcaption>
+        </figure>
       </header>
 
       <section aria-labelledby="h-feat">
@@ -98,7 +107,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
           {featured.map(({ lot, grade }) => (
             <li key={lot.slug} style={{ "--grade": GRADE_COLOUR[grade] } as CSSProperties}>
               <a href={href(routes.lot, lot.slug)}>
-                <LotThumb grade={grade} seed={Number(lot.number) || 1} />
+                <SamplePhoto grade={grade} seed={Number(lot.number) || 1} />
                 <span className="feat-body">
                   <span className="feat-grade">
                     <b>{grade}</b> {t(GRADE_LABEL[grade])}
@@ -115,6 +124,9 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             </li>
           ))}
         </ul>
+        <p className="credits">
+          {t("Illustrative sample photos, not real lots.")} {SAMPLES.tantalite.credit} {SAMPLES.manganotantalite.credit}
+        </p>
         <p className="home-more">
           <a href={routes.lots}>{t("See all lots")}</a>
         </p>

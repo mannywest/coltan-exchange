@@ -31,6 +31,12 @@ const out = await build({
 });
 const js = out.outputFiles[0].text.replace(/<\/script/gi, "<\\/script");
 
+// 2b. Sample photos from public/samples, inlined as data URIs.
+const samples = {};
+for (const f of readdirSync(join(root, "public/samples"))) {
+  samples[f.replace(/\.jpg$/, "")] = "data:image/jpeg;base64," + readFileSync(join(root, "public/samples", f)).toString("base64");
+}
+
 // 3. One HTML file.
 const html = `<!DOCTYPE html>
 <html lang="en">
@@ -42,6 +48,7 @@ const html = `<!DOCTYPE html>
 </head>
 <body>
 <div id="root"></div>
+<script>window.__SAMPLES=${JSON.stringify(samples)};</script>
 <script>${js}</script>
 </body>
 </html>`;

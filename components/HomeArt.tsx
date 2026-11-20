@@ -1,3 +1,4 @@
+import { SAMPLES, sampleSrc, type SampleKey } from "@/lib/samples";
 import type { Grade } from "@/lib/grade";
 
 // Drawn placeholders. No photos: all data on this site is invented.
@@ -77,5 +78,17 @@ export function LotThumb({ grade, seed }: { grade: Grade; seed: number }) {
         </g>
       )}
     </svg>
+  );
+}
+
+// Real mineral photo used as an illustrative sample. Blocked lots are greyed and crossed out.
+export function SamplePhoto({ grade, seed }: { grade: Grade; seed: number }) {
+  const k: SampleKey = seed % 2 ? "manganotantalite" : "tantalite";
+  return (
+    <span className={`sample${grade === "Blocked" ? " is-blocked" : ""}`}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={sampleSrc(k)} alt={SAMPLES[k].alt} loading="lazy" />
+      <i aria-hidden="true" />
+    </span>
   );
 }
