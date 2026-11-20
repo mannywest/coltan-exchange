@@ -1631,5 +1631,153 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
  "Home": {
   "fr": "Accueil",
   "zh": "首页"
+ },
+ "lots on the exchange": {
+  "fr": "lots sur la plateforme",
+  "zh": "个批次在售"
+ },
+ "origin checks on every lot": {
+  "fr": "contrôles d'origine sur chaque lot",
+  "zh": "每个批次的来源检查"
+ },
+ "approvals made by AI": {
+  "fr": "approbations faites par l'IA",
+  "zh": "由 AI 做出的批准"
+ },
+ "See all lots": {
+  "fr": "Voir tous les lots",
+  "zh": "查看所有批次"
+ },
+ "The problem this fixes": {
+  "fr": "Le problème que cela résout",
+  "zh": "本平台解决的问题"
+ },
+ "Origin is hard to prove": {
+  "fr": "L'origine est difficile à prouver",
+  "zh": "来源难以证明"
+ },
+ "Paperwork and tags can be faked, so buyers cannot tell where a lot really came from.": {
+  "fr": "Les documents et les étiquettes peuvent être falsifiés : les acheteurs ne savent pas d'où vient réellement un lot.",
+  "zh": "文件和标签都可能造假，买家无法确知批次真正来自哪里。"
+ },
+ "Assays are disputed": {
+  "fr": "Les analyses sont contestées",
+  "zh": "化验结果有争议"
+ },
+ "Buyer and seller labs often disagree, and there is no neutral way to settle it.": {
+  "fr": "Les laboratoires de l'acheteur et du vendeur divergent souvent, sans moyen neutre de trancher.",
+  "zh": "买卖双方的实验室结果常常不一致，又缺少中立的解决办法。"
+ },
+ "Payment needs trust": {
+  "fr": "Le paiement exige de la confiance",
+  "zh": "付款依赖信任"
+ },
+ "Money moves before the goods are tested, so one side always carries the risk.": {
+  "fr": "L'argent circule avant que les marchandises soient testées : une partie porte toujours le risque.",
+  "zh": "货物检测之前资金就已流动，总有一方承担风险。"
+ },
+ "How a trade works": {
+  "fr": "Comment se déroule une transaction",
+  "zh": "交易如何进行"
+ },
+ "Reserve": {
+  "fr": "Réserver",
+  "zh": "预订"
+ },
+ "Pick an approved lot and hold it. Nothing is paid.": {
+  "fr": "Choisissez un lot approuvé et réservez-le. Rien n'est payé.",
+  "zh": "选择已批准的批次并保留。无需付款。"
+ },
+ "Sign terms": {
+  "fr": "Signer les conditions",
+  "zh": "签署条款"
+ },
+ "Quantity, grade basis, delivery and price are locked.": {
+  "fr": "Quantité, base de teneur, livraison et prix sont verrouillés.",
+  "zh": "数量、品位基准、交货和价格均被锁定。"
+ },
+ "Provisional payment": {
+  "fr": "Paiement provisoire",
+  "zh": "临时付款"
+ },
+ "80% goes into escrow. A named person approves the release.": {
+  "fr": "80 % vont en séquestre. Une personne nommée approuve le déblocage.",
+  "zh": "80% 存入托管账户。由具名人员批准放款。"
+ },
+ "A lab tests the ore. A neutral umpire lab settles disputes.": {
+  "fr": "Un laboratoire teste le minerai. Un laboratoire arbitre neutre tranche les litiges.",
+  "zh": "实验室检测矿石。争议由中立仲裁实验室裁定。"
+ },
+ "The balance is settled on the tested grade.": {
+  "fr": "Le solde est réglé sur la teneur testée.",
+  "zh": "按检测品位结清余款。"
+ },
+ "A record your bank or auditor can check on its own.": {
+  "fr": "Un dossier que votre banque ou votre auditeur peut vérifier seul.",
+  "zh": "银行或审计方可自行核验的记录。"
+ },
+ "Seven checks look for false origin": {
+  "fr": "Sept contrôles recherchent une fausse origine",
+  "zh": "七项检查识别虚假来源"
+ },
+ "None proves origin alone. Together they make it harder to fake.": {
+  "fr": "Aucun ne prouve l'origine à lui seul. Ensemble, ils rendent la falsification plus difficile.",
+  "zh": "单项不能证明来源，合在一起更难造假。"
+ },
+ "What this platform will not do": {
+  "fr": "Ce que cette plateforme ne fera pas",
+  "zh": "本平台不会做的事"
+ },
+ "No clients in sanctioned countries.": {
+  "fr": "Aucun client dans les pays sanctionnés.",
+  "zh": "不接受受制裁国家的客户。"
+ },
+ "AI never approves a lot, releases money or changes a mine tier.": {
+  "fr": "L'IA n'approuve jamais un lot, ne libère jamais de fonds et ne change jamais un niveau de mine.",
+  "zh": "AI 绝不批准批次、放款或更改矿山等级。"
+ },
+ "The platform never trades for itself or holds client money.": {
+  "fr": "La plateforme ne négocie jamais pour son propre compte et ne détient jamais l'argent des clients.",
+  "zh": "平台绝不为自己交易，也不持有客户资金。"
+ },
+ "No lot is called guaranteed clean. Evidence makes false origin harder, and suspicious lots are flagged.": {
+  "fr": "Aucun lot n'est présenté comme garanti propre. Les preuves rendent la fausse origine plus difficile et les lots suspects sont signalés.",
+  "zh": "没有任何批次被称为“保证干净”。证据让虚假来源更难成立，可疑批次会被标记。"
+ },
+ "Common questions": {
+  "fr": "Questions fréquentes",
+  "zh": "常见问题"
+ },
+ "Is this a real exchange?": {
+  "fr": "Est-ce une vraie plateforme ?",
+  "zh": "这是真实的交易所吗？"
+ },
+ "No. This is a demo with invented lots, names and prices. It shows how the real product would work.": {
+  "fr": "Non. C'est une démo avec des lots, des noms et des prix inventés. Elle montre comment fonctionnerait le vrai produit.",
+  "zh": "不是。这是使用虚构批次、名称和价格的演示，展示正式产品的运作方式。"
+ },
+ "Does a Grade A mean the ore is conflict-free?": {
+  "fr": "Une note A signifie-t-elle que le minerai est exempt de conflit ?",
+  "zh": "A 级是否意味着矿石不涉及冲突？"
+ },
+ "No. A grade shows how strong the evidence is. It makes false origin harder and flags suspicious lots, but it does not guarantee origin.": {
+  "fr": "Non. Une note indique la solidité des preuves. Elle rend la fausse origine plus difficile et signale les lots suspects, mais ne garantit pas l'origine.",
+  "zh": "不是。评级只表示证据的强弱。它让虚假来源更难成立并标记可疑批次，但不保证来源。"
+ },
+ "Who decides if a lot is listed?": {
+  "fr": "Qui décide si un lot est mis en vente ?",
+  "zh": "谁决定批次能否挂牌？"
+ },
+ "A named reviewer. The rules set the limits and AI only drafts a summary.": {
+  "fr": "Un examinateur nommé. Les règles fixent les limites et l'IA se contente de rédiger un résumé.",
+  "zh": "由具名审核员决定。规则设定界限，AI 只起草摘要。"
+ },
+ "Who holds the money?": {
+  "fr": "Qui détient l'argent ?",
+  "zh": "谁保管资金？"
+ },
+ "A regulated escrow partner, not the platform. A named person approves every release.": {
+  "fr": "Un partenaire de séquestre réglementé, pas la plateforme. Une personne nommée approuve chaque déblocage.",
+  "zh": "由受监管的托管合作方保管，而非平台。每次放款都由具名人员批准。"
  }
 };

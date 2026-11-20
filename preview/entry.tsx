@@ -40,7 +40,7 @@ function useHash() {
 }
 
 function Screen({ hash }: { hash: string }) {
-  if (hash === "" || hash === "home") return <Home routes={hashRoutes} />;
+  if (hash === "" || hash === "home") return <Home routes={hashRoutes} lots={lots} />;
   if (hash === "review")
     return (
       <RoleGate need="reviewer">

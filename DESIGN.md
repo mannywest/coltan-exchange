@@ -82,3 +82,7 @@ Colour is never the only signal: every status also has a word and a shape.
 - Trade terms (Ta2O5, assay, umpire lab, grade basis, CIF, custody log) have tap or hover meanings (components/Term.tsx, lib/glossary.ts).
 - Get cleared is first in the menu for visitors, buyers and sellers.
 - Mobile lot page: fixed bar with price and Reserve so the action is always in reach.
+
+## Update: fuller home page and lot pictures
+- Home: hero with drawn ore-and-certificate illustration, live stats, four featured lot cards, the problem, six-stage trade, trust grade key, seven origin checks, "what we will not do", role cards, FAQ, glossary.
+- Pictures are drawn placeholders only (components/HomeArt.tsx): no stock or web photos, because all data is invented. Lot pictures tint by grade; Blocked lots are crossed out. Lots list rows also carry a picture. Replace with real field photos later.
