@@ -2427,5 +2427,125 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
  "Download receipt (demo)": {
   "fr": "Télécharger le reçu (démo)",
   "zh": "下载收据（演示）"
+ },
+ "Private demo": {
+  "fr": "Démo privée",
+  "zh": "私享演示"
+ },
+ "Coltan Exchange is shown by invitation. Enter the access code you were given.": {
+  "fr": "Coltan Exchange est présenté sur invitation. Saisissez le code d'accès qui vous a été remis.",
+  "zh": "Coltan Exchange 仅限受邀查看。请输入您获得的访问码。"
+ },
+ "Access code": {
+  "fr": "Code d'accès",
+  "zh": "访问码"
+ },
+ "Open the demo": {
+  "fr": "Ouvrir la démo",
+  "zh": "打开演示"
+ },
+ "Checking…": {
+  "fr": "Vérification…",
+  "zh": "验证中…"
+ },
+ "That code is not right. Ask Plerosis for the access code.": {
+  "fr": "Ce code n'est pas correct. Demandez le code d'accès à Plerosis.",
+  "zh": "访问码不正确。请向 Plerosis 索取访问码。"
+ },
+ "This browser cannot check the code. Try a current version of Chrome, Safari or Edge.": {
+  "fr": "Ce navigateur ne peut pas vérifier le code. Essayez une version récente de Chrome, Safari ou Edge.",
+  "zh": "此浏览器无法验证访问码。请使用较新版本的 Chrome、Safari 或 Edge。"
+ },
+ "No code? Ask Plerosis and we will send one.": {
+  "fr": "Pas de code ? Demandez à Plerosis et nous vous en enverrons un.",
+  "zh": "没有访问码？请联系 Plerosis，我们会发送给您。"
+ },
+ "What does this mean?": {
+  "fr": "Que signifie ceci ?",
+  "zh": "这是什么意思？"
+ },
+ "Price and timing": {
+  "fr": "Prix et délais",
+  "zh": "价格与时间"
+ },
+ "Three readings of the same lot.": {
+  "fr": "Trois mesures du même lot.",
+  "zh": "同一批货的三次读数。"
+ },
+ "You pay for the tantalum metal in the ore.": {
+  "fr": "Vous payez le métal de tantale contenu dans le minerai.",
+  "zh": "您支付的是矿石中的钽金属。"
+ },
+ "Six steps from reservation to evidence pack.": {
+  "fr": "Six étapes, de la réservation au dossier de preuves.",
+  "zh": "从预订到证据包共六步。"
+ },
+ "Each step unlocks the next. Money moves only when a named person approves.": {
+  "fr": "Chaque étape débloque la suivante. L'argent ne bouge que lorsqu'une personne nommée approuve.",
+  "zh": "每一步解锁下一步。只有指定人员批准后资金才会流动。"
+ },
+ "Deal progress": {
+  "fr": "Avancement de la transaction",
+  "zh": "交易进度"
+ },
+ "Step {n} of {m}: {title}": {
+  "fr": "Étape {n} sur {m} : {title}",
+  "zh": "第 {n} 步，共 {m} 步：{title}"
+ },
+ "Reserved for {n} hours": {
+  "fr": "Réservé pour {n} heures",
+  "zh": "已预订 {n} 小时"
+ },
+ "Final grade {ta}% Ta2O5": {
+  "fr": "Teneur finale {ta} % Ta2O5",
+  "zh": "最终品位 {ta}% Ta2O5"
+ },
+ "Final payment released": {
+  "fr": "Paiement final libéré",
+  "zh": "尾款已放行"
+ },
+ "Evidence pack ready": {
+  "fr": "Dossier de preuves prêt",
+  "zh": "证据包已就绪"
+ },
+ "Confirm the assay result": {
+  "fr": "Confirmer le résultat d'analyse",
+  "zh": "确认化验结果"
+ },
+ "The contract only carries out what named people approve.": {
+  "fr": "Le contrat n'exécute que ce que des personnes nommées approuvent.",
+  "zh": "合约只执行指定人员批准的事项。"
+ },
+ "tantalum oxide": {
+  "fr": "oxyde de tantale",
+  "zh": "氧化钽"
+ },
+ "independent lab": {
+  "fr": "laboratoire indépendant",
+  "zh": "独立实验室"
+ },
+ "seller's lab": {
+  "fr": "laboratoire du vendeur",
+  "zh": "卖方实验室"
+ },
+ "field handheld": {
+  "fr": "appareil portable de terrain",
+  "zh": "现场手持仪"
+ },
+ "Price is set at {n}%.": {
+  "fr": "Le prix est fixé à {n} %.",
+  "zh": "价格按 {n}% 确定。"
+ },
+ "No tantalum reading yet.": {
+  "fr": "Pas encore de mesure de tantale.",
+  "zh": "暂无钽含量读数。"
+ },
+ "Tantalum content on a 22 to 28 percent scale": {
+  "fr": "Teneur en tantale sur une échelle de 22 à 28 pour cent",
+  "zh": "钽含量，刻度 22% 至 28%"
+ },
+ "Below the selling grade": {
+  "fr": "Inférieure à la teneur de vente",
+  "zh": "低于销售品位"
  }
 };

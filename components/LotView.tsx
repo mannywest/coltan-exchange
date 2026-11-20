@@ -1,7 +1,7 @@
 "use client";
 
 import { AssayStrip, AssayLegend, AssayVerdict } from "./HomeArt";
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties } from "react";
 import {
   CHECK_LABELS,
   CHECK_ORDER,
@@ -17,6 +17,7 @@ import {
 import { fmtDate, fmtDateTime } from "@/lib/format";
 import ReservePanel from "./ReservePanel";
 import LotGuide from "./LotGuide";
+import Hint from "./Hint";
 import { MIN_TONNES, lotValue } from "@/lib/price";
 import { demoHash, short } from "@/lib/chain";
 import Mark from "./Mark";
@@ -36,6 +37,7 @@ export default function LotView({
   routes: Routes; }) {
   const t = useT();
   // Value = tonnes x lb per tonne x Ta2O5 share x price per lb. An estimate on the grade basis until the lab confirms.
+  const [tab, setTab] = useState<"evidence" | "assay" | "price" | "wrong">("evidence");
   const total = lotValue(lot.tonnes, lot.basisTa2O5, lot.priceUsdPerLb);
   const perTonne = total / lot.tonnes;
   const g = computeGrade(lot);
@@ -191,7 +193,30 @@ export default function LotView({
               </span>
             </div>
           </header>
+          <div className="tabs" role="tablist" aria-label={t("Lot details")}>
+            {([
+              ["evidence", "Evidence"],
+              ["assay", "Assay"],
+              ["price", "Price and timing"],
+              ["wrong", "If something goes wrong"],
+            ] as const).map(([k, label]) => (
+              <button
+                key={k}
+                type="button"
+                role="tab"
+                id={`tab-${k}`}
+                aria-selected={tab === k}
+                aria-controls="tab-panel"
+                className={`tab${tab === k ? " is-on" : ""}`}
+                onClick={() => setTab(k)}
+              >
+                {t(label)}
+              </button>
+            ))}
+          </div>
+          <div id="tab-panel" role="tabpanel" aria-labelledby={`tab-${tab}`}>
           {/* Evidence ledger */}
+          {tab === "evidence" && (
           <section className="block" aria-labelledby="h-evidence">
             <div className="block-head">
               <h2 id="h-evidence">{t("What backs this grade")}</h2>
@@ -219,15 +244,18 @@ export default function LotView({
               <a href={href(routes.check, lot.slug)}>{t("Open the full trust check")}</a>
             </p>
           </section>
+          )}
 
           {/* Assay */}
+          {tab === "assay" && (
           <section className="block" aria-labelledby="h-assay">
             <div className="block-head">
               <h2 id="h-assay"><Term k="Assay">{t("Assay")}</Term></h2>
               <p>{t("Ta2O5 content, percent")}</p>
             </div>
             <p className="assay-intro">
-              {t("Three readings of the same lot. Higher means more valuable metal in the ore. The price is set at the selling grade.")}
+              {t("Three readings of the same lot.")}
+              <Hint>{t("Higher means more valuable metal in the ore. The price is set at the selling grade.")}</Hint>
             </p>
             <AssayStrip lot={lot} grade={g.grade} variant="full" />
             <AssayLegend lot={lot} />
@@ -290,13 +318,15 @@ export default function LotView({
             </p>
             <p className="assay-note">
               {t("Certificate fingerprint (demo):")} <code>{short(demoHash(`cert-${lot.number}-${lot.assay.sellerLab}-${lot.assay.independentLab}`, 3))}</code>{" "}
-              {t("In a live version this fingerprint would be recorded on a public ledger, so anyone can check the certificate has not been changed. It records no money and no names.")}
+              <Hint>{t("In a live version this fingerprint would be recorded on a public ledger, so anyone can check the certificate has not been changed. It records no money and no names.")}</Hint>
             </p>
           </section>
+          )}
 
-          <PhotoEvidence lot={lot} />
+          {tab === "evidence" && <PhotoEvidence lot={lot} />}
 
           {/* Custody */}
+          {tab === "evidence" && (
           <section className="block" aria-labelledby="h-custody">
             <div className="block-head">
               <h2 id="h-custody"><Term k="Custody log">{t("Custody log")}</Term></h2>
@@ -321,8 +351,10 @@ export default function LotView({
               ))}
             </ol>
           </section>
+          )}
 
           {/* Mine and screening */}
+          {tab === "evidence" && (
           <section className="block" aria-labelledby="h-mine">
             <div className="block-head">
               <h2 id="h-mine">{t("Mine and counterparties")}</h2>
@@ -368,8 +400,12 @@ export default function LotView({
               </div>
             </div>
           </section>
+          )}
 
-          <LotGuide lot={lot} total={total} />
+          {tab === "price" && <LotGuide lot={lot} total={total} show="price" />}
+          {tab === "wrong" && <LotGuide lot={lot} total={total} show="wrong" />}
+
+          </div>
 
           {/* Honest limits */}
           <section className="limits" aria-labelledby="h-limits">

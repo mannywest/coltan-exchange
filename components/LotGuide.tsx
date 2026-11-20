@@ -4,10 +4,11 @@ import type { Lot } from "@/lib/grade";
 import { assayVerdict } from "@/lib/grade";
 import { LB_PER_TONNE, PLATFORM_FEE_PCT, PROVISIONAL_SHARE, lotValue } from "@/lib/price";
 import { useT } from "./I18n";
+import Hint from "./Hint";
 
 // Three plain-language blocks for a first-time reader: how the price works, how long a deal takes,
 // and what happens if something goes wrong. All figures are demo figures.
-export default function LotGuide({ lot, total }: { lot: Lot; total: number }) {
+export default function LotGuide({ lot, total, show }: { lot: Lot; total: number; show: "price" | "wrong" }) {
   const t = useT();
   const usd = (n: number) => `USD ${Math.round(n).toLocaleString("en-GB")}`;
   const ore = lot.tonnes * LB_PER_TONNE;
@@ -32,13 +33,16 @@ export default function LotGuide({ lot, total }: { lot: Lot; total: number }) {
 
   return (
     <>
+      {show === "price" && (
+        <>
       <section className="block" aria-labelledby="h-price">
         <div className="block-head">
           <h2 id="h-price">{t("How the price works")}</h2>
           <p>{t("Demo figures")}</p>
         </div>
         <p className="assay-intro">
-          {t("You pay for the tantalum metal in the ore, not the weight of the rock. The price is per pound of Ta2O5.")}
+          {t("You pay for the tantalum metal in the ore.")}
+          <Hint>{t("You pay for the tantalum metal in the ore, not the weight of the rock. The price is per pound of Ta2O5.")}</Hint>
         </p>
         <table className="assay price-table">
           <caption className="sr-only">{t("How the price works")}</caption>
@@ -94,6 +98,9 @@ export default function LotGuide({ lot, total }: { lot: Lot; total: number }) {
         </ol>
       </section>
 
+        </>
+      )}
+      {show === "wrong" && (
       <section className="block" aria-labelledby="h-wrong">
         <div className="block-head">
           <h2 id="h-wrong">{t("If something goes wrong")}</h2>
@@ -115,6 +122,7 @@ export default function LotGuide({ lot, total }: { lot: Lot; total: number }) {
           </div>
         </dl>
       </section>
+      )}
     </>
   );
 }

@@ -6,7 +6,7 @@ import { href } from "@/lib/routes";
 import { GLOSSARY } from "@/lib/glossary";
 import { GRADE_COLOUR, GRADE_LABEL } from "@/lib/ui";
 import { CHECK_LABELS, CHECK_ORDER, CROSS_META, computeGrade, type Lot } from "@/lib/grade";
-import { AssayStrip, AssayVerdict } from "./HomeArt";
+import { AssayStrip, AssayVerdict, AssayReadout } from "./HomeArt";
 import Mark, { Meter } from "./Mark";
 import { useRole, useT, type Role } from "./I18n";
 
@@ -111,6 +111,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             <span className="hs-assay">
               <small>{t("Assay readings, % Ta2O5")}</small>
               <AssayStrip lot={demoLot} grade="A" />
+              <AssayReadout lot={demoLot} />
               <AssayVerdict lot={demoLot} />
             </span>
             <span className="hs-foot">{t("Set by rules. Approved by a named reviewer.")}</span>
@@ -125,6 +126,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             <li key={lot.slug} style={{ "--grade": GRADE_COLOUR[grade] } as CSSProperties}>
               <a href={href(routes.lot, lot.slug)}>
                 <AssayStrip lot={lot} grade={grade} />
+                <span className="feat-verdict"><AssayReadout lot={lot} /></span>
                 <span className="feat-verdict"><AssayVerdict lot={lot} /></span>
                 <span className="feat-body">
                   <span className="feat-grade">

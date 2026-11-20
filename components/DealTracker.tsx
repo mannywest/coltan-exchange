@@ -9,6 +9,7 @@ import ContractPanel, { type ChainEvent, type Notice, type StatementRow } from "
 import { SellerView, Receipt } from "./ContractExtras";
 import UsdtFlow from "./UsdtFlow";
 import SignPanel from "./SignPanel";
+import Hint from "./Hint";
 import { CX0, type Cx } from "@/lib/chainState";
 import { PLATFORM_FEE_PCT } from "@/lib/price";
 import { useT } from "./I18n";
@@ -33,6 +34,7 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
   const [approver, setApprover] = useState(false);
   const [method, setMethod] = useState<"bank" | "usdt">("bank");
   const [funded, setFunded] = useState(false);
+  const [assayOk, setAssayOk] = useState(false);
   const [cx, setCxState] = useState<Cx>(CX0);
   const setCx = useCallback((p: Partial<Cx>) => setCxState((c) => ({ ...c, ...p })), []);
 
@@ -62,17 +64,19 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
   const finalValue = assayDone ? value(finalTa) : NaN;
   const balance = assayDone ? finalValue - provisional : NaN;
 
-  type Stage = { title: string; status: Status; body: React.ReactNode };
+  type Stage = { title: string; status: Status; body: React.ReactNode; summary?: string };
   const stageStatus = (done: boolean, open: boolean): Status => (done ? "verified" : open ? "partial" : "missing");
 
   const stages: Stage[] = [
     {
       title: t("Reserve the lot"),
+      summary: t("Reserved for {n} hours", { n: lot.holdHours }),
       status: "verified",
       body: <p>{t("Reserved for {n} hours. Nothing is paid yet.", { n: lot.holdHours })}</p>,
     },
     {
       title: t("Sign the locked terms"),
+      summary: t("Terms signed"),
       status: stageStatus(signed, true),
       body: (
         <>
@@ -91,6 +95,7 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     },
     {
       title: t("Provisional payment into escrow"),
+      summary: t("Provisional payment released"),
       status: stageStatus(provApproved, signed),
       body: signed ? (
         <>
@@ -145,7 +150,8 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     },
     {
       title: t("Assay on arrival"),
-      status: stageStatus(assayDone && provApproved, provApproved),
+      summary: assayDone ? t("Final grade {ta}% Ta2O5", { ta: finalTa.toFixed(2) }) : "",
+      status: stageStatus(assayOk && provApproved, provApproved),
       body: provApproved ? (
         <>
           <label className="field" style={{ maxWidth: 260 }}>
@@ -173,6 +179,11 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
               </>
             ))}
           <p className="reserve-note">{t("Try 25.9 as the buyer's result to see the umpire step.")}</p>
+          {!assayOk && (
+            <button type="button" className="btn btn-quiet" disabled={!assayDone} onClick={() => setAssayOk(true)}>
+              {t("Confirm the assay result")}
+            </button>
+          )}
         </>
       ) : (
         <p className="locked">{t("Locked until the provisional payment is released.")}</p>
@@ -180,9 +191,10 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     },
     {
       title: t("Final payment"),
-      status: stageStatus(finalApproved, assayDone && provApproved),
+      summary: t("Final payment released"),
+      status: stageStatus(finalApproved, assayOk && provApproved),
       body:
-        assayDone && provApproved ? (
+        assayOk && provApproved ? (
           <>
             <p>
               {t("Final value at {ta}% Ta2O5: {value}. Already paid: {paid}.", {
@@ -221,6 +233,7 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     },
     {
       title: t("Evidence pack"),
+      summary: t("Evidence pack ready"),
       status: stageStatus(finalApproved, finalApproved),
       body: finalApproved ? (
         <>
@@ -246,6 +259,9 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     },
   ];
 
+  const firstOpen = stages.findIndex((x) => x.status !== "verified");
+  const cur = firstOpen === -1 ? stages.length - 1 : firstOpen;
+
   const events: ChainEvent[] = [];
   const notices: Notice[] = [];
   let statement: StatementRow[] = [];
@@ -257,14 +273,14 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     if (cx.screen === "flagged") events.push({ label: "Wallet flagged, funds paused", who: "Sent to a named Compliance officer", seed: "flag" });
     if (funded) events.push({ label: "Buyer funded the contract", who: "Buyer", seed: "fund" });
     if (provApproved) events.push({ label: "Provisional payment released to the seller", who: "2 of 2 named people signed", seed: "prov" });
-    if (assayDone && provApproved) events.push({ label: "Assay result recorded", who: "Named Reviewer entered it", seed: "assay" });
+    if (assayOk && provApproved) events.push({ label: "Assay result recorded", who: "Named Reviewer entered it", seed: "assay" });
     if (finalApproved) events.push({ label: "Balance settled", who: "2 of 2 named people signed", seed: "final" });
 
     if (funded) notices.push({ subject: "Funds received in escrow", body: `${Math.round(provisional).toLocaleString("en-GB")} USDT confirmed. Approval needed to release.` });
     if (funded && !provApproved) notices.push({ subject: "Approval needed: provisional release", body: "Two named people must sign." });
     if (provApproved) notices.push({ subject: "Provisional payment released", body: `${Math.round(provisional).toLocaleString("en-GB")} USDT sent to the seller.` });
-    if (assayDone && provApproved) notices.push({ subject: "Assay result recorded", body: `Final grade ${finalTa.toFixed(2)}% Ta2O5.` });
-    if (assayDone && provApproved && !finalApproved) notices.push({ subject: "Approval needed: final release", body: "Two named people must sign." });
+    if (assayOk && provApproved) notices.push({ subject: "Assay result recorded", body: `Final grade ${finalTa.toFixed(2)}% Ta2O5.` });
+    if (assayOk && provApproved && !finalApproved) notices.push({ subject: "Approval needed: final release", body: "Two named people must sign." });
     if (finalApproved) notices.push({ subject: "Deal complete", body: "Evidence pack and receipt are ready." });
 
     const topUp = finalApproved && balance > 0 ? balance : 0;
@@ -282,7 +298,7 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
 
   function restart() {
     setSigned(false); setProvApproved(false); setFinalApproved(false); setApprover(false);
-    setBuyerLab(independent.toFixed(1)); setUmpire(""); setMethod("bank"); setFunded(false); setCxState(CX0);
+    setBuyerLab(independent.toFixed(1)); setUmpire(""); setMethod("bank"); setFunded(false); setCxState(CX0); setAssayOk(false);
   }
 
   return (
@@ -296,28 +312,51 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
       </nav>
       <h1>{t("Deal for lot {n}", { n: lot.number })}</h1>
       <p className="listing-intro">
-        {t("Six steps from reservation to evidence pack. Each step unlocks the next. Money moves only when a named person approves.")}
+        {t("Six steps from reservation to evidence pack.")}
+        <Hint>{t("Each step unlocks the next. Money moves only when a named person approves.")}</Hint>
       </p>
-      <ol className="stages">
-        {stages.map((s, i) => (
-          <li key={i} className={`stage stage-${s.status}`}>
-            <Mark status={s.status} />
-            <div>
-              <h2>
-                {i + 1}. {s.title}
-              </h2>
-              {s.body}
-            </div>
-          </li>
-        ))}
-      </ol>
-      {method === "usdt" && signed && <ContractPanel lotNumber={lot.number} events={events} statement={statement} notices={notices} />}
-      {method === "usdt" && provApproved && (
-        <SellerView amount={finalApproved ? finalValue : provisional} final={finalApproved} />
-      )}
-      {method === "usdt" && finalApproved && (
-        <Receipt lotNumber={lot.number} paid={finalValue} ta={finalTa} fee={fee(finalValue)} />
-      )}
+      <div className="progress" role="progressbar" aria-valuemin={1} aria-valuemax={stages.length} aria-valuenow={cur + 1} aria-label={t("Deal progress")}>
+        <p>{t("Step {n} of {m}: {title}", { n: cur + 1, m: stages.length, title: stages[cur].title })}</p>
+        <div className="progress-bar" aria-hidden="true">
+          {stages.map((_, i) => (
+            <span key={i} className={i < cur ? "is-done" : i === cur ? "is-now" : ""} />
+          ))}
+        </div>
+      </div>
+      <div className={`deal-layout${method === "usdt" && signed ? " has-side" : ""}`}>
+        <div className="deal-main">
+          <ol className="stages">
+            {stages.map((s, i) => (
+              <li key={i} className={`stage stage-${s.status}${i < cur ? " is-done" : ""}`}>
+                <Mark status={s.status} />
+                {i < cur ? (
+                  <details className="stage-fold">
+                    <summary>
+                      <span>{i + 1}. {s.title}</span>
+                      <small>{s.summary}</small>
+                    </summary>
+                    <div>{s.body}</div>
+                  </details>
+                ) : (
+                  <div>
+                    <h2>
+                      {i + 1}. {s.title}
+                    </h2>
+                    {s.body}
+                  </div>
+                )}
+              </li>
+            ))}
+          </ol>
+        </div>
+        {method === "usdt" && signed && (
+          <aside className="deal-side" aria-label={t("Smart contract escrow (simulated)")}>
+            <ContractPanel lotNumber={lot.number} events={events} statement={statement} notices={notices} />
+            {provApproved && <SellerView amount={finalApproved ? finalValue : provisional} final={finalApproved} />}
+            {finalApproved && <Receipt lotNumber={lot.number} paid={finalValue} ta={finalTa} fee={fee(finalValue)} />}
+          </aside>
+        )}
+      </div>
       <button type="button" className="btn btn-quiet" style={{ width: "auto", marginTop: 24 }} onClick={restart}>
         {t("Start the demo again")}
       </button>

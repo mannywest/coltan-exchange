@@ -2,6 +2,7 @@
 
 import { demoAddress, demoHash, short } from "@/lib/chain";
 import { useT } from "./I18n";
+import Hint from "./Hint";
 
 export type ChainEvent = { label: string; who: string; seed: string };
 export type StatementRow = { label: string; amount: number };
@@ -82,10 +83,8 @@ export default function ContractPanel({
         </>
       )}
       <p className="reserve-note">
-        {t("The contract only carries out what named people approve. It cannot judge an assay result or decide a dispute.")}
-      </p>
-      <p className="reserve-note">
-        {t("Planned later: wallet screening, a licensed payment partner, and a plan for frozen funds.")}
+        {t("The contract only carries out what named people approve.")}
+        <Hint>{t("The contract only carries out what named people approve. It cannot judge an assay result or decide a dispute.")} {t("Planned later: wallet screening, a licensed payment partner, and a plan for frozen funds.")}</Hint>
       </p>
     </section>
   );

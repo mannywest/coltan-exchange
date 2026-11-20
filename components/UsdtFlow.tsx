@@ -63,7 +63,7 @@ export default function UsdtFlow({
   }, [cx.pay, cx.confs, setCx, onFunded]);
 
   if (provApproved) {
-    return <p className="outcome ok">{t("Provisional payment released from the contract to the seller.")}</p>;
+    return <p className="outcome ok pop">{t("Provisional payment released from the contract to the seller.")}</p>;
   }
 
   if (cx.wallet === "none") {
@@ -153,7 +153,7 @@ export default function UsdtFlow({
       )}
       {cx.pay === "confirmed" && (
         <>
-          <p className="outcome ok">
+          <p className="outcome ok pop">
             {t("Payment confirmed in block {b}. Network fee {f} USDT (demo). The contract now holds {amount}.", {
               b: block.toLocaleString("en-GB"),
               f: NETWORK_FEE_USDT,

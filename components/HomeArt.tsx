@@ -31,9 +31,34 @@ export function AssayVerdict({ lot }: { lot: Lot }) {
   return <span className={`assay-verdict is-${v.tone}`}>{text}</span>;
 }
 
-// Assay chart: readings on a 22 to 28 percent Ta2O5 scale, the price basis marked, and a shaded
-// range around the independent lab result showing how far the seller's lab may sit from it.
-// "compact" is for cards; "full" adds value labels and bigger type for the lot page.
+// The reading that stands for the lot: independent lab first, then seller's lab, then the field estimate.
+function headline(lot: Lot): { v: number; source: string; estimate: boolean } | null {
+  if (lot.assay.independentLab != null) return { v: lot.assay.independentLab, source: "Independent lab", estimate: false };
+  if (lot.assay.sellerLab != null) return { v: lot.assay.sellerLab, source: "Seller's lab", estimate: false };
+  const f = fieldEstimate(lot);
+  return f != null ? { v: f, source: "Field handheld", estimate: true } : null;
+}
+
+// Plain words under the compact bar: what the bar shows, in one line.
+export function AssayReadout({ lot }: { lot: Lot }) {
+  const t = useT();
+  const h = headline(lot);
+  return (
+    <span className="assay-readout">
+      {h ? (
+        <>
+          <b>{h.v.toFixed(1)}%</b> {t("tantalum oxide")} ({t(h.source).toLowerCase()}
+          {h.estimate ? `, ${t("estimate")}` : ""}). {t("Price is set at {n}%.", { n: lot.basisTa2O5 })}
+        </>
+      ) : (
+        t("No tantalum reading yet.")
+      )}
+    </span>
+  );
+}
+
+// Assay chart. "compact" (cards): one bar that fills to the lot's tantalum reading, a tick at the
+// selling grade and labelled ends. "full" (lot page): every reading as a dot, with the allowed range.
 export function AssayStrip({
   lot,
   grade,
@@ -44,14 +69,52 @@ export function AssayStrip({
   variant?: "compact" | "full";
 }) {
   const t = useT();
-  const full = variant === "full";
+  const blocked = grade === "Blocked";
+  if (variant === "compact") {
+    const W = 300;
+    const pad = 14;
+    const x = (v: number) => pad + ((Math.min(MAX, Math.max(MIN, v)) - MIN) / (MAX - MIN)) * (W - pad * 2);
+    const h = headline(lot);
+    const bx = x(lot.basisTa2O5);
+    const below = h != null && h.v < lot.basisTa2O5;
+    return (
+      <svg
+        viewBox={`0 0 ${W} 54`}
+        className={`assay-strip is-compact${blocked ? " is-blocked" : ""}`}
+        role="img"
+        aria-label={t("Tantalum content on a 22 to 28 percent scale")}
+      >
+        <rect x={pad} y="24" width={W - pad * 2} height="10" rx="2" fill="var(--line)" />
+        {h && (
+          <rect
+            x={pad}
+            y="24"
+            width={Math.max(2, x(h.v) - pad)}
+            height="10"
+            rx="2"
+            fill={h.estimate ? "none" : "var(--grade)"}
+            stroke="var(--grade)"
+            strokeDasharray={h.estimate ? "4 3" : undefined}
+            strokeWidth="1.5"
+          />
+        )}
+        <line x1={bx} y1="17" x2={bx} y2="41" stroke="var(--paper)" strokeWidth="2" />
+        <text x={bx} y="11" textAnchor="middle" fontSize="11" fontWeight="600" fill="var(--paper)">
+          {t("Selling grade {n}", { n: lot.basisTa2O5 })}
+        </text>
+        <text x={pad} y="52" fontSize="11" fill="var(--faint)">22%</text>
+        <text x={W - pad} y="52" textAnchor="end" fontSize="11" fill="var(--faint)">28%</text>
+        {h && below && <title>{t("Below the selling grade")}</title>}
+      </svg>
+    );
+  }
+  const full = true;
   const W = full ? 340 : 300;
   const pad = full ? 14 : 12;
   const axisY = full ? 52 : 26;
   const x = (v: number) => pad + ((Math.min(MAX, Math.max(MIN, v)) - MIN) / (MAX - MIN)) * (W - pad * 2);
   const reads = readings(lot);
   const indep = lot.assay.independentLab;
-  const blocked = grade === "Blocked";
   const inBand = (v: number) => indep !== null && Math.abs(v - indep) <= ASSAY_TOLERANCE + 1e-9;
   const shown = reads.filter((r): r is Reading & { v: number } => r.v != null).sort((a, b) => a.v - b.v);
   const H = full ? 96 : 58;

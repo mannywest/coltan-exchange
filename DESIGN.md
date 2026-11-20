@@ -124,3 +124,10 @@ Colour is never the only signal: every status also has a word and a shape.
 - Final payment needs the same two signatures. Panel adds an escrow statement (paid in, released, refunded, held, demo fee), an email-style notifications list, a seller's view (incoming payment, keep USDT or convert at a demo rate and fee) and a downloadable demo receipt with the certificate fingerprint.
 - Flagged wallet: funds paused, sent to a named Compliance officer, buyer must use another wallet.
 - All simulated with timers and fake data; "0xDEMO" identifiers; Simulation banner kept. COMPLIANCE comments in UsdtFlow, SignPanel and ContractExtras.
+
+## Round: tabs, progress, side panel, grade bar, access gate
+- Lot page: certificate now has tabs (Evidence, Assay, Price and timing, If something goes wrong). Photo evidence, custody and mine sit under Evidence. Long captions moved into tap-to-open "?" hints (Hint component).
+- Deal page: progress bar ("Step n of 6"), only the current step is open, finished steps fold into one line, and a "Confirm the assay result" action ends step 4. On wide screens the contract panel sits beside the steps and stays in view.
+- Compact grade bar (cards, list, home certificate) redesigned: one bar that fills to the lot's tantalum reading (independent lab first), a tick and label at the selling grade, labelled ends 22% and 28%, and a plain-words line under it. The detailed dot chart stays on the lot page.
+- Access gate: the whole demo opens on a "Private demo" screen asking for an access code. Only a SHA-256 hash is stored (lib/access.ts); change it with `node scripts/set-access-code.mjs "new code"` and rebuild. A few seconds' delay grows after wrong tries. This is a screen for casual visitors, not real security: for real protection use Cloudflare Access when hosted.
+- Success pop on payment confirmation (off if the visitor prefers reduced motion).

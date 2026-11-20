@@ -6,7 +6,7 @@ import { GRADE_COLOUR } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
 import { Meter } from "./Mark";
 import { GRADE_LABEL } from "@/lib/ui";
-import { AssayStrip } from "./HomeArt";
+import { AssayStrip, AssayReadout } from "./HomeArt";
 import { useT } from "./I18n";
 
 type Filter = "All" | Grade;
@@ -94,6 +94,7 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
                 <a href={href(routes.lot, lot.slug)}>
                   <span className="row-thumb">
                     <AssayStrip lot={lot} grade={grade} />
+                    <AssayReadout lot={lot} />
                   </span>
                   <span className={`row-grade${grade === "Blocked" ? " is-word" : ""}`}>{grade === "Blocked" ? t("Blocked") : grade}</span>
                   <span className="row-main">
