@@ -3,17 +3,20 @@
 import type { ReactNode } from "react";
 import type { Routes } from "@/lib/routes";
 import { LangSwitch, ROLES, useLang, useRole, useT } from "./I18n";
+import { pendingFor, useStore } from "@/lib/dealStore";
 
 export default function Frame({ routes, children }: { routes: Routes; children: ReactNode }) {
   const t = useT();
   const { lang } = useLang();
   const { role, setRole } = useRole();
+  const store = useStore();
+  const waiting = pendingFor(store, store.who);
   const nav: [string, string][] =
     role === "reviewer"
-      ? [[routes.review, "Reviewer desk"], [routes.registry, "Mine registry"], [routes.lots, "Lots"]]
+      ? [[routes.backoffice, "Back office"], [routes.review, "Reviewer desk"], [routes.registry, "Mine registry"], [routes.lots, "Lots"]]
       : role === "seller"
-        ? [[routes.lots, "Lots"], [routes.sell, "List a lot"], [routes.onboarding, "Get cleared"]]
-        : [[routes.lots, "Lots"], [routes.onboarding, "Get cleared"]];
+        ? [[routes.lots, "Lots"], [routes.sell, "List a lot"], [routes.deals, "Deals"], [routes.onboarding, "Get cleared"]]
+        : [[routes.lots, "Lots"], [routes.deals, "My deals"], [routes.onboarding, "Get cleared"]];
   return (
     <>
       <div className="demo-bar" role="note">
@@ -39,6 +42,11 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
           {[[routes.home, "Home"] as [string, string], ...nav].map(([h, l]) => (
             <a key={l} href={h}>
               {t(l)}
+              {l === "Back office" && waiting > 0 && (
+                <span className="nav-badge" aria-label={t("{n} waiting for you", { n: waiting })}>
+                  {waiting}
+                </span>
+              )}
             </a>
           ))}
         </nav>

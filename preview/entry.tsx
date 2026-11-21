@@ -1,7 +1,7 @@
 // Browser-only entry for the hosted preview (a single HTML file with hash routing).
 // The real app is the Next.js project; this reuses the same components.
 //   (empty) or #home home   #all-lots listing        #review         reviewer desk
-//   #lot-0417              lot detail     #check-lot-0417 trust check
+//   #lot-0417              lot detail     #check-lot-0417 trust check   #deals  #backoffice
 //   #deal-lot-0417 deal    #sell  #onboarding  #registry
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
@@ -15,6 +15,8 @@ import DealTracker from "@/components/DealTracker";
 import Onboarding from "@/components/Onboarding";
 import MineRegistry from "@/components/MineRegistry";
 import Home from "@/components/Home";
+import Deals from "@/components/Deals";
+import BackOffice from "@/components/BackOffice";
 import RoleGate from "@/components/RoleGate";
 import { lots, getLot } from "@/data/lots";
 import { hashRoutes } from "@/lib/routes";
@@ -56,6 +58,13 @@ function Screen({ hash }: { hash: string }) {
     return (
       <RoleGate need="seller">
         <SellForm routes={hashRoutes} />
+      </RoleGate>
+    );
+  if (hash === "deals") return <Deals lots={lots} routes={hashRoutes} />;
+  if (hash === "backoffice")
+    return (
+      <RoleGate need="reviewer">
+        <BackOffice lots={lots} routes={hashRoutes} />
       </RoleGate>
     );
   if (hash === "onboarding") return <Onboarding routes={hashRoutes} />;

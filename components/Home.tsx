@@ -57,6 +57,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
     ["Does a Grade A mean the ore is conflict-free?", "No. A grade shows how strong the evidence is. It makes false origin harder and flags suspicious lots, but it does not guarantee origin."],
     ["Who decides if a lot is listed?", "A named reviewer. The rules set the limits and AI only drafts a summary."],
     ["Who holds the money?", "A regulated escrow partner, not the platform. A named person approves every release."],
+    ["Who approves a payment?", "Two different named people in the platform's back office: an approver and a reviewer. You cannot approve your own payment, and AI cannot sign. Every signature is logged with a name and a time."],
   ];
 
   return (
@@ -82,7 +83,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             </div>
             <div>
               <dt>{CROSS_META.length}</dt>
-              <dd>{t("origin checks on every lot")}</dd>
+              <dd>{t("origin cross-checks behind every grade")}</dd>
             </div>
             <div>
               <dt>0</dt>

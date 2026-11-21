@@ -5,6 +5,7 @@ import { useState } from "react";
 import type { Status } from "@/lib/grade";
 import Mark from "./Mark";
 import { useRole, useT } from "./I18n";
+import Term from "./Term";
 
 // DEMO RULES ONLY. Real screening runs against live UK, US, EU and UN lists through a regulated provider.
 // COMPLIANCE: platform rule, no clients in sanctioned countries.
@@ -117,7 +118,7 @@ export default function Onboarding({ routes }: { routes?: Routes }) {
           <div className="hero-copy">
             <h1>{t("Get cleared")}</h1>
             <p className="reason">
-              {t("Every buyer, seller, transporter and exporter is screened before they can reserve or list a lot.")}
+              {t("In the real product, every buyer, seller, transporter and exporter is screened and cleared by a named Compliance officer before they can sign terms. In this demo the screening is simulated and does not block you.")}
             </p>
             <p className="rules">
               {t("Try the name Demo Designated Holdings, or the country Iran, to see a hard block.")}
@@ -167,7 +168,7 @@ export default function Onboarding({ routes }: { routes?: Routes }) {
 
           <section className="block" aria-labelledby="h-own">
             <div className="block-head">
-              <h2 id="h-own">{t("Beneficial owners")}</h2>
+              <h2 id="h-own"><Term k="Beneficial owner">{t("Beneficial owners")}</Term></h2>
               <p>{t("{p}% disclosed", { p: Math.min(total, 100) })}</p>
             </div>
             <div className="owners">

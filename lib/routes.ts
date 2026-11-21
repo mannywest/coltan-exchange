@@ -10,6 +10,8 @@ export type Routes = {
   sell: string;
   onboarding: string;
   registry: string;
+  deals: string;
+  backoffice: string;
 };
 
 export const nextRoutes: Routes = {
@@ -22,6 +24,8 @@ export const nextRoutes: Routes = {
   sell: "/sell",
   onboarding: "/onboarding",
   registry: "/registry",
+  deals: "/deals",
+  backoffice: "/backoffice",
 };
 
 export const hashRoutes: Routes = {
@@ -34,6 +38,8 @@ export const hashRoutes: Routes = {
   sell: "#sell",
   onboarding: "#onboarding",
   registry: "#registry",
+  deals: "#deals",
+  backoffice: "#backoffice",
 };
 
 export function href(template: string, slug: string): string {

@@ -34,7 +34,7 @@ export default function LotListing({ lots, routes }: { lots: Lot[]; routes: Rout
     <section className="listing">
       <h1>{t("Lots on the exchange")}</h1>
       <p className="listing-intro">
-        {t("Every lot here was approved by a named reviewer. The letter is its Trust Grade, set by fixed rules from the evidence. Open a lot to see what backs it.")}
+        {t("Every lot here was listed after a named reviewer checked it. That is not a promise the lot is clean. The letter is its Trust Grade, set by fixed rules from the evidence: A is strongest, C is weakest. Open a lot to see what backs it.")}
       </p>
 
       <div className="filters">

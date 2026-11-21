@@ -11,14 +11,14 @@ export default function RoleGate({ need, children }: { need: Role; children: Rea
   if (role === need) return <>{children}</>;
   return (
     <section className="gate">
-      <h1>{need === "reviewer" ? t("This screen is for reviewers") : t("This screen is for sellers")}</h1>
+      <h1>{need === "reviewer" ? t("This screen is for back office staff") : t("This screen is for sellers")}</h1>
       <p>
         {need === "reviewer"
-          ? t("Buyers and sellers do not see the reviewer desk or the mine registry. In the real product, login decides this.")
+          ? t("Buyers and sellers do not see the back office, the reviewer desk or the mine registry. In the real product, login decides this.")
           : t("Only cleared sellers can list a lot. In the real product, login decides this.")}
       </p>
       <button type="button" className="btn" onClick={() => setRole(need)}>
-        {need === "reviewer" ? t("View as a reviewer (demo)") : t("View as a seller (demo)")}
+        {need === "reviewer" ? t("View as back office staff (demo)") : t("View as a seller (demo)")}
       </button>
     </section>
   );

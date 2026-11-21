@@ -2,7 +2,7 @@
 
 import type { Lot } from "@/lib/grade";
 import { assayVerdict } from "@/lib/grade";
-import { LB_PER_TONNE, PLATFORM_FEE_PCT, PROVISIONAL_SHARE, lotValue } from "@/lib/price";
+import { LB_PER_TONNE, PLATFORM_FEE_PCT, PROVISIONAL_SHARE, lotValue, preShipGrade } from "@/lib/price";
 import { useT } from "./I18n";
 import Hint from "./Hint";
 
@@ -12,7 +12,8 @@ export default function LotGuide({ lot, total, show }: { lot: Lot; total: number
   const t = useT();
   const usd = (n: number) => `USD ${Math.round(n).toLocaleString("en-GB")}`;
   const ore = lot.tonnes * LB_PER_TONNE;
-  const metal = ore * (lot.basisTa2O5 / 100);
+  const tested = preShipGrade(lot);
+  const metal = ore * (tested / 100);
 
   // If both labs are in and agree, the final grade is their average; the demo shows what that does to the total.
   const v = assayVerdict(lot);
@@ -55,7 +56,7 @@ export default function LotGuide({ lot, total, show }: { lot: Lot; total: number
             <tr>
               <th scope="row">{t("Metal in the ore")}</th>
               <td className="num">{Math.round(metal).toLocaleString("en-GB")} lb</td>
-              <td>{t("Ore weight x {b}% grade basis", { b: lot.basisTa2O5 })}</td>
+              <td>{t("Ore weight x {b}% (the independent lab result; the price basis is {p}%)", { b: tested.toFixed(1), p: lot.basisTa2O5 })}</td>
             </tr>
             <tr>
               <th scope="row">{t("Price")}</th>

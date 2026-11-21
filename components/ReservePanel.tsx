@@ -1,11 +1,15 @@
 "use client";
 
 import { useState } from "react";
+import { openDeal, releaseReservation, useStore } from "@/lib/dealStore";
 import { useT } from "./I18n";
 import { PLATFORM_FEE_PCT, PROVISIONAL_SHARE } from "@/lib/price";
 
 type Props = {
+  slug: string;
   lotNumber: string;
+  gradeC?: boolean;
+  provisionalPerTonne?: number;
   holdHours: number;
   blockedReason?: string;
   dealHref?: string;
@@ -17,18 +21,29 @@ type Props = {
 // Counterparty screening is planned for a later phase and is not part of this flow yet.
 // Escrow release needs a named human approver. Here those steps are stubs.
 const NEXT_STEPS = [
-  "Locked terms are signed",
+  "Locked terms are signed by both sides",
   "Funds go into escrow with a regulated partner",
-  "A named approver releases payment after final assay",
+  "Named people in the back office release each payment",
 ];
 
-export default function ReservePanel({ lotNumber, holdHours, blockedReason, dealHref, quantity }: Props) {
+export default function ReservePanel({ slug, lotNumber, gradeC, holdHours, blockedReason, dealHref, quantity }: Props) {
   const t = useT();
-  const [reserved, setReserved] = useState(false);
-  const [qty, setQty] = useState<number>(quantity?.tonnes ?? 0);
+  const store = useStore();
+  const reserved = Boolean(store.deals[slug]);
+  const [text, setText] = useState<string>(String(quantity?.tonnes ?? ""));
+  const parsed = text.trim() === "" ? NaN : Number(text);
+  const qtyError = !quantity
+    ? null
+    : Number.isNaN(parsed)
+      ? t("Enter a number of tonnes.")
+      : parsed < quantity.min
+        ? t("The minimum is {n} tonnes.", { n: quantity.min })
+        : parsed > quantity.tonnes
+          ? t("Only {n} tonnes are available.", { n: quantity.tonnes })
+          : null;
+  const qty = qtyError || Number.isNaN(parsed) ? (quantity?.tonnes ?? 0) : parsed;
   const estimate = quantity ? { total: qty * quantity.perTonne, provisional: qty * quantity.perTonne * PROVISIONAL_SHARE } : undefined;
   const fee = estimate ? estimate.total * (PLATFORM_FEE_PCT / 100) : 0;
-  const partial = quantity ? qty < quantity.tonnes : false;
 
   if (blockedReason) {
     return (
@@ -45,18 +60,19 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
     return (
       <div className="reserve is-reserved" role="status" aria-live="polite">
         <p className="reserved-title">{t("Reserved for {n} hours (demo)", { n: holdHours })}</p>
+        <p className="reserve-note">{t("{n} tonnes requested.", { n: store.deals[slug].qty })}</p>
         <p className="reserve-note">
           {t("Lot {n} is held for you. Before any money moves:", { n: lotNumber })}
         </p>
-        {partial && (
+        {store.deals[slug].qty < (quantity?.tonnes ?? 0) && (
           // COMPLIANCE: a part-lot request is a human step. The seller must agree; nothing is automatic.
-          <p className="reserve-note">{t("You asked for {n} tonnes. The seller must agree to a part-lot sale.", { n: qty })}</p>
+          <p className="reserve-note">{t("You asked for {n} tonnes. The seller must agree to a part-lot sale.", { n: store.deals[slug].qty })}</p>
         )}
         <ul className="steps">
           {NEXT_STEPS.map((s) => (
             <li key={s}>
               <span>{t(s)}</span>
-              <span className="stub">{t("Not connected")}</span>
+              <span className="stub">{t("Later")}</span>
             </li>
           ))}
         </ul>
@@ -65,7 +81,7 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
             {t("Continue to the deal")}
           </a>
         )}
-        <button type="button" className="btn btn-quiet" onClick={() => setReserved(false)}>
+        <button type="button" className="btn btn-quiet" onClick={() => releaseReservation(slug)}>
           {t("Release reservation")}
         </button>
       </div>
@@ -86,16 +102,20 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
               min={quantity.min}
               max={quantity.tonnes}
               step={0.5}
-              value={qty}
-              onChange={(e) => {
-                const v = parseFloat(e.target.value);
-                setQty(Number.isFinite(v) ? Math.min(quantity.tonnes, Math.max(quantity.min, v)) : quantity.tonnes);
-              }}
+              value={text}
+              aria-invalid={qtyError ? true : undefined}
+              aria-describedby={qtyError ? "qty-error" : undefined}
+              onChange={(e) => setText(e.target.value)}
             />
-            <button type="button" className="btn btn-quiet" onClick={() => setQty(quantity.tonnes)}>
+            <button type="button" className="btn btn-quiet" onClick={() => setText(String(quantity.tonnes))}>
               {t("Whole lot")}
             </button>
           </div>
+          {qtyError && (
+            <p className="field-error" id="qty-error" role="alert">
+              {qtyError}
+            </p>
+          )}
           <small>{t("Between {min} and {max} tonnes. Less than the whole lot needs the seller's agreement.", { min: quantity.min, max: quantity.tonnes })}</small>
         </div>
       )}
@@ -104,7 +124,7 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
           <span>{t("Estimated total")}</span>
           <strong>{usd(estimate.total)}</strong>
           <small>
-            {t("{amount} goes into escrow after you sign terms. Estimate until the lab confirms the grade.", {
+            {t("{amount} goes into escrow first. Estimate: the final grade is set by the arrival assay.", {
               amount: usd(estimate.provisional),
             })}
           </small>
@@ -112,7 +132,12 @@ export default function ReservePanel({ lotNumber, holdHours, blockedReason, deal
           <small>{t("Platform fee (demo): {amount}, charged only when payment is released.", { amount: usd(fee) })}</small>
         </p>
       )}
-      <button type="button" className="btn" onClick={() => setReserved(true)}>
+      {gradeC && (
+        <p className="outcome warn">
+          {t("Grade C: only 2 of 6 checks are verified. A named Compliance officer must allow you to continue before you can sign terms.")}
+        </p>
+      )}
+      <button type="button" className="btn" disabled={Boolean(qtyError)} onClick={() => openDeal(slug, lotNumber, qty, Boolean(gradeC))}>
         {t("Reserve this lot")}
       </button>
       <p className="reserve-note">

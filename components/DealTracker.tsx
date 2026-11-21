@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, type CSSProperties } from "react";
+import { useEffect, type CSSProperties } from "react";
 import { computeGrade, evidencePack, type Lot, type Status } from "@/lib/grade";
 import { GRADE_COLOUR } from "@/lib/ui";
 import { href, type Routes } from "@/lib/routes";
@@ -8,35 +8,32 @@ import Mark from "./Mark";
 import ContractPanel, { type ChainEvent, type Notice, type StatementRow } from "./ContractPanel";
 import { SellerView, Receipt } from "./ContractExtras";
 import UsdtFlow from "./UsdtFlow";
-import SignPanel from "./SignPanel";
+import ApprovalStatus from "./ApprovalStatus";
 import Hint from "./Hint";
-import { CX0, type Cx } from "@/lib/chainState";
-import { PLATFORM_FEE_PCT } from "@/lib/price";
-import { useT } from "./I18n";
-
-const LB_PER_TONNE = 2204.62;
-const TOLERANCE = 0.5; // demo rule, in Ta2O5 points
-const PROVISIONAL = 0.8; // share of value paid on the pre-shipment assay
+import Term from "./Term";
+import { PLATFORM_FEE_PCT, PROVISIONAL_SHARE, LB_PER_TONNE, preShipGrade } from "@/lib/price";
+import {
+  TOLERANCE, assayOutcome, bankSent, buyerSign, getReq, openDeal, personName, requestRelease, resetDeal,
+  setBuyerLab, setMethod, submitAssay, useStore,
+} from "@/lib/dealStore";
+import { useRole, useT } from "./I18n";
 
 const usd = (n: number) => `USD ${Math.round(n).toLocaleString("en-US")}`;
 
+// COMPLIANCE: the buyer starts each step. Money release, the assay result and flagged parties are approved
+// by named people in the back office. This screen only shows the status. No AI approves or releases money.
 export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes }) {
   const t = useT();
+  const { setRole } = useRole();
+  const s = useStore();
   const g = computeGrade(lot);
   const eligible = lot.review.status === "approved" && g.grade !== "Blocked";
+  const deal = s.deals[lot.slug];
 
-  const independent = lot.assay.independentLab ?? lot.assay.sellerLab ?? lot.basisTa2O5;
-  const [signed, setSigned] = useState(false);
-  const [provApproved, setProvApproved] = useState(false);
-  const [buyerLab, setBuyerLab] = useState(independent.toFixed(1));
-  const [umpire, setUmpire] = useState("");
-  const [finalApproved, setFinalApproved] = useState(false);
-  const [approver, setApprover] = useState(false);
-  const [method, setMethod] = useState<"bank" | "usdt">("bank");
-  const [funded, setFunded] = useState(false);
-  const [assayOk, setAssayOk] = useState(false);
-  const [cx, setCxState] = useState<Cx>(CX0);
-  const setCx = useCallback((p: Partial<Cx>) => setCxState((c) => ({ ...c, ...p })), []);
+  // A deal opened from a direct link starts as a whole-lot reservation.
+  useEffect(() => {
+    if (eligible && !s.deals[lot.slug]) openDeal(lot.slug, lot.number, lot.tonnes, g.grade === "C");
+  }, [eligible, lot.slug, lot.number, lot.tonnes, g.grade, s.deals]);
 
   if (!eligible) {
     return (
@@ -50,139 +47,219 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
       </section>
     );
   }
+  if (!deal) return <section className="review-desk"><p className="reserve-note">{t("Opening the deal…")}</p></section>;
 
-  const value = (ta: number) => lot.tonnes * LB_PER_TONNE * (ta / 100) * lot.priceUsdPerLb;
-  const provisional = value(independent) * PROVISIONAL;
+  const slug = lot.slug;
+  const qty = deal.qty;
+  const independent = preShipGrade(lot);
+  const value = (ta: number) => qty * LB_PER_TONNE * (ta / 100) * lot.priceUsdPerLb;
+  const provisional = value(independent) * PROVISIONAL_SHARE;
+  const method = deal.method;
+  const unit = method === "usdt" ? "USDT" : "USD";
 
-  const b = buyerLab.trim() === "" ? NaN : Number(buyerLab);
-  const u = umpire.trim() === "" ? NaN : Number(umpire);
-  const gap = Number.isNaN(b) ? NaN : Math.round(Math.abs(b - independent) * 10) / 10;
-  const within = gap <= TOLERANCE;
-  // COMPLIANCE: the settlement result follows fixed published rules, not a person's or AI's judgement.
-  const finalTa = Number.isNaN(gap) ? NaN : within ? Math.round(((b + independent) / 2) * 100) / 100 : u;
-  const assayDone = !Number.isNaN(finalTa);
+  const enh = getReq(s, deal.enhancedReq);
+  const funds = getReq(s, deal.fundsReq);
+  const prov = getReq(s, deal.provReq);
+  const assay = getReq(s, deal.assayReq);
+  const fin = getReq(s, deal.finalReq);
+  const enhOk = !enh || enh.status === "approved";
+  const signed = deal.buyerSigned && deal.sellerSigned;
+  const provDone = prov?.status === "approved";
+  const assayDone = assay?.status === "approved" && deal.assayFinal !== null;
+  const finalDone = fin?.status === "approved";
+  const finalTa = deal.assayFinal ?? NaN;
   const finalValue = assayDone ? value(finalTa) : NaN;
   const balance = assayDone ? finalValue - provisional : NaN;
 
+  const b = deal.buyerLab.trim() === "" ? NaN : Number(deal.buyerLab);
+  const preview = Number.isNaN(b) ? null : assayOutcome({ buyerLab: b, independent });
+
   type Stage = { title: string; status: Status; body: React.ReactNode; summary?: string };
   const stageStatus = (done: boolean, open: boolean): Status => (done ? "verified" : open ? "partial" : "missing");
+  const bo = routes.backoffice;
+  const asSeller = () => setRole("seller");
 
   const stages: Stage[] = [
     {
       title: t("Reserve the lot"),
       summary: t("Reserved for {n} hours", { n: lot.holdHours }),
       status: "verified",
-      body: <p>{t("Reserved for {n} hours. Nothing is paid yet.", { n: lot.holdHours })}</p>,
+      body: <p>{t("Reserved for {n} hours. Nothing is paid yet.", { n: lot.holdHours })} {t("{n} tonnes requested.", { n: qty })}</p>,
     },
     {
       title: t("Sign the locked terms"),
-      summary: t("Terms signed"),
+      summary: t("Terms signed by both sides"),
       status: stageStatus(signed, true),
       body: (
         <>
           <p>
-            {t("{tonnes} tonnes, {basis}% Ta2O5 basis, {incoterm}, USD {price} per lb. Both sides must be cleared by screening first.", {
-              tonnes: lot.tonnes, basis: lot.basisTa2O5, incoterm: lot.incoterm, price: lot.priceUsdPerLb,
+            {t("{tonnes} tonnes, {basis}% Ta2O5 basis, {incoterm}, USD {price} per lb.", {
+              tonnes: qty, basis: lot.basisTa2O5, incoterm: lot.incoterm, price: lot.priceUsdPerLb,
             })}
           </p>
-          {!signed && (
-            <button type="button" className="btn btn-quiet" onClick={() => setSigned(true)}>
-              {t("Sign terms (demo)")}
+          {/* COMPLIANCE: counterparty screening is simulated in this demo and does not block signing. In the real product both sides must be cleared by a named Compliance officer first. */}
+          <p className="reserve-note">
+            {t("The buyer signs, then the seller countersigns. In the real product both must be cleared by screening first. Screening is simulated here.")}
+          </p>
+          {enh && enh.status !== "approved" && (
+            <>
+              <p className="outcome warn">
+                {t("This lot is Grade C, so a named Compliance officer must allow you to continue before you can sign.")}
+              </p>
+              <ApprovalStatus req={enh} backofficeHref={bo} />
+            </>
+          )}
+          {enh?.status === "approved" && <p className="outcome ok">{t("Enhanced review passed.")}</p>}
+          {enhOk && !deal.buyerSigned && (
+            <button type="button" className="btn btn-quiet" onClick={() => buyerSign(slug)}>
+              {t("Sign terms as buyer (demo)")}
             </button>
           )}
+          {deal.buyerSigned && !deal.sellerSigned && (
+            <>
+              <p className="outcome" role="status">
+                {t("You signed. Waiting for the seller ({n}) to countersign.", { n: lot.sellerAlias })}
+                {qty < lot.tonnes ? ` ${t("This is a part-lot request, so the seller must agree to the quantity.")}` : ""}
+              </p>
+              <a className="btn btn-quiet" href={routes.deals} onClick={asSeller}>
+                {t("Demo: act as the seller")}
+              </a>
+            </>
+          )}
+          {signed && <p className="outcome ok">{t("Both sides signed.")}</p>}
         </>
       ),
     },
     {
       title: t("Provisional payment into escrow"),
       summary: t("Provisional payment released"),
-      status: stageStatus(provApproved, signed),
+      status: stageStatus(provDone, signed),
       body: signed ? (
         <>
           <p>
             {t("{pct}% of the value on the independent assay ({ta}% Ta2O5): {amount}.", {
-              pct: PROVISIONAL * 100, ta: independent.toFixed(1), amount: usd(provisional),
+              pct: PROVISIONAL_SHARE * 100, ta: independent.toFixed(1), amount: usd(provisional),
             })}
+            <Hint>{t("This is the first payment, called a provisional payment. The final amount is set after the arrival assay.")}</Hint>
           </p>
           <p className="calc">
-            {lot.tonnes} t x {LB_PER_TONNE.toLocaleString("en-US")} lb x {independent.toFixed(1)}% x USD {lot.priceUsdPerLb} x {PROVISIONAL * 100}%
+            {qty} t x {LB_PER_TONNE.toLocaleString("en-US")} lb x {independent.toFixed(1)}% x USD {lot.priceUsdPerLb} x {PROVISIONAL_SHARE * 100}%
           </p>
-          {!provApproved && cx.wallet === "none" && !funded && (
+          {!provDone && deal.cx.wallet === "none" && !deal.bankSent && !prov && (
             <fieldset className="method">
               <legend>{t("How will you pay?")}</legend>
               <label className="check-row">
-                <input type="radio" name="method" checked={method === "bank"} onChange={() => setMethod("bank")} />
+                <input type="radio" name="method" checked={method === "bank"} onChange={() => setMethod(slug, "bank")} />
                 <span>{t("Bank escrow with a regulated partner")}</span>
               </label>
               <label className="check-row">
-                <input type="radio" name="method" checked={method === "usdt"} onChange={() => setMethod("usdt")} />
+                <input type="radio" name="method" checked={method === "usdt"} onChange={() => setMethod(slug, "usdt")} />
                 <span>{t("USDT through a smart contract (simulated)")}</span>
               </label>
             </fieldset>
           )}
-          {method === "usdt" && (
-            <UsdtFlow
-              lotNumber={lot.number}
-              amount={provisional}
-              cx={cx}
-              setCx={setCx}
-              provApproved={provApproved}
-              onFunded={() => setFunded(true)}
-              onReleased={() => { setProvApproved(true); setApprover(true); }}
-            />
-          )}
-          {!provApproved && method === "bank" && (
+          {method === "usdt" && <UsdtFlow lotNumber={lot.number} slug={slug} amount={provisional} deal={deal} s={s} routes={routes} />}
+          {method === "bank" && (
             <>
-              <label className="check-row">
-                <input type="checkbox" checked={approver} onChange={(e) => setApprover(e.target.checked)} />
-                <span>{t("I am the named approver for this release (demo)")}</span>
-              </label>
-              <button type="button" className="btn btn-quiet" disabled={!approver} onClick={() => setProvApproved(true)}>
-                {t("Release provisional payment (demo)")}
-              </button>
-              <p className="reserve-note">{t("Escrow is held by a regulated partner, not connected in this demo. AI cannot release money.")}</p>
+              {!deal.bankSent && (
+                <>
+                  <dl className="chain-facts bank-box">
+                    <div>
+                      <dt>{t("Pay to")}</dt>
+                      <dd>Demo Escrow Partner Ltd (demo)</dd>
+                    </div>
+                    <div>
+                      <dt>{t("Account")}</dt>
+                      <dd>
+                        <code>DEMO 0000 0000 (not a real account)</code>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>{t("Reference")}</dt>
+                      <dd>
+                        <code>CX-{lot.number}-B04</code>
+                      </dd>
+                    </div>
+                    <div>
+                      <dt>{t("Amount")}</dt>
+                      <dd>{usd(provisional)}</dd>
+                    </div>
+                  </dl>
+                  <button type="button" className="btn btn-quiet" onClick={() => bankSent(slug, provisional)}>
+                    {t("I have sent the transfer (demo)")}
+                  </button>
+                  <p className="reserve-note">{t("The escrow partner holds the money, not the platform. AI cannot release money.")}</p>
+                </>
+              )}
+              {deal.bankSent && funds && (
+                <>
+                  <p className="sign-title">{t("Escrow partner confirms the money arrived")}</p>
+                  <ApprovalStatus req={funds} backofficeHref={bo} doneText={t("Funds confirmed in escrow.")} />
+                </>
+              )}
+              {funds?.status === "approved" && prov && (
+                <>
+                  <p className="sign-title">{t("Release the provisional payment")}</p>
+                  <ApprovalStatus
+                    req={prov}
+                    backofficeHref={bo}
+                    doneText={t("Provisional payment released.")}
+                    onAskAgain={() => requestRelease(slug, { kind: "provisional", amount: provisional, unit: "USD", note: "Funds confirmed in escrow." })}
+                  />
+                </>
+              )}
             </>
           )}
         </>
       ) : (
-        <p className="locked">{t("Locked until the terms are signed.")}</p>
+        <p className="locked">{t("Locked until both sides have signed the terms.")}</p>
       ),
     },
     {
       title: t("Assay on arrival"),
       summary: assayDone ? t("Final grade {ta}% Ta2O5", { ta: finalTa.toFixed(2) }) : "",
-      status: stageStatus(assayOk && provApproved, provApproved),
-      body: provApproved ? (
+      status: stageStatus(assayDone, provDone),
+      body: provDone ? (
         <>
           <label className="field" style={{ maxWidth: 260 }}>
             <span>{t("Buyer's lab result (% Ta2O5)")}</span>
-            <input inputMode="decimal" value={buyerLab} onChange={(e) => setBuyerLab(e.target.value)} />
+            <input
+              inputMode="decimal"
+              value={deal.buyerLab}
+              placeholder={independent.toFixed(1)}
+              disabled={assay?.status === "pending" || assayDone}
+              onChange={(e) => setBuyerLab(slug, e.target.value)}
+            />
           </label>
-          {!Number.isNaN(gap) &&
-            (within ? (
-              <p className="outcome ok">
-                {t("Gap {gap} points, inside the {tol} point tolerance. The average is used: {ta}% Ta2O5.", {
-                  gap: gap.toFixed(1), tol: TOLERANCE, ta: finalTa.toFixed(2),
-                })}
-              </p>
-            ) : (
-              <>
-                <p className="outcome warn">
-                  {t("Gap {gap} points, outside the {tol} point tolerance. The sealed umpire sample is opened and its result decides.", {
-                    gap: gap.toFixed(1), tol: TOLERANCE,
+          {preview && !assay && (
+            <p className={`outcome ${preview.within ? "ok" : "warn"}`}>
+              {preview.within
+                ? t("Gap {gap} points, inside the {tol} point tolerance. The average would be used: {ta}% Ta2O5.", {
+                    gap: preview.gap.toFixed(1), tol: TOLERANCE, ta: (preview.final as number).toFixed(2),
+                  })
+                : t("Gap {gap} points, outside the {tol} point tolerance. The back office opens the sealed umpire sample and its result decides.", {
+                    gap: preview.gap.toFixed(1), tol: TOLERANCE,
                   })}
-                </p>
-                <label className="field" style={{ maxWidth: 260 }}>
-                  <span>{t("Umpire lab result (% Ta2O5)")}</span>
-                  <input inputMode="decimal" value={umpire} onChange={(e) => setUmpire(e.target.value)} />
-                </label>
-              </>
-            ))}
-          <p className="reserve-note">{t("Try 25.9 as the buyer's result to see the umpire step.")}</p>
-          {!assayOk && (
-            <button type="button" className="btn btn-quiet" disabled={!assayDone} onClick={() => setAssayOk(true)}>
-              {t("Confirm the assay result")}
+            </p>
+          )}
+          {!assay && <p className="reserve-note">{t("Try 25.9 as the buyer's result to see the umpire step.")}</p>}
+          {!assay && (
+            <button
+              type="button"
+              className="btn btn-quiet"
+              disabled={Number.isNaN(b) || b <= 0}
+              onClick={() => submitAssay(slug, b, independent)}
+            >
+              {t("Submit your lab result")}
             </button>
+          )}
+          {assay && (
+            <ApprovalStatus
+              req={assay}
+              backofficeHref={bo}
+              doneText={t("Result recorded by a named reviewer.")}
+              onAskAgain={() => submitAssay(slug, Number.isNaN(b) ? independent : b, independent)}
+            />
           )}
         </>
       ) : (
@@ -192,50 +269,37 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
     {
       title: t("Final payment"),
       summary: t("Final payment released"),
-      status: stageStatus(finalApproved, assayOk && provApproved),
-      body:
-        assayOk && provApproved ? (
-          <>
-            <p>
-              {t("Final value at {ta}% Ta2O5: {value}. Already paid: {paid}.", {
-                ta: finalTa.toFixed(2), value: usd(finalValue), paid: usd(provisional),
-              })}
-            </p>
-            <p className="outcome ok">
-              {balance >= 0
-                ? t("Balance due to the seller: {amount}.", { amount: usd(balance) })
-                : t("Refund due to the buyer: {amount}.", { amount: usd(-balance) })}
-            </p>
-            {!finalApproved && method === "usdt" && (
-              <SignPanel
-                title="Release the final payment"
-                a={cx.fSigA}
-                r={cx.fSigR}
-                onSign={(who) => {
-                  const next = { fSigA: who === "a" ? true : cx.fSigA, fSigR: who === "r" ? true : cx.fSigR };
-                  setCx(next);
-                  if (next.fSigA && next.fSigR) setFinalApproved(true);
-                }}
-              />
-            )}
-            {!finalApproved && method === "bank" && (
-              <button type="button" className="btn btn-quiet" disabled={!approver} onClick={() => setFinalApproved(true)}>
-                {t("Release final payment (demo)")}
-              </button>
-            )}
-            {method === "bank" && !approver && !finalApproved && (
-              <p className="reserve-note">{t("Tick the named approver box in the provisional payment step first.")}</p>
-            )}
-          </>
-        ) : (
-          <p className="locked">{t("Locked until the assay result is settled.")}</p>
-        ),
+      status: stageStatus(finalDone, assayDone),
+      body: assayDone ? (
+        <>
+          <p>
+            {t("Final value at {ta}% Ta2O5: {value}. Already paid: {paid}.", {
+              ta: finalTa.toFixed(2), value: usd(finalValue), paid: usd(provisional),
+            })}
+          </p>
+          <p className="outcome ok">
+            {balance >= 0
+              ? t("Balance due to the seller: {amount}.", { amount: usd(balance) })
+              : t("Refund due to the buyer: {amount}.", { amount: usd(-balance) })}
+          </p>
+          <ApprovalStatus
+            req={fin}
+            backofficeHref={bo}
+            doneText={t("Final payment released.")}
+            onAskAgain={() =>
+              requestRelease(slug, { kind: "final", amount: Math.abs(balance), unit, note: balance >= 0 ? "Balance due to the seller." : "Refund due to the buyer." })
+            }
+          />
+        </>
+      ) : (
+        <p className="locked">{t("Locked until the assay result is settled.")}</p>
+      ),
     },
     {
       title: t("Evidence pack"),
       summary: t("Evidence pack ready"),
-      status: stageStatus(finalApproved, finalApproved),
-      body: finalApproved ? (
+      status: stageStatus(finalDone, finalDone),
+      body: finalDone ? (
         <>
           <ul className="pack">
             {evidencePack(lot).map((p) => (
@@ -266,39 +330,36 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
   const notices: Notice[] = [];
   let statement: StatementRow[] = [];
   const fee = (n: number) => n * (PLATFORM_FEE_PCT / 100);
+  const names = (r: typeof prov) => (r ? r.sigs.map((x) => personName(x.personId)).join(" and ") : "");
   if (method === "usdt") {
     if (signed) events.push({ label: "Contract created with the locked terms", who: "Both sides signed", seed: "create" });
-    if (cx.wallet !== "none") events.push({ label: cx.wallet === "ok" ? "Buyer wallet connected" : "Wallet connected", who: "Buyer", seed: "wallet" });
-    if (cx.screen === "passed") events.push({ label: "Wallet screening passed (demo)", who: "Automatic check, result logged", seed: "screen" });
-    if (cx.screen === "flagged") events.push({ label: "Wallet flagged, funds paused", who: "Sent to a named Compliance officer", seed: "flag" });
+    if (deal.cx.wallet !== "none") events.push({ label: deal.cx.wallet === "ok" ? "Buyer wallet connected" : "Wallet connected", who: "Buyer", seed: "wallet" });
+    if (deal.cx.screen === "passed") events.push({ label: "Wallet screening passed (demo)", who: "Automatic check, result logged", seed: "screen" });
+    if (deal.cx.screen === "flagged") events.push({ label: "Wallet flagged, funds paused", who: "Sent to a named Compliance officer", seed: "flag" });
+    const funded = deal.cx.pay === "confirmed";
     if (funded) events.push({ label: "Buyer funded the contract", who: "Buyer", seed: "fund" });
-    if (provApproved) events.push({ label: "Provisional payment released to the seller", who: "2 of 2 named people signed", seed: "prov" });
-    if (assayOk && provApproved) events.push({ label: "Assay result recorded", who: "Named Reviewer entered it", seed: "assay" });
-    if (finalApproved) events.push({ label: "Balance settled", who: "2 of 2 named people signed", seed: "final" });
+    if (provDone) events.push({ label: "Provisional payment released to the seller", who: `Signed by ${names(prov)}`, seed: "prov" });
+    if (assayDone) events.push({ label: "Assay result recorded", who: `Signed by ${names(assay)}`, seed: "assay" });
+    if (finalDone) events.push({ label: "Balance settled", who: `Signed by ${names(fin)}`, seed: "final" });
 
     if (funded) notices.push({ subject: "Funds received in escrow", body: `USDT ${Math.round(provisional).toLocaleString("en-GB")} confirmed. Approval needed to release.` });
-    if (funded && !provApproved) notices.push({ subject: "Approval needed: provisional release", body: "Two named people must sign." });
-    if (provApproved) notices.push({ subject: "Provisional payment released", body: `USDT ${Math.round(provisional).toLocaleString("en-GB")} sent to the seller.` });
-    if (assayOk && provApproved) notices.push({ subject: "Assay result recorded", body: `Final grade ${finalTa.toFixed(2)}% Ta2O5.` });
-    if (assayOk && provApproved && !finalApproved) notices.push({ subject: "Approval needed: final release", body: "Two named people must sign." });
-    if (finalApproved) notices.push({ subject: "Deal complete", body: "Evidence pack and receipt are ready." });
+    if (funded && !provDone) notices.push({ subject: "Approval needed: provisional release", body: "Two named people must sign in the back office." });
+    if (provDone) notices.push({ subject: "Provisional payment released", body: `USDT ${Math.round(provisional).toLocaleString("en-GB")} sent to the seller.` });
+    if (assayDone) notices.push({ subject: "Assay result recorded", body: `Final grade ${finalTa.toFixed(2)}% Ta2O5.` });
+    if (assayDone && !finalDone) notices.push({ subject: "Approval needed: final release", body: "Two named people must sign in the back office." });
+    if (finalDone) notices.push({ subject: "Deal complete", body: "Evidence pack and receipt are ready." });
 
-    const topUp = finalApproved && balance > 0 ? balance : 0;
-    const refund = finalApproved && balance < 0 ? -balance : 0;
+    const topUp = finalDone && balance > 0 ? balance : 0;
+    const refund = finalDone && balance < 0 ? -balance : 0;
     const paidIn = (funded ? provisional : 0) + topUp;
-    const released = (provApproved ? provisional : 0) + topUp;
+    const released = (provDone ? provisional : 0) + topUp;
     statement = [
       { label: "Paid into the contract", amount: paidIn },
       { label: "Released to the seller", amount: released },
       { label: "Refunded to the buyer", amount: refund },
       { label: "Still held by the contract", amount: Math.max(0, paidIn - released) },
-      { label: "Platform fee (demo, charged at release)", amount: finalApproved ? fee(finalValue) : provApproved ? fee(provisional) : 0 },
+      { label: "Platform fee (demo, charged at release)", amount: finalDone ? fee(finalValue) : provDone ? fee(provisional) : 0 },
     ];
-  }
-
-  function restart() {
-    setSigned(false); setProvApproved(false); setFinalApproved(false); setApprover(false);
-    setBuyerLab(independent.toFixed(1)); setUmpire(""); setMethod("bank"); setFunded(false); setCxState(CX0); setAssayOk(false);
   }
 
   return (
@@ -313,7 +374,7 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
       <h1>{t("Deal for lot {n}", { n: lot.number })}</h1>
       <p className="listing-intro">
         {t("Six steps from reservation to evidence pack.")}
-        <Hint>{t("Each step unlocks the next. Money moves only when a named person approves.")}</Hint>
+        <Hint>{t("Each step unlocks the next. Money moves only when named people in the back office approve it. You cannot approve your own payment.")}</Hint>
       </p>
       <div className="progress" role="progressbar" aria-valuemin={1} aria-valuemax={stages.length} aria-valuenow={cur + 1} aria-label={t("Deal progress")}>
         <p>{t("Step {n} of {m}: {title}", { n: cur + 1, m: stages.length, title: stages[cur].title })}</p>
@@ -323,26 +384,29 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
           ))}
         </div>
       </div>
+      <p className="demo-role" role="note">
+        {t("Demo: you are the buyer here. In the real product, approvals are done by separate named staff in the back office, so use the buttons marked Demo to switch view and play those people.")}
+      </p>
       <div className={`deal-layout${method === "usdt" && signed ? " has-side" : ""}`}>
         <div className="deal-main">
           <ol className="stages">
-            {stages.map((s, i) => (
-              <li key={i} className={`stage stage-${s.status}${i < cur ? " is-done" : ""}`}>
-                <Mark status={s.status} />
+            {stages.map((st, i) => (
+              <li key={i} className={`stage stage-${st.status}${i < cur ? " is-done" : ""}`}>
+                <Mark status={st.status} />
                 {i < cur ? (
                   <details className="stage-fold">
                     <summary>
-                      <span>{i + 1}. {s.title}</span>
-                      <small>{s.summary}</small>
+                      <span>{i + 1}. {st.title}</span>
+                      <small>{st.summary}</small>
                     </summary>
-                    <div>{s.body}</div>
+                    <div>{st.body}</div>
                   </details>
                 ) : (
                   <div>
                     <h2>
-                      {i + 1}. {s.title}
+                      {i + 1}. {st.title}
                     </h2>
-                    {s.body}
+                    {st.body}
                   </div>
                 )}
               </li>
@@ -352,12 +416,15 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
         {method === "usdt" && signed && (
           <aside className="deal-side" aria-label={t("Smart contract escrow (simulated)")}>
             <ContractPanel lotNumber={lot.number} events={events} statement={statement} notices={notices} />
-            {provApproved && <SellerView amount={finalApproved ? finalValue : provisional} final={finalApproved} />}
-            {finalApproved && <Receipt lotNumber={lot.number} paid={finalValue} ta={finalTa} fee={fee(finalValue)} />}
+            {provDone && <SellerView amount={finalDone ? finalValue : provisional} final={finalDone} />}
+            {finalDone && <Receipt lotNumber={lot.number} paid={finalValue} ta={finalTa} fee={fee(finalValue)} />}
           </aside>
         )}
       </div>
-      <button type="button" className="btn btn-quiet" style={{ width: "auto", marginTop: 24 }} onClick={restart}>
+      <p className="reserve-note">
+        <Term k="Back office">{t("What is the back office?")}</Term>
+      </p>
+      <button type="button" className="btn btn-quiet" style={{ width: "auto", marginTop: 24 }} onClick={() => resetDeal(slug)}>
         {t("Start the demo again")}
       </button>
     </section>

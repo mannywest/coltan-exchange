@@ -134,3 +134,13 @@ Colour is never the only signal: every status also has a word and a shape.
 
 ## Round: consistency pass
 - Money reads the same way everywhere: "USD 150", "USDT 800,013" (code first, then amount, thousands separated).
+
+## Round 6 (21 Nov 2026): back office and buyer-clarity fixes
+- **Back office added.** Every step that moves money, records an assay result or clears a flagged party is now an approval request, not a buyer tick-box. Requests: enhanced review (Grade C lots), flagged wallet, confirm funds received (bank route), provisional release, assay result, final release.
+- **Four-eyes rule.** Releases need a named approver and a named reviewer, two different people. Nobody signs twice. Assay results need a named reviewer (with the umpire result entered if the labs differ by more than 0.5 points). Flagged wallets and Grade C buyers need a named Compliance officer. The person who asks never approves.
+- **Back office screen** (`components/BackOffice.tsx`): "Signed in as" person (three fictional staff), queue with checks computed by code (`lib/approvals.ts`), reject-with-reason (buyer sees the reason), deals view, and a tamper-evident audit log (each entry is chained to the one before it; demo fingerprints only).
+- **Shared state** (`lib/dealStore.ts`): deals, requests and audit log live in session storage for the tab. No server, no database.
+- **My deals / Deals** (`components/Deals.tsx`): buyer's list of reservations with the next action and who must act; the seller countersigns here. Part-lot requests need the seller's agreement.
+- **Role switch:** Visitor removed (it matched Buyer). Views are Buyer, Seller, Back office.
+- **Clarity fixes from the buyer review:** one consistent line on screening ("simulated here, required in the real product"); estimated total and escrow amount now use the independent lab result so the lot page and the deal agree; Grade C warning and enhanced review; listing text no longer says lots are "approved"; CIF/FOB label fixed; quantity errors shown instead of silently changing the number; origin-check wording; glossary extended (FOB, provisional payment, tolerance, beneficial owner, back office); FAQ on who approves a payment.
+- **Not yet translated:** new back office and deal strings are English only (French and Chinese fall back to English).

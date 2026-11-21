@@ -2,9 +2,13 @@
 
 import { useEffect } from "react";
 import { demoAddress, demoBlock, demoGrid, short } from "@/lib/chain";
-import { CONFIRMATIONS, NETWORK_FEE_USDT, type Cx } from "@/lib/chainState";
+import { CONFIRMATIONS, NETWORK_FEE_USDT } from "@/lib/chainState";
+import {
+  clearWalletRequest, getReq, setCx, usdtConfirmed, walletFlagged, requestRelease, type Deal, type Store,
+} from "@/lib/dealStore";
+import type { Routes } from "@/lib/routes";
 import { useT } from "./I18n";
-import SignPanel from "./SignPanel";
+import ApprovalStatus from "./ApprovalStatus";
 
 const usdt = (n: number) => `USDT ${Math.round(n).toLocaleString("en-GB")}`;
 
@@ -21,48 +25,54 @@ function Qr({ seed }: { seed: string }) {
 
 // COMPLIANCE: wallet screening, stablecoin custody and release rights are shown as a simulation only.
 // Real use needs a lawyer's opinion, a licensed partner and a plan for frozen funds. No AI approves or releases.
+// The buyer pays in. A named approver and a named reviewer release, in the back office. The buyer cannot.
 export default function UsdtFlow({
   lotNumber,
+  slug,
   amount,
-  cx,
-  setCx,
-  provApproved,
-  onFunded,
-  onReleased,
+  deal,
+  s,
+  routes,
 }: {
   lotNumber: string;
+  slug: string;
   amount: number;
-  cx: Cx;
-  setCx: (p: Partial<Cx>) => void;
-  provApproved: boolean;
-  onFunded: () => void;
-  onReleased: () => void;
+  deal: Deal;
+  s: Store;
+  routes: Routes;
 }) {
   const t = useT();
+  const cx = deal.cx;
   const buyer = demoAddress("buyer-wallet");
   const flagged = demoAddress("flagged-wallet");
   const contract = demoAddress(`lot-${lotNumber}`);
+  const prov = getReq(s, deal.provReq);
+  const wallet = getReq(s, deal.walletReq);
+  const note = "Funds confirmed on the demo network.";
 
-  // Screening takes a moment, as it would in real life.
+  // Screening takes a moment, as it would in real life. A flagged wallet goes to a named Compliance officer.
   useEffect(() => {
     if (cx.screen !== "running") return;
-    const id = setTimeout(() => setCx({ screen: cx.wallet === "flagged" ? "flagged" : "passed" }), 1800);
+    const id = setTimeout(() => {
+      if (cx.wallet === "flagged") {
+        setCx(slug, { screen: "flagged" });
+        walletFlagged(slug);
+      } else setCx(slug, { screen: "passed" });
+    }, 1800);
     return () => clearTimeout(id);
-  }, [cx.screen, cx.wallet, setCx]);
+  }, [cx.screen, cx.wallet, slug]);
 
-  // Confirmations tick up one at a time, then the payment is confirmed.
+  // Confirmations tick up one at a time, then the payment is confirmed and the release request is raised.
   useEffect(() => {
     if (cx.pay !== "confirming") return;
     const id = setTimeout(() => {
-      if (cx.confs + 1 >= CONFIRMATIONS) {
-        setCx({ pay: "confirmed", confs: CONFIRMATIONS });
-        onFunded();
-      } else setCx({ confs: cx.confs + 1 });
+      if (cx.confs + 1 >= CONFIRMATIONS) usdtConfirmed(slug, { kind: "provisional", amount, unit: "USDT", note });
+      else setCx(slug, { confs: cx.confs + 1 });
     }, 1100);
     return () => clearTimeout(id);
-  }, [cx.pay, cx.confs, setCx, onFunded]);
+  }, [cx.pay, cx.confs, slug, amount]);
 
-  if (provApproved) {
+  if (prov?.status === "approved") {
     return <p className="outcome ok pop">{t("Provisional payment released from the contract to the seller.")}</p>;
   }
 
@@ -82,10 +92,10 @@ export default function UsdtFlow({
           </div>
         </dl>
         <div className="wallet-actions">
-          <button type="button" className="btn btn-quiet" onClick={() => setCx({ wallet: "ok", screen: "running" })}>
+          <button type="button" className="btn btn-quiet" onClick={() => setCx(slug, { wallet: "ok", screen: "running" })}>
             {t("Connect wallet")}
           </button>
-          <button type="button" className="btn btn-quiet" onClick={() => setCx({ wallet: "flagged", screen: "running" })}>
+          <button type="button" className="btn btn-quiet" onClick={() => setCx(slug, { wallet: "flagged", screen: "running" })}>
             {t("Try a flagged demo wallet")}
           </button>
         </div>
@@ -102,12 +112,17 @@ export default function UsdtFlow({
   }
 
   if (cx.screen === "flagged") {
+    const useOther = () => {
+      clearWalletRequest(slug);
+      setCx(slug, { wallet: "none", screen: "idle" });
+    };
     return (
       <div role="status">
         <p className="outcome warn">
           {t("Wallet {w} was flagged. Funds are paused and cannot be sent. A named Compliance officer reviews this.", { w: short(flagged) })}
         </p>
-        <button type="button" className="btn btn-quiet" onClick={() => setCx({ wallet: "none", screen: "idle" })}>
+        <ApprovalStatus req={wallet} backofficeHref={routes.backoffice} onAskAgain={useOther} />
+        <button type="button" className="btn btn-quiet" onClick={useOther}>
           {t("Use a different wallet")}
         </button>
       </div>
@@ -118,7 +133,7 @@ export default function UsdtFlow({
   return (
     <div className="pay">
       <p className="outcome ok">
-        {t("Wallet {w} passed screening (demo). Real screening is planned for a later phase.", { w: short(buyer) })}
+        {t("Wallet {w} passed screening (demo). Screening is simulated here.", { w: short(cx.wallet === "flagged" ? flagged : buyer) })}
       </p>
       {cx.pay === "idle" && (
         <div className="pay-box">
@@ -141,7 +156,7 @@ export default function UsdtFlow({
               <dd>{t("Waiting for payment")}</dd>
             </div>
           </dl>
-          <button type="button" className="btn btn-quiet" onClick={() => setCx({ pay: "confirming", confs: 0 })}>
+          <button type="button" className="btn btn-quiet" onClick={() => setCx(slug, { pay: "confirming", confs: 0 })}>
             {t("Send {amount} from my wallet (demo)", { amount: usdt(amount) })}
           </button>
         </div>
@@ -160,15 +175,11 @@ export default function UsdtFlow({
               amount: usdt(amount),
             })}
           </p>
-          <SignPanel
-            title="Release the provisional payment"
-            a={cx.sigA}
-            r={cx.sigR}
-            onSign={(who) => {
-              const next = { sigA: who === "a" ? true : cx.sigA, sigR: who === "r" ? true : cx.sigR };
-              setCx(next);
-              if (next.sigA && next.sigR) onReleased();
-            }}
+          <p className="sign-title">{t("Release the provisional payment")}</p>
+          <ApprovalStatus
+            req={prov}
+            backofficeHref={routes.backoffice}
+            onAskAgain={() => requestRelease(slug, { kind: "provisional", amount, unit: "USDT", note })}
           />
         </>
       )}

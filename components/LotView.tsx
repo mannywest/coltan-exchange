@@ -18,7 +18,7 @@ import { fmtDate, fmtDateTime } from "@/lib/format";
 import ReservePanel from "./ReservePanel";
 import LotGuide from "./LotGuide";
 import Hint from "./Hint";
-import { MIN_TONNES, lotValue } from "@/lib/price";
+import { MIN_TONNES, lotValue, preShipGrade } from "@/lib/price";
 import { demoHash, short } from "@/lib/chain";
 import Mark from "./Mark";
 import { useT } from "./I18n";
@@ -38,7 +38,8 @@ export default function LotView({
   const t = useT();
   // Value = tonnes x lb per tonne x Ta2O5 share x price per lb. An estimate on the grade basis until the lab confirms.
   const [tab, setTab] = useState<"evidence" | "assay" | "price" | "wrong">("evidence");
-  const total = lotValue(lot.tonnes, lot.basisTa2O5, lot.priceUsdPerLb);
+  const tested = preShipGrade(lot);
+  const total = lotValue(lot.tonnes, tested, lot.priceUsdPerLb);
   const perTonne = total / lot.tonnes;
   const g = computeGrade(lot);
   const colour = GRADE_COLOUR[g.grade];
@@ -120,8 +121,10 @@ export default function LotView({
               <dd>{lot.basisTa2O5}% Ta2O5</dd>
             </div>
             <div>
-              <dt>{t("Delivery")} (<Term k="CIF">CIF</Term>)</dt>
-              <dd>{lot.incoterm}</dd>
+              <dt>{t("Delivery terms")}</dt>
+              <dd>
+                <Term k={lot.incoterm.split(" ")[0]}>{lot.incoterm.split(" ")[0]}</Term> {lot.incoterm.split(" ").slice(1).join(" ")}
+              </dd>
             </div>
             <div className="terms-price">
               <dt>{t("Price")}</dt>
@@ -131,7 +134,7 @@ export default function LotView({
               </dd>
             </div>
             <div>
-              <dt>{t("Estimated total")}</dt>
+              <dt>{t("Estimated total")} <small>({t("at {ta}% tested", { ta: tested.toFixed(1) })})</small></dt>
               <dd>USD {Math.round(total).toLocaleString("en-GB")}</dd>
             </div>
             <div>
@@ -143,6 +146,8 @@ export default function LotView({
             </div>
           </dl>
           <ReservePanel
+            slug={lot.slug}
+            gradeC={g.grade === "C"}
             lotNumber={lot.number}
             holdHours={lot.holdHours}
             blockedReason={blockedReason}

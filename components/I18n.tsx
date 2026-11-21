@@ -53,23 +53,22 @@ export function useT() {
   };
 }
 
-export type Role = "visitor" | "buyer" | "seller" | "reviewer";
+export type Role = "buyer" | "seller" | "reviewer";
 export const ROLES: { id: Role; label: string }[] = [
-  { id: "visitor", label: "Visitor" },
   { id: "buyer", label: "Buyer" },
   { id: "seller", label: "Seller" },
-  { id: "reviewer", label: "Reviewer" },
+  { id: "reviewer", label: "Back office" },
 ];
 // COMPLIANCE: "cleared" stands in for passing counterparty screening. In the real product
 // it comes from a reviewer's decision, never from a button.
 const RoleCtx = createContext<{ role: Role; setRole: (r: Role) => void; cleared: boolean; setCleared: (c: boolean) => void }>({
-  role: "visitor",
+  role: "buyer",
   setRole: () => {},
   cleared: false,
   setCleared: () => {},
 });
 export function RoleProvider({ children }: { children: ReactNode }) {
-  const [role, setRoleState] = useState<Role>("visitor");
+  const [role, setRoleState] = useState<Role>("buyer");
   const [cleared, setClearedState] = useState(false);
   useEffect(() => {
     const r = stored("cx-role");

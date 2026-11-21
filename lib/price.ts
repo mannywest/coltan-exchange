@@ -7,3 +7,8 @@ export const MIN_TONNES = 2; // smallest quantity a buyer can ask for in the dem
 export function lotValue(tonnes: number, gradePct: number, usdPerLb: number): number {
   return tonnes * LB_PER_TONNE * (gradePct / 100) * usdPerLb;
 }
+
+// The grade used for estimates before the lot ships: the independent lab, else the seller's lab, else the basis.
+export function preShipGrade(lot: { basisTa2O5: number; assay: { independentLab: number | null; sellerLab: number | null } }): number {
+  return lot.assay.independentLab ?? lot.assay.sellerLab ?? lot.basisTa2O5;
+}
