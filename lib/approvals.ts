@@ -4,6 +4,8 @@ import { computeGrade, type Lot } from "./grade";
 import { LB_PER_TONNE, PROVISIONAL_SHARE, preShipGrade } from "./price";
 import { assayOutcome, getReq, type Deal, type FollowUp, type Req, type Store } from "./dealStore";
 
+export const SHIP_DOCS = ["Export certificate", "Radioactivity certificate", "Tax receipts", "Traceability tags", "Packing list"];
+
 export type Check = { label: string; ok: boolean; note: string };
 
 export const valueAt = (lot: Lot, qty: number, ta: number) => qty * LB_PER_TONNE * (ta / 100) * lot.priceUsdPerLb;
@@ -52,6 +54,14 @@ export function checksFor(req: Req, deal: Deal | undefined, lot: Lot | undefined
     if (deal.method === "usdt") out.push({ label: "Wallet screening passed", ok: deal.cx.screen === "passed", note: "Simulated screening. Real screening is planned for a later phase." });
     out.push({ label: "Amount matches 80% of the pre-shipment value", ok: req.amount !== undefined && Math.abs(req.amount - expected) < 1, note: `Expected ${req.unit ?? "USD"} ${Math.round(expected).toLocaleString("en-GB")} from ${deal.qty} t at ${preShipGrade(lot).toFixed(1)}% Ta2O5.` });
     out.push({ label: "No open dispute or custody flag", ok: !lot.custody.some((c) => c.flag), note: lot.custody.some((c) => c.flag) ? "A custody flag is open on this lot." : "None open." });
+  }
+  if (req.kind === "shipment") {
+    const flagged = lot.custody.filter((c) => c.flag);
+    out.push(lotCheck, signedCheck);
+    out.push({ label: "All export documents attached", ok: SHIP_DOCS.every((x) => deal.docs.includes(x)), note: `${deal.docs.length} of ${SHIP_DOCS.length} attached: ${SHIP_DOCS.join(", ")}.` });
+    out.push({ label: "Seal numbers match at every handover", ok: flagged.length === 0, note: flagged.length ? `Flag on the custody log: ${flagged[0].flag}` : "Seals matched at each scan." });
+    out.push({ label: "Weight change inside the 0.5% limit", ok: flagged.length === 0, note: flagged.length ? "A weight or timing flag is open." : "Loaded and arrival weights are within the limit (demo)." });
+    out.push({ label: "Route and timing are as expected", ok: true, note: "Journey time matches the usual route for this mine (demo)." });
   }
   if (req.kind === "assay") {
     const a = req.assay!;
@@ -113,11 +123,14 @@ export function dealStage(d: Deal, s: Store): Stage {
     return { step: 3, label: "Provisional payment: funding", waitingOn: "Buyer", detail: "Buyer sends the escrow transfer.", tone: "wait" };
   }
   if (prov.status === "pending") return { step: 3, label: "Provisional release", waitingOn: "Back office", detail: `${prov.id}: ${prov.sigs.length} of ${prov.slots.length} signed.`, tone: "wait" };
+  const sh = getReq(s, d.shipReq);
+  if (!sh || sh.status === "rejected") return { step: 4, label: "Shipment and documents", waitingOn: "Seller", detail: sh?.status === "rejected" ? `Shipment not confirmed: ${sh.reason}` : "Seller logs the handovers and attaches the export documents.", tone: "wait" };
+  if (sh.status === "pending") return { step: 4, label: "Shipment check", waitingOn: "Back office", detail: `${sh.id} needs a named reviewer.`, tone: "wait" };
   const a = getReq(s, d.assayReq);
-  if (!a || a.status === "rejected") return { step: 4, label: "Assay on arrival", waitingOn: "Buyer", detail: a?.status === "rejected" ? `Result declined: ${a.reason}` : "Buyer submits their lab result.", tone: "wait" };
-  if (a.status === "pending") return { step: 4, label: "Assay result", waitingOn: "Back office", detail: `${a.id} needs a named reviewer.`, tone: "wait" };
+  if (!a || a.status === "rejected") return { step: 5, label: "Assay on arrival", waitingOn: "Buyer", detail: a?.status === "rejected" ? `Result declined: ${a.reason}` : "Buyer submits their lab result.", tone: "wait" };
+  if (a.status === "pending") return { step: 5, label: "Assay result", waitingOn: "Back office", detail: `${a.id} needs a named reviewer.`, tone: "wait" };
   const f2 = getReq(s, d.finalReq);
-  if (!f2 || f2.status === "rejected") return { step: 5, label: "Final payment", waitingOn: "Back office", detail: "Release request being raised.", tone: "wait" };
-  if (f2.status === "pending") return { step: 5, label: "Final release", waitingOn: "Back office", detail: `${f2.id}: ${f2.sigs.length} of ${f2.slots.length} signed.`, tone: "wait" };
-  return { step: 6, label: "Complete", waitingOn: "Nobody", detail: "Evidence pack ready.", tone: "ok" };
+  if (!f2 || f2.status === "rejected") return { step: 6, label: "Final payment", waitingOn: "Back office", detail: "Release request being raised.", tone: "wait" };
+  if (f2.status === "pending") return { step: 6, label: "Final release", waitingOn: "Back office", detail: `${f2.id}: ${f2.sigs.length} of ${f2.slots.length} signed.`, tone: "wait" };
+  return { step: 7, label: "Complete", waitingOn: "Nobody", detail: "Evidence pack ready.", tone: "ok" };
 }

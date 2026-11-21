@@ -9,6 +9,7 @@ import ContractPanel, { type ChainEvent, type Notice, type StatementRow } from "
 import { SellerView, Receipt } from "./ContractExtras";
 import UsdtFlow from "./UsdtFlow";
 import ApprovalStatus from "./ApprovalStatus";
+import { SHIP_DOCS } from "@/lib/approvals";
 import Hint from "./Hint";
 import Term from "./Term";
 import { PLATFORM_FEE_PCT, PROVISIONAL_SHARE, LB_PER_TONNE, preShipGrade } from "@/lib/price";
@@ -60,11 +61,13 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
   const enh = getReq(s, deal.enhancedReq);
   const funds = getReq(s, deal.fundsReq);
   const prov = getReq(s, deal.provReq);
+  const sh = getReq(s, deal.shipReq);
   const assay = getReq(s, deal.assayReq);
   const fin = getReq(s, deal.finalReq);
   const enhOk = !enh || enh.status === "approved";
   const signed = deal.buyerSigned && deal.sellerSigned;
   const provDone = prov?.status === "approved";
+  const shipDone = sh?.status === "approved";
   const assayDone = assay?.status === "approved" && deal.assayFinal !== null;
   const finalDone = fin?.status === "approved";
   const finalTa = deal.assayFinal ?? NaN;
@@ -216,10 +219,47 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
       ),
     },
     {
+      title: t("Shipment and documents"),
+      summary: t("Shipment and documents confirmed"),
+      status: stageStatus(shipDone, provDone),
+      body: provDone ? (
+        <>
+          <p>{t("The seller logs each handover and attaches the export documents. A named reviewer checks that seals, weights and paperwork match before the lot goes to assay.")}</p>
+          <ol className="handovers">
+            {lot.custody.map((c) => (
+              <li key={c.at + c.action}>
+                <span>{new Date(c.at).toLocaleDateString("en-GB", { day: "numeric", month: "short" })}</span>
+                <span>
+                  {c.action}
+                  <small>{c.place} · {c.by}{c.flag ? ` · ${c.flag}` : ""}</small>
+                </span>
+              </li>
+            ))}
+          </ol>
+          {(!sh || sh.status === "rejected") && (
+            <>
+              {sh?.status === "rejected" && <ApprovalStatus req={sh} backofficeHref={bo} />}
+              <p className="outcome" role="status">
+                {t("Waiting for the seller ({n}) to attach the documents ({k} of {m} attached).", { n: lot.sellerAlias, k: deal.docs.length, m: SHIP_DOCS.length })}
+              </p>
+              <a className="btn btn-quiet" href={routes.deals} onClick={asSeller}>
+                {t("Demo: act as the seller")}
+              </a>
+            </>
+          )}
+          {sh && sh.status !== "rejected" && (
+            <ApprovalStatus req={sh} backofficeHref={bo} doneText={t("Shipment and documents confirmed by a named reviewer.")} />
+          )}
+        </>
+      ) : (
+        <p className="locked">{t("Locked until the provisional payment is released.")}</p>
+      ),
+    },
+    {
       title: t("Assay on arrival"),
       summary: assayDone ? t("Final grade {ta}% Ta2O5", { ta: finalTa.toFixed(2) }) : "",
-      status: stageStatus(assayDone, provDone),
-      body: provDone ? (
+      status: stageStatus(assayDone, shipDone),
+      body: shipDone ? (
         <>
           <label className="field" style={{ maxWidth: 260 }}>
             <span>{t("Buyer's lab result (% Ta2O5)")}</span>
@@ -263,7 +303,7 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
           )}
         </>
       ) : (
-        <p className="locked">{t("Locked until the provisional payment is released.")}</p>
+        <p className="locked">{t("Locked until the shipment and documents are confirmed.")}</p>
       ),
     },
     {
@@ -373,7 +413,7 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
       </nav>
       <h1>{t("Deal for lot {n}", { n: lot.number })}</h1>
       <p className="listing-intro">
-        {t("Six steps from reservation to evidence pack.")}
+        {t("Seven steps from reservation to evidence pack.")}
         <Hint>{t("Each step unlocks the next. Money moves only when named people in the back office approve it. You cannot approve your own payment.")}</Hint>
       </p>
       <div className="progress" role="progressbar" aria-valuemin={1} aria-valuemax={stages.length} aria-valuenow={cur + 1} aria-label={t("Deal progress")}>

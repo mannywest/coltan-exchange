@@ -25,12 +25,13 @@ export const SLOT_LABEL: Record<Slot, string> = {
   compliance: "Named Compliance officer",
 };
 
-export type Kind = "enhanced" | "wallet" | "funds" | "provisional" | "assay" | "final";
+export type Kind = "enhanced" | "wallet" | "funds" | "provisional" | "shipment" | "assay" | "final";
 export const KIND_LABEL: Record<Kind, string> = {
   enhanced: "Enhanced review before signing",
   wallet: "Flagged wallet",
   funds: "Confirm funds received",
   provisional: "Release provisional payment",
+  shipment: "Confirm shipment and documents",
   assay: "Record the assay result",
   final: "Release final payment",
 };
@@ -68,6 +69,8 @@ export type Deal = {
   cx: Cx;
   walletReq: string | null;
   provReq: string | null;
+  docs: string[];
+  shipReq: string | null;
   buyerLab: string;
   assayReq: string | null;
   assayFinal: number | null;
@@ -85,7 +88,7 @@ export type Store = {
 };
 
 const EMPTY: Store = { deals: {}, reqs: [], audit: [], seq: 0, who: "approver" };
-const KEY = "cx-store-v1";
+const KEY = "cx-store-v2";
 let state: Store = EMPTY;
 let hydrated = false;
 const listeners = new Set<() => void>();
@@ -181,7 +184,7 @@ export function openDeal(slug: string, lotNumber: string, qty: number, needsEnha
         ...s.deals,
         [slug]: {
           slug, lotNumber, qty, at: Date.now(), method: "bank", enhancedReq: null, buyerSigned: false, sellerSigned: false,
-          bankSent: false, fundsReq: null, cx: CX0, walletReq: null, provReq: null, buyerLab: "", assayReq: null,
+          bankSent: false, fundsReq: null, cx: CX0, walletReq: null, provReq: null, docs: [], shipReq: null, buyerLab: "", assayReq: null,
           assayFinal: null, finalReq: null,
         },
       },
@@ -297,6 +300,31 @@ export function usdtConfirmed(slug: string, f: FollowUp) {
     let next = patchDeal(s, slug, { cx: { ...d.cx, pay: "confirmed", confs: 3 } });
     next = log(next, "Demo network", `Payment of ${f.unit} ${Math.round(f.amount).toLocaleString("en-GB")} confirmed, lot ${d.lotNumber}`, slug);
     return addRelease(next, slug, f, "Platform rules");
+  });
+}
+
+export function toggleDoc(slug: string, doc: string) {
+  update((s) => {
+    const d = s.deals[slug];
+    if (!d) return s;
+    const docs = d.docs.includes(doc) ? d.docs.filter((x) => x !== doc) : [...d.docs, doc];
+    return patchDeal(s, slug, { docs });
+  });
+}
+
+// The seller logs the handovers and attaches the export documents. A named reviewer then checks that seals and paperwork match.
+// COMPLIANCE: origin and export documents are checked by a named human before the lot moves on to assay.
+export function submitShipment(slug: string) {
+  update((s) => {
+    const d = s.deals[slug];
+    if (!d) return s;
+    const existing = getReq(s, d.shipReq);
+    if (existing && existing.status !== "rejected") return s;
+    let next = log(s, SELLER_ACTOR, `Seller logged the handovers and attached ${d.docs.length} documents, lot ${d.lotNumber}`, slug);
+    const r = newReq(next, {
+      kind: "shipment", slug, lotNumber: d.lotNumber, title: `Confirm shipment and documents, lot ${d.lotNumber}`, slots: ["reviewer"],
+    }, SELLER_ACTOR);
+    return patchDeal(r.s, slug, { shipReq: r.id });
   });
 }
 

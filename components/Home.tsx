@@ -31,6 +31,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
     ["Reserve", "Pick an approved lot and hold it. Nothing is paid."],
     ["Sign terms", "Quantity, grade basis, delivery and price are locked."],
     ["Provisional payment", "80% goes into escrow. A named person approves the release."],
+    ["Shipment and documents", "The seller logs each handover and attaches export papers. A named reviewer checks they match."],
     ["Assay on arrival", "A lab tests the ore. A neutral umpire lab settles disputes."],
     ["Final payment", "The balance is settled on the tested grade."],
     ["Evidence pack", "A record your bank or auditor can check on its own."],
@@ -43,7 +44,7 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
   const roles: { id: Role; title: string; text: string; to: string; cta: string }[] = [
     { id: "buyer", title: "I want to buy", text: "Browse approved lots, read the evidence and reserve one.", to: routes.lots, cta: "Browse the lots" },
     { id: "seller", title: "I want to sell", text: "Record a lot the way the field team does and send it for review.", to: routes.sell, cta: "List a lot" },
-    { id: "reviewer", title: "I review lots", text: "Decide the lots the rules cannot clear alone, and manage mine tiers.", to: routes.review, cta: "Open the reviewer desk" },
+    { id: "reviewer", title: "I work in the back office", text: "Approve payments, record assay results and review flagged parties. Money moves only on two named signatures.", to: routes.backoffice, cta: "Open the back office" },
   ];
   const grades = ["A", "B", "C", "Blocked"] as const;
   const gradeNote: Record<(typeof grades)[number], string> = {
@@ -69,7 +70,17 @@ export default function Home({ routes, lots }: { routes: Routes; lots: Lot[] }) 
             {t("Buyers and sellers trade lots that have been tested, tracked and checked for signs of false origin. Rules set the grade. People approve. AI never decides.")}
           </p>
           <div className="home-cta">
-            <a className="btn" href={routes.lots}>
+            <a
+              className="btn"
+              href={href(routes.lot, "lot-0417")}
+              onClick={() => {
+                setRole("buyer");
+                window.dispatchEvent(new Event("cx-tour-open"));
+              }}
+            >
+              {t("Start the guided demo")}
+            </a>
+            <a className="btn btn-quiet" href={routes.lots}>
               {t("Browse the lots")}
             </a>
             <a className="btn btn-quiet" href={routes.sell} onClick={() => setRole("seller")}>

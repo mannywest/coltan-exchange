@@ -4,6 +4,7 @@ import type { ReactNode } from "react";
 import type { Routes } from "@/lib/routes";
 import { LangSwitch, ROLES, useLang, useRole, useT } from "./I18n";
 import { pendingFor, useStore } from "@/lib/dealStore";
+import Tour, { RestartButton } from "./Tour";
 
 export default function Frame({ routes, children }: { routes: Routes; children: ReactNode }) {
   const t = useT();
@@ -20,7 +21,8 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
   return (
     <>
       <div className="demo-bar" role="note">
-        {t("Demo data. Every lot, name, number and price on this site is invented.")}
+        <span>{t("Demo data. Every lot, name, number and price on this site is invented.")}</span>
+        <RestartButton routes={routes} />
       </div>
       <header className="top">
         <a className="wordmark" href={routes.home}>
@@ -59,6 +61,7 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
         </p>
       )}
       <main className="page">{children}</main>
+      <Tour routes={routes} />
       <footer className="foot">
         <p>{t("Prepared by Plerosis with AI assistance")}</p>
         <p>{t("Demo only. Not an offer to trade.")}</p>

@@ -144,3 +144,9 @@ Colour is never the only signal: every status also has a word and a shape.
 - **Role switch:** Visitor removed (it matched Buyer). Views are Buyer, Seller, Back office.
 - **Clarity fixes from the buyer review:** one consistent line on screening ("simulated here, required in the real product"); estimated total and escrow amount now use the independent lab result so the lot page and the deal agree; Grade C warning and enhanced review; listing text no longer says lots are "approved"; CIF/FOB label fixed; quantity errors shown instead of silently changing the number; origin-check wording; glossary extended (FOB, provisional payment, tolerance, beneficial owner, back office); FAQ on who approves a payment.
 - **Not yet translated:** new back office and deal strings are English only (French and Chinese fall back to English).
+
+## Round 7: shipment step, guided demo, restart
+- New step 4 "Shipment and documents": seller attaches five documents and submits a shipment record; a named reviewer confirms before assay opens. Flow is now 7 steps.
+- "Guided demo" panel: shows the seven steps, says who to be next and links there. It only points; it never signs or approves. Starts open on wide screens, a small button on phones.
+- "Restart demo": always visible in the demo bar and in the panel; needs a second click to confirm.
+- Glossary tips on phones sit inside the screen.
