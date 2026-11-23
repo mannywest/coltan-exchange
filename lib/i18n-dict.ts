@@ -2552,6 +2552,18 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
   "fr": "Demander à la plateforme",
   "zh": "询问交易所助手"
  },
+ "The Next step bar at the top tells you who acts next and takes you there.": {
+  "fr": "La barre Étape suivante, en haut, indique qui agit ensuite et vous y emmène.",
+  "zh": "顶部的“下一步”栏会告诉你接下来由谁操作，并带你过去。"
+ },
+ "Next step": {
+  "fr": "Étape suivante",
+  "zh": "下一步"
+ },
+ "Next step in the demo": {
+  "fr": "Étape suivante dans la démo",
+  "zh": "演示中的下一步"
+ },
  "Close the assistant": {
   "fr": "Fermer l'assistant",
   "zh": "关闭助手"

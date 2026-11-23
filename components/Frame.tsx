@@ -6,6 +6,7 @@ import { LangSwitch, ROLES, useLang, useRole, useT } from "./I18n";
 import { pendingFor, useStore } from "@/lib/dealStore";
 import Tour, { RestartButton } from "./Tour";
 import Assistant from "./Assistant";
+import DemoGuide from "./DemoGuide";
 
 export default function Frame({ routes, children }: { routes: Routes; children: ReactNode }) {
   const t = useT();
@@ -61,6 +62,7 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
           )}
         </p>
       )}
+      <DemoGuide routes={routes} />
       <main className="page">{children}</main>
       <Tour routes={routes} />
       <Assistant routes={routes} />

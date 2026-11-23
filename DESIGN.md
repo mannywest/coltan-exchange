@@ -168,3 +168,9 @@ Agreed by Manny on 23 Nov. Built on branch `feature/assistant-demand-board`. Not
 - Answers can include cards: lot comparison, six evidence checks, deal maths (80% provisional, 20% balance, 1% fee), seven-step deal tracker, risk tier.
 - Source links open the right lot tab. French and Chinese supported; untranslated answers say they are in English.
 - Compliance unchanged: refuses to approve, sign, release money, change a tier, or reveal mine location; risk signals shown to back office only.
+
+## Round 10: "Next step" bar (23 Nov 2026)
+- Problem: the deal needs three viewpoints (buyer, seller, back office), and users had to switch view and find the right screen themselves.
+- A bar under the header on every screen says whose turn it is and gives one button that switches view and opens the right screen. In the back office it also picks the named demo person who can sign, and opens that request.
+- Plain rules reading the deal state, no AI. It never signs or approves; a person still presses every approval.
+- The "Guided demo" panel now shows progress only, so there is one source of instructions.

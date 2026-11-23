@@ -2994,3 +2994,12 @@ ol {
 .demand-who { margin: 0; color: var(--faint); font-size: 0.8125rem; }
 .demand-actions { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 6px; }
 .demand-actions .btn { width: auto; min-height: 44px; font-size: 0.9375rem; text-align: center; text-decoration: none; display: inline-flex; align-items: center; }
+
+/* ---- Demo guide: the "Next step" bar ---- */
+.guide { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin: 14px clamp(16px, 4vw, 48px) 0; padding: 10px 14px; border: 1px solid var(--verified); border-left-width: 4px; border-radius: 10px; background: rgba(0,184,156,.08); }
+.guide-ok { background: rgba(0,184,156,.14); }
+.guide-stop { border-color: var(--copper); background: rgba(200,120,60,.1); }
+.guide-tag { font-size: 0.75rem; font-weight: 800; letter-spacing: 0.08em; text-transform: uppercase; color: var(--verified); }
+.guide-text { margin: 0; flex: 1 1 260px; font-size: 0.9375rem; }
+.guide-go { width: auto; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; padding: 0 16px; text-align: center; }
+@media (max-width: 639px) { .guide-go { width: 100%; justify-content: center; } }

@@ -2,13 +2,11 @@
 
 import { useEffect, useState } from "react";
 import type { Routes } from "@/lib/routes";
-import { href } from "@/lib/routes";
 import { resetAll, useStore } from "@/lib/dealStore";
 import { resetDemand } from "@/lib/demand";
 import { dealStage } from "@/lib/approvals";
-import { useRole, useT, type Role } from "./I18n";
+import { useRole, useT } from "./I18n";
 
-const DEMO_LOT = "lot-0417";
 const STEPS = ["Reserve a lot", "Sign the terms", "Pay into escrow", "Shipment and documents", "Assay on arrival", "Final payment", "Evidence pack"];
 
 // A restart button with a second click to confirm, so nobody wipes a live demo by accident.
@@ -42,12 +40,11 @@ export function RestartButton({ routes, className }: { routes: Routes; className
   );
 }
 
-// A guided path through the demo. It reads the deal state and says what to do next and who to be.
-// It only points. It never approves, signs or releases anything.
+// The step checklist for the demo. The "Next step" bar (DemoGuide) says what to do next. This only shows progress.
+// It never approves, signs or releases anything.
 export default function Tour({ routes }: { routes: Routes }) {
   const t = useT();
   const s = useStore();
-  const { setRole } = useRole();
   const [open, setOpen] = useState(false);
 
   useEffect(() => {
@@ -72,28 +69,6 @@ export default function Tour({ routes }: { routes: Routes }) {
   const st = d ? dealStage(d, s) : null;
   const current = d && st ? st.step - 1 : 0; // index of the step you are on (0 = reserve)
 
-  let tell = t("Open lot 0417 and press Reserve this lot.");
-  let go: { label: string; to: string; role: Role } = { label: t("Open lot 0417"), to: href(routes.lot, DEMO_LOT), role: "buyer" };
-  if (d && st) {
-    const dealHref = href(routes.deal, d.slug);
-    if (st.waitingOn === "Buyer") {
-      tell = t("You are the buyer. {d}", { d: st.detail });
-      go = { label: t("Open the deal"), to: dealHref, role: "buyer" };
-    } else if (st.waitingOn === "Seller") {
-      tell = t("Now be the seller. {d}", { d: st.detail });
-      go = { label: t("Switch to the seller"), to: routes.deals, role: "seller" };
-    } else if (st.waitingOn === "Back office") {
-      tell = t("Now be the back office. {d} Money releases need two different people, so sign, switch the person at the top, and sign again.", { d: st.detail });
-      go = { label: t("Switch to the back office"), to: routes.backoffice, role: "reviewer" };
-    } else if (st.tone === "ok") {
-      tell = t("The deal is complete. Open it to see the evidence pack and receipt, or restart to run it again.");
-      go = { label: t("Open the deal"), to: dealHref, role: "buyer" };
-    } else {
-      tell = t("This deal stopped: {d} Restart to try another route.", { d: st.detail });
-      go = { label: t("Open the deal"), to: dealHref, role: "buyer" };
-    }
-  }
-
   if (!open)
     return (
       <button type="button" className="tour-pill" onClick={() => setOpen(true)} aria-expanded="false">
@@ -116,10 +91,7 @@ export default function Tour({ routes }: { routes: Routes }) {
           </li>
         ))}
       </ol>
-      <p className="tour-tell">{tell}</p>
-      <a className="btn" href={go.to} onClick={() => setRole(go.role)}>
-        {go.label}
-      </a>
+      <p className="tour-tell">{t("The Next step bar at the top tells you who acts next and takes you there.")}</p>
       <RestartButton routes={routes} className="restart restart-quiet" />
     </aside>
   );

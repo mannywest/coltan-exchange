@@ -37,6 +37,9 @@ export default function BackOffice({ lots, routes }: { lots: Lot[]; routes: Rout
   const decided = s.reqs.filter((r) => r.status !== "pending");
   const ordered = [...pending].sort((a, b) => a.at - b.at).concat([...decided].sort((a, b) => (b.decidedAt ?? 0) - (a.decidedAt ?? 0)));
   const deals = Object.values(s.deals);
+  // Open the request this person can act on, so nobody has to hunt for it. Closing one by hand keeps it closed.
+  const auto = pending.find((r) => !hasSigned(r, person.id) && slotFor(r, person)) ?? pending[0];
+  const shown = open === "none" ? null : open && getReq(s, open)?.status === "pending" ? open : (auto?.id ?? null);
 
   return (
     <section className="review-desk backoffice">
@@ -93,8 +96,8 @@ export default function BackOffice({ lots, routes }: { lots: Lot[]; routes: Rout
                   <button
                     type="button"
                     className="bo-head"
-                    aria-expanded={open === r.id}
-                    onClick={() => setOpen(open === r.id ? null : r.id)}
+                    aria-expanded={shown === r.id}
+                    onClick={() => setOpen(shown === r.id ? "none" : r.id)}
                   >
                     <span className="bo-ref">{r.id}</span>
                     <span className="bo-title">{r.title}</span>
@@ -114,7 +117,7 @@ export default function BackOffice({ lots, routes }: { lots: Lot[]; routes: Rout
                           : t("Rejected")}
                     </span>
                   </button>
-                  {open === r.id && <RequestDetail req={r} s={s} lots={lots} routes={routes} personId={person.id} />}
+                  {shown === r.id && <RequestDetail req={r} s={s} lots={lots} routes={routes} personId={person.id} />}
                 </li>
               ))}
             </ul>
