@@ -5,6 +5,7 @@ import type { Routes } from "@/lib/routes";
 import { LangSwitch, ROLES, useLang, useRole, useT } from "./I18n";
 import { pendingFor, useStore } from "@/lib/dealStore";
 import Tour, { RestartButton } from "./Tour";
+import Assistant from "./Assistant";
 
 export default function Frame({ routes, children }: { routes: Routes; children: ReactNode }) {
   const t = useT();
@@ -14,10 +15,10 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
   const waiting = pendingFor(store, store.who);
   const nav: [string, string][] =
     role === "reviewer"
-      ? [[routes.backoffice, "Back office"], [routes.review, "Reviewer desk"], [routes.registry, "Mine registry"], [routes.lots, "Lots"]]
+      ? [[routes.backoffice, "Back office"], [routes.review, "Reviewer desk"], [routes.registry, "Mine registry"], [routes.lots, "Lots"], [routes.demand, "Demand board"]]
       : role === "seller"
-        ? [[routes.lots, "Lots"], [routes.sell, "List a lot"], [routes.deals, "Deals"], [routes.onboarding, "Get cleared"]]
-        : [[routes.lots, "Lots"], [routes.deals, "My deals"], [routes.onboarding, "Get cleared"]];
+        ? [[routes.lots, "Lots"], [routes.sell, "List a lot"], [routes.demand, "Demand board"], [routes.deals, "Deals"], [routes.onboarding, "Get cleared"]]
+        : [[routes.lots, "Lots"], [routes.deals, "My deals"], [routes.demand, "Demand board"], [routes.onboarding, "Get cleared"]];
   return (
     <>
       <div className="demo-bar" role="note">
@@ -62,6 +63,7 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
       )}
       <main className="page">{children}</main>
       <Tour routes={routes} />
+      <Assistant routes={routes} />
       <footer className="foot">
         <p>{t("Prepared by Plerosis with AI assistance")}</p>
         <p>{t("Demo only. Not an offer to trade.")}</p>

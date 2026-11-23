@@ -2,7 +2,7 @@
 // The real app is the Next.js project; this reuses the same components.
 //   (empty) or #home home   #all-lots listing        #review         reviewer desk
 //   #lot-0417              lot detail     #check-lot-0417 trust check   #deals  #backoffice
-//   #deal-lot-0417 deal    #sell  #onboarding  #registry
+//   #deal-lot-0417 deal    #sell  #onboarding  #registry  #demand
 import { createRoot } from "react-dom/client";
 import { useEffect, useState } from "react";
 import Chrome from "@/components/Chrome";
@@ -17,6 +17,7 @@ import MineRegistry from "@/components/MineRegistry";
 import Home from "@/components/Home";
 import Deals from "@/components/Deals";
 import BackOffice from "@/components/BackOffice";
+import DemandBoard from "@/components/DemandBoard";
 import RoleGate from "@/components/RoleGate";
 import { lots, getLot } from "@/data/lots";
 import { hashRoutes } from "@/lib/routes";
@@ -67,6 +68,7 @@ function Screen({ hash }: { hash: string }) {
         <BackOffice lots={lots} routes={hashRoutes} />
       </RoleGate>
     );
+  if (hash === "demand") return <DemandBoard routes={hashRoutes} />;
   if (hash === "onboarding") return <Onboarding routes={hashRoutes} />;
   if (hash === "registry")
     return (

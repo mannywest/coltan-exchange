@@ -8,6 +8,9 @@ import type { Routes } from "@/lib/routes";
 import Mark from "./Mark";
 import { Art } from "./PhotoEvidence";
 import { useT } from "./I18n";
+import MessageToLot from "./MessageToLot";
+import type { FieldKey } from "@/lib/assistant";
+import { clearResponding, useDemand } from "@/lib/demand";
 
 const LOT_NUMBER = "0445";
 const FACTOR = 1.22; // handheld Ta reading x 1.22 = estimated Ta2O5
@@ -25,6 +28,25 @@ export default function SellForm({ routes }: { routes: Routes }) {
   const [weight, setWeight] = useState("");
   const [photos, setPhotos] = useState<Record<PhotoKind, boolean>>({ scale: false, xrf: false, bags: false, handover: false });
   const [sent, setSent] = useState(false);
+  const demand = useDemand();
+  const resp = demand.reqs.find((r) => r.id === demand.responding);
+  // A seller who said "I can supply" arrives with the quantity and delivery term filled in (once per request).
+  const [seenResp, setSeenResp] = useState("");
+  if (resp && seenResp !== resp.id) {
+    setSeenResp(resp.id);
+    setTonnes(String(resp.tonnes));
+    setIncoterm(resp.incoterm);
+  }
+
+  // The seller confirmed the read-back. Only fields the assistant was sure of arrive. These are seller claims, not evidence.
+  function applyMessage(v: Partial<Record<FieldKey, string>>) {
+    if (v.tonnes) setTonnes(v.tonnes);
+    if (v.incoterm) setIncoterm(v.incoterm);
+    if (v.price) setPrice(v.price);
+    if (v.ta) setTa(v.ta);
+    if (v.operator) setOperator(v.operator);
+    if (v.mine) setMineName(v.mine);
+  }
 
   const num = (s: string) => (s.trim() === "" ? NaN : Number(s));
   const tn = num(tonnes);
@@ -118,6 +140,17 @@ export default function SellForm({ routes }: { routes: Routes }) {
         </header>
 
         <form className="body" id="sell-form" onSubmit={submit}>
+          {resp && (
+            <p className="demand-banner" role="status">
+              {t("Responding to {id}: {n} tonnes, {term}. The buyer stays anonymous. Nothing is agreed until both sides are cleared and a named reviewer approves the lot.", {
+                id: resp.id, n: resp.tonnes, term: resp.incoterm.split(" ")[0],
+              })}{" "}
+              <button type="button" className="btn-link" onClick={clearResponding}>
+                {t("Stop responding")}
+              </button>
+            </p>
+          )}
+          <MessageToLot onApply={applyMessage} />
           <section className="block" aria-labelledby="h-basics">
             <div className="block-head">
               <h2 id="h-basics">{t("Lot details")}</h2>

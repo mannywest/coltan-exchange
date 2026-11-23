@@ -9,6 +9,7 @@ import ContractPanel, { type ChainEvent, type Notice, type StatementRow } from "
 import { SellerView, Receipt } from "./ContractExtras";
 import UsdtFlow from "./UsdtFlow";
 import ApprovalStatus from "./ApprovalStatus";
+import DisputeHelper from "./DisputeHelper";
 import { SHIP_DOCS } from "@/lib/approvals";
 import Hint from "./Hint";
 import Term from "./Term";
@@ -282,6 +283,12 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
                   })}
             </p>
           )}
+          {(() => {
+            const a = assay?.assay;
+            if (a) return <DisputeHelper lotNumber={lot.number} buyerLab={a.buyerLab} independent={a.independent} umpire={a.umpire} />;
+            if (preview && !preview.within && !Number.isNaN(b)) return <DisputeHelper lotNumber={lot.number} buyerLab={b} independent={independent} />;
+            return null;
+          })()}
           {!assay && <p className="reserve-note">{t("Try 25.9 as the buyer's result to see the umpire step.")}</p>}
           {!assay && (
             <button

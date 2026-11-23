@@ -42,7 +42,7 @@ Each lot gets A / B / C / Blocked, built from independent evidence, never seller
 - Real integrations (sanctions screening, KYC, labs, WhatsApp, price feeds)
 - Database and login
 - Other minerals and other countries
-- Auctions, RFQ, price index (later phases)
+- Auctions, price index (later phases). A simple demand board (anonymous buyer requirements) and an AI assistant are in the demo as of 23 Nov 2026.
 - Any real names, mines, coordinates or prices
 
 ## Hard rules

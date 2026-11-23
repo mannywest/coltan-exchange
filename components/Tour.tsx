@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import type { Routes } from "@/lib/routes";
 import { href } from "@/lib/routes";
 import { resetAll, useStore } from "@/lib/dealStore";
+import { resetDemand } from "@/lib/demand";
 import { dealStage } from "@/lib/approvals";
 import { useRole, useT, type Role } from "./I18n";
 
@@ -30,7 +31,10 @@ export function RestartButton({ routes, className }: { routes: Routes; className
         setRole("buyer");
         window.location.href = routes.home;
         // Wipe after leaving the deal page, so an open deal does not re-create itself.
-        setTimeout(resetAll, 60);
+        setTimeout(() => {
+          resetAll();
+          resetDemand();
+        }, 60);
       }}
     >
       {sure ? t("Click again to wipe all demo deals") : t("Restart demo")}

@@ -218,6 +218,11 @@ export function resetDeal(slug: string) {
   });
 }
 
+// Other demo screens (the demand board) write their actions into the same tamper-evident log.
+export function auditNote(who: string, action: string, ref: string) {
+  update((s) => log(s, who, action, ref));
+}
+
 export function resetAll() {
   update(() => ({ ...EMPTY }));
 }

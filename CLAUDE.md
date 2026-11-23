@@ -36,4 +36,4 @@ Treat the product as a regulated commodity market (conflict minerals, sanctions,
 - Keep it simple enough that I can run `npm run dev` and click through it.
 
 ## Out of scope until told otherwise
-Payments and escrow, real integrations, database, login, auctions and RFQ, price index, other minerals.
+Payments and escrow, real integrations, database, login, auctions, price index, other minerals. (Added with Manny's approval on 23 Nov 2026: the simulated assistant, message-to-lot, assay helper and demand board. An RFQ-style requirement can be posted on the demand board, nothing more.)
