@@ -29,15 +29,18 @@ import { href, type Routes } from "@/lib/routes";
 
 const TIERS: Tier[] = ["Blocked", "Unverified", "Watch", "Verified"];
 
+export type LotTab = "evidence" | "assay" | "price" | "wrong";
 export default function LotView({
   lot,
   routes,
+  startTab,
 }: {
   lot: Lot;
-  routes: Routes; }) {
+  routes: Routes;
+  startTab?: LotTab; }) {
   const t = useT();
   // Value = tonnes x lb per tonne x Ta2O5 share x price per lb. An estimate on the grade basis until the lab confirms.
-  const [tab, setTab] = useState<"evidence" | "assay" | "price" | "wrong">("evidence");
+  const [tab, setTab] = useState<LotTab>(startTab ?? "evidence");
   const tested = preShipGrade(lot);
   const total = lotValue(lot.tonnes, tested, lot.priceUsdPerLb);
   const perTonne = total / lot.tonnes;

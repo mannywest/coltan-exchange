@@ -84,8 +84,11 @@ function Screen({ hash }: { hash: string }) {
     const l = getLot(hash.slice(6));
     if (l) return <TrustCheck lot={l} routes={hashRoutes} />;
   }
-  const lot = getLot(hash);
-  if (lot) return <LotView lot={lot} routes={hashRoutes} />;
+  // "#lot-0417~assay" opens the lot on its Assay tab (used by the assistant's source links).
+  const [slug, tab] = hash.split("~");
+  const lot = getLot(slug);
+  const startTab = tab === "assay" || tab === "price" || tab === "wrong" || tab === "evidence" ? tab : undefined;
+  if (lot) return <LotView key={hash} lot={lot} routes={hashRoutes} startTab={startTab} />;
   return <LotListing lots={lots} routes={hashRoutes} />;
 }
 

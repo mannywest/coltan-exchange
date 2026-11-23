@@ -2547,5 +2547,97 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
  "Below the selling grade": {
   "fr": "Inférieure à la teneur de vente",
   "zh": "低于销售品位"
+ },
+ "Ask the Exchange": {
+  "fr": "Demander à la plateforme",
+  "zh": "询问交易所助手"
+ },
+ "Close the assistant": {
+  "fr": "Fermer l'assistant",
+  "zh": "关闭助手"
+ },
+ "Checking": {
+  "fr": "Vérification :",
+  "zh": "正在查看："
+ },
+ "Shown in English in this demo.": {
+  "fr": "Affiché en anglais dans cette démo.",
+  "zh": "本演示中以英文显示。"
+ },
+ "AI answer. Source:": {
+  "fr": "Réponse de l'IA. Source :",
+  "zh": "AI 回答。来源："
+ },
+ "Follow-up questions": {
+  "fr": "Questions suivantes",
+  "zh": "后续问题"
+ },
+ "Something is waiting for you": {
+  "fr": "Quelque chose vous attend",
+  "zh": "有事项等待您处理"
+ },
+ "Try one of these:": {
+  "fr": "Essayez l'une de ces questions :",
+  "zh": "试试这些问题："
+ },
+ "Your question": {
+  "fr": "Votre question",
+  "zh": "您的问题"
+ },
+ "Ask about a lot, a step or a rule": {
+  "fr": "Posez une question sur un lot, une étape ou une règle",
+  "zh": "询问批次、步骤或规则"
+ },
+ "Ask": {
+  "fr": "Demander",
+  "zh": "提问"
+ },
+ "AI assistant, simulated": {
+  "fr": "Assistant IA, simulé",
+  "zh": "AI 助手（模拟）"
+ },
+ "You are viewing as {who}. I explain, compare and draft from the record you may see. I never approve, sign, release money or change a tier. Named people do that.": {
+  "fr": "Vous consultez en tant que {who}. J'explique, compare et rédige à partir des données que vous pouvez voir. Je n'approuve, ne signe, ne débloque jamais d'argent et ne change aucun niveau. Ce sont des personnes nommées qui le font.",
+  "zh": "您当前的身份是{who}。我根据您有权查看的记录进行解释、比较和起草。我绝不批准、签署、放款或更改等级，这些由指定人员完成。"
+ },
+ "a buyer": {
+  "fr": "acheteur",
+  "zh": "买方"
+ },
+ "a seller": {
+  "fr": "vendeur",
+  "zh": "卖方"
+ },
+ "back office staff": {
+  "fr": "personnel du back office",
+  "zh": "后台工作人员"
+ },
+ "Lots side by side": {
+  "fr": "Lots côte à côte",
+  "zh": "批次并列对比"
+ },
+ "Evidence checks for lot {n}": {
+  "fr": "Contrôles de preuves du lot {n}",
+  "zh": "批次 {n} 的证据核查"
+ },
+ "Needs {who}": {
+  "fr": "Nécessite {who}",
+  "zh": "需要 {who}"
+ },
+ "Deal steps": {
+  "fr": "Étapes de la transaction",
+  "zh": "交易步骤"
+ },
+ "Waiting on: {who}": {
+  "fr": "En attente de : {who}",
+  "zh": "等待：{who}"
+ },
+ "No open risk signals.": {
+  "fr": "Aucun signal de risque ouvert.",
+  "zh": "没有未处理的风险信号。"
+ },
+ "Specific signals are visible to back office staff only.": {
+  "fr": "Les signaux précis ne sont visibles que par le personnel du back office.",
+  "zh": "具体信号仅后台工作人员可见。"
  }
 };
