@@ -161,3 +161,10 @@ Agreed by Manny on 23 Nov. Built on branch `feature/assistant-demand-board`. Not
 - **Restart** also resets the demand board. New strings are English only for now.
 - **Tests:** `lib/assistant.ts` checked with a script (parsing, limits, refusals); the screens checked in a browser (all three roles, anonymity, audit log, restart, phone width with 44px tap targets).
 - **COMPLIANCE touchpoints (new):** `lib/assistant.ts` (file header, message parser, mine tier rule), `lib/demand.ts` (file header, pause or remove audit), `components/MessageToLot.tsx`, `components/DisputeHelper.tsx`, `components/DemandBoard.tsx`, `components/Assistant.tsx`.
+
+## Round 9: assistant v2 (23 Nov 2026)
+- The assistant is clearly marked as AI: teal glowing halo on the button and panel, "AI" badge, "AI answer. Source:" on every answer. Halo stops for reduced-motion users.
+- Still simulated (fixed rules, no live AI call). Remembers the lot and question in the chat, shows what it is checking, then types the answer.
+- Answers can include cards: lot comparison, six evidence checks, deal maths (80% provisional, 20% balance, 1% fee), seven-step deal tracker, risk tier.
+- Source links open the right lot tab. French and Chinese supported; untranslated answers say they are in English.
+- Compliance unchanged: refuses to approve, sign, release money, change a tier, or reveal mine location; risk signals shown to back office only.
