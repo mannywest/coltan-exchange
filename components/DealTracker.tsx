@@ -10,6 +10,8 @@ import { SellerView, Receipt } from "./ContractExtras";
 import UsdtFlow from "./UsdtFlow";
 import ApprovalStatus from "./ApprovalStatus";
 import DisputeHelper from "./DisputeHelper";
+import DealSummary from "./DealSummary";
+import ProblemPanel from "./ProblemPanel";
 import { SHIP_DOCS } from "@/lib/approvals";
 import Hint from "./Hint";
 import Term from "./Term";
@@ -434,6 +436,13 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
       <p className="demo-role" role="note">
         {t("Demo: you are the buyer here. In the real product, approvals are done by separate named staff in the back office, so use the buttons marked Demo to switch view and play those people.")}
       </p>
+      <ProblemPanel
+        slug={slug}
+        deal={deal}
+        independent={independent}
+        canFlagWallet={signed && !provDone && !deal.bankSent && deal.cx.wallet === "none" && !prov}
+        canGapLab={shipDone && !assay}
+      />
       <div className={`deal-layout${method === "usdt" && signed ? " has-side" : ""}`}>
         <div className="deal-main">
           <ol className="stages">
@@ -468,6 +477,7 @@ export default function DealTracker({ lot, routes }: { lot: Lot; routes: Routes 
           </aside>
         )}
       </div>
+      {finalDone && <DealSummary slug={slug} lotNumber={lot.number} qty={qty} finalTa={finalTa} finalValue={finalValue} balance={balance} />}
       <p className="reserve-note">
         <Term k="Back office">{t("What is the back office?")}</Term>
       </p>

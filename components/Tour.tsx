@@ -52,8 +52,8 @@ export default function Tour({ routes }: { routes: Routes }) {
     try {
       saved = window.sessionStorage.getItem("cx-tour");
     } catch {}
-    // Open by default on a wide screen the first time; small screens start with the small button.
-    setOpen(saved ? saved === "open" : window.innerWidth >= 1000);
+    // Starts as a small button on every screen. The Next step bar does the guiding.
+    setOpen(saved === "open");
     const onOpen = () => setOpen(true);
     window.addEventListener("cx-tour-open", onOpen);
     return () => window.removeEventListener("cx-tour-open", onOpen);

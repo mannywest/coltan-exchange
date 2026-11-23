@@ -2564,6 +2564,106 @@ export const DICT: Record<string, { fr: string; zh: string }> = {
   "fr": "Étape suivante dans la démo",
   "zh": "演示中的下一步"
  },
+ "Welcome. Who do you want to be?": {
+  "fr": "Bienvenue. Qui voulez-vous être ?",
+  "zh": "欢迎。你想扮演谁？"
+ },
+ "This is a demo of a coltan exchange built for checks and named approvals. Pick a point of view. You can switch at any time, and a Next step bar will guide you.": {
+  "fr": "Ceci est une démo d'une bourse de coltan fondée sur des contrôles et des approbations nominatives. Choisissez un point de vue. Vous pouvez en changer à tout moment, et une barre Étape suivante vous guidera.",
+  "zh": "这是一个以核查和具名审批为核心的钶钽铁矿交易所演示。请选择一个视角，可随时切换，“下一步”栏会为你引路。"
+ },
+ "I want to buy coltan": {
+  "fr": "Je veux acheter du coltan",
+  "zh": "我想买钶钽铁矿"
+ },
+ "Find a lot, check the evidence, reserve it, and follow the deal to the end.": {
+  "fr": "Trouvez un lot, vérifiez les preuves, réservez-le et suivez la transaction jusqu'au bout.",
+  "zh": "找到批次、查看证据、预订，并跟进交易直到结束。"
+ },
+ "I want to sell coltan": {
+  "fr": "Je veux vendre du coltan",
+  "zh": "我想卖钶钽铁矿"
+ },
+ "List a lot from a field message, countersign deals and attach shipping documents.": {
+  "fr": "Listez un lot à partir d'un message du terrain, contresignez les transactions et joignez les documents d'expédition.",
+  "zh": "根据现场消息登记批次、会签交易并附上发运文件。"
+ },
+ "I work in the back office": {
+  "fr": "Je travaille au back office",
+  "zh": "我在后台工作"
+ },
+ "Check evidence and sign the approvals that move money. Nothing releases without two named people.": {
+  "fr": "Vérifiez les preuves et signez les approbations qui déclenchent les paiements. Rien n'est libéré sans deux personnes nommées.",
+  "zh": "核查证据并签署放款审批。没有两位具名人员签字，款项不会放出。"
+ },
+ "Just let me look around": {
+  "fr": "Je veux juste explorer",
+  "zh": "我先随便看看"
+ },
+ "Deal summary": {
+  "fr": "Résumé de la transaction",
+  "zh": "交易摘要"
+ },
+ "Lot {n}, {q} tonnes, final grade {ta}% Ta2O5, final value {v}. {b}": {
+  "fr": "Lot {n}, {q} tonnes, teneur finale {ta}% Ta2O5, valeur finale {v}. {b}",
+  "zh": "批次 {n}，{q} 吨，最终品位 {ta}% Ta2O5，最终价值 {v}。{b}"
+ },
+ "Balance paid to the seller: {amount}.": {
+  "fr": "Solde versé au vendeur : {amount}.",
+  "zh": "向卖方支付的余款：{amount}。"
+ },
+ "Refund to the buyer: {amount}.": {
+  "fr": "Remboursement à l'acheteur : {amount}.",
+  "zh": "退还给买方：{amount}。"
+ },
+ "Approval": {
+  "fr": "Approbation",
+  "zh": "审批"
+ },
+ "Signed by": {
+  "fr": "Signé par",
+  "zh": "签署人"
+ },
+ "When": {
+  "fr": "Quand",
+  "zh": "时间"
+ },
+ "Automatic check": {
+  "fr": "Contrôle automatique",
+  "zh": "自动核查"
+ },
+ "{n} recorded actions in the audit log for this deal.": {
+  "fr": "{n} actions enregistrées dans le journal d'audit pour cette transaction.",
+  "zh": "此交易的审计日志中共有 {n} 条记录。"
+ },
+ "Log fingerprint (demo):": {
+  "fr": "Empreinte du journal (démo) :",
+  "zh": "日志指纹（演示）："
+ },
+ "Print or save as PDF": {
+  "fr": "Imprimer ou enregistrer en PDF",
+  "zh": "打印或另存为 PDF"
+ },
+ "Replay this deal from the start": {
+  "fr": "Rejouer cette transaction depuis le début",
+  "zh": "从头重放此交易"
+ },
+ "Demo: show a problem": {
+  "fr": "Démo : montrer un problème",
+  "zh": "演示：展示一个问题"
+ },
+ "See what the platform does when something goes wrong. Each one is made up for the demo and can be undone with Restart.": {
+  "fr": "Voyez ce que fait la plateforme quand quelque chose tourne mal. Chaque cas est inventé pour la démo et peut être annulé avec Redémarrer.",
+  "zh": "看看出问题时平台会怎么做。每个情形都是为演示编造的，可用“重新开始”撤销。"
+ },
+ "Pay from a flagged wallet": {
+  "fr": "Payer depuis un portefeuille signalé",
+  "zh": "用被标记的钱包付款"
+ },
+ "Buyer's lab result is 1.6 points off": {
+  "fr": "Le résultat du labo de l'acheteur est décalé de 1,6 point",
+  "zh": "买方实验室结果相差 1.6 个百分点"
+ },
  "Close the assistant": {
   "fr": "Fermer l'assistant",
   "zh": "关闭助手"

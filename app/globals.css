@@ -3003,3 +3003,23 @@ ol {
 .guide-text { margin: 0; flex: 1 1 260px; font-size: 0.9375rem; }
 .guide-go { width: auto; min-height: 44px; display: inline-flex; align-items: center; gap: 8px; padding: 0 16px; text-align: center; }
 @media (max-width: 639px) { .guide-go { width: 100%; justify-content: center; } }
+
+/* ---- Welcome chooser, deal summary, problem panel ---- */
+.welcome { position: fixed; inset: 0; z-index: 60; display: grid; place-items: center; padding: 16px; background: rgba(9,11,12,.88); overflow: auto; }
+.welcome-card { width: min(720px, 100%); display: grid; gap: 14px; padding: clamp(18px, 4vw, 32px); background: var(--raised); border: 1px solid var(--verified); border-radius: 16px; box-shadow: 0 0 40px rgba(0,184,156,.2); }
+.welcome-card h2 { margin: 0; font-family: var(--font-display); font-size: clamp(1.5rem, 5vw, 2.25rem); text-transform: uppercase; }
+.welcome-card p { margin: 0; color: var(--muted); }
+.welcome-roles { display: grid; gap: 10px; }
+@media (min-width: 700px) { .welcome-roles { grid-template-columns: repeat(3, 1fr); } }
+.welcome-role { display: grid; gap: 6px; align-content: start; min-height: 44px; padding: 14px; border: 1px solid var(--line); border-radius: 12px; color: inherit; text-decoration: none; background: var(--ink); }
+.welcome-role:hover, .welcome-role:focus-visible { border-color: var(--verified); }
+.welcome-role b { font-size: 1.0625rem; }
+.welcome-role span { color: var(--muted); font-size: 0.875rem; }
+.welcome .btn { width: auto; justify-self: start; min-height: 44px; }
+.summary { margin-top: 32px; padding: 18px; border: 1px solid var(--verified); border-radius: 12px; display: grid; gap: 12px; overflow-x: auto; }
+.summary h2 { margin: 0; }
+.summary-actions, .problem-actions { display: flex; flex-wrap: wrap; gap: 10px; }
+.summary-actions .btn, .problem-actions .btn { width: auto; min-height: 44px; }
+.problem { margin: 14px 0; padding: 10px 14px; border: 1px dashed var(--amber); border-radius: 10px; }
+.problem summary { cursor: pointer; min-height: 44px; display: flex; align-items: center; font-weight: 700; color: var(--amber); }
+@media print { .demo-bar, .top, .guide, .tour, .tour-pill, .ask-btn, .ask, .foot, .summary-actions, .problem { display: none !important; } }

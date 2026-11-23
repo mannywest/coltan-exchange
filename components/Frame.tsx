@@ -7,6 +7,7 @@ import { pendingFor, useStore } from "@/lib/dealStore";
 import Tour, { RestartButton } from "./Tour";
 import Assistant from "./Assistant";
 import DemoGuide from "./DemoGuide";
+import Welcome from "./Welcome";
 
 export default function Frame({ routes, children }: { routes: Routes; children: ReactNode }) {
   const t = useT();
@@ -62,6 +63,7 @@ export default function Frame({ routes, children }: { routes: Routes; children: 
           )}
         </p>
       )}
+      <Welcome routes={routes} />
       <DemoGuide routes={routes} />
       <main className="page">{children}</main>
       <Tour routes={routes} />

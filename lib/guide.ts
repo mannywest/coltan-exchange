@@ -2,7 +2,7 @@
 // COMPLIANCE: the guide only moves the viewer to the right screen and picks which named demo person to show.
 // It never signs, approves or releases anything. A human still presses every approval button.
 import { dealStage } from "./approvals";
-import { PEOPLE, hasSigned, slotFor, type Store } from "./dealStore";
+import { PEOPLE, assayOutcome, hasSigned, slotFor, type Store } from "./dealStore";
 import type { Routes } from "./routes";
 import { href } from "./routes";
 
@@ -60,19 +60,23 @@ export function nextStep(s: Store, role: Role, routes: Routes): Step {
 
   let who: string | undefined;
   let signer = "";
+  let hint = "";
   if (target === "reviewer") {
     const req = s.reqs.filter((r) => r.status === "pending" && r.slug === live.slug).sort((a, b) => a.at - b.at)[0];
     if (req) {
       const can = PEOPLE.filter((p) => !hasSigned(req, p.id) && slotFor(req, p));
       const pick = can.find((p) => p.id === s.who) ?? can[0];
       if (pick) { who = pick.id; signer = pick.name; }
+      if (req.kind === "assay" && req.assay && !assayOutcome(req.assay).within && req.assay.umpire === undefined) {
+        hint = " The two lab results are too far apart: enter the umpire (sealed sample) result, then sign.";
+      }
     }
   }
 
   const mine = role === target;
   const text = mine
-    ? `${head} Your turn.`
-    : `${head} Waiting on ${WHO_WORD[target]}.`;
+    ? `${head} Your turn.${hint}`
+    : `${head} Waiting on ${WHO_WORD[target]}.${hint}`;
   const button = mine
     ? target === "reviewer" ? `Open the approval${signer ? ` as ${signer}` : ""}` : "Open it"
     : target === "reviewer" ? `Switch to back office${signer ? ` as ${signer}` : ""}` : `Switch to ${target} and continue`;

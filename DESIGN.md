@@ -174,3 +174,9 @@ Agreed by Manny on 23 Nov. Built on branch `feature/assistant-demand-board`. Not
 - A bar under the header on every screen says whose turn it is and gives one button that switches view and opens the right screen. In the back office it also picks the named demo person who can sign, and opens that request.
 - Plain rules reading the deal state, no AI. It never signs or approves; a person still presses every approval.
 - The "Guided demo" panel now shows progress only, so there is one source of instructions.
+
+## Round 11: welcome, deal summary, show a problem (23 Nov 2026)
+- Welcome chooser on first visit: buy, sell or back office, each with a one-line story; sets the demo view and opens the right first screen. Shown once per browser session.
+- Deal summary on a finished deal: every approval, who signed and when, audit fingerprint, print/PDF, and "Replay this deal from the start".
+- "Demo: show a problem" panel on the deal screen: flagged wallet, or a buyer lab result 1.6 points off (forces the umpire step). The Next step bar explains what the back office must do, including entering the umpire result.
+- Guided demo panel starts collapsed on every screen.
